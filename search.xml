@@ -609,640 +609,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Kafka基础</title>
-    <url>/MiracleDx/2022/07/08/Kafka%20%E5%9F%BA%E7%A1%80/</url>
-    <content><![CDATA[<h1 id="Kafka"><a href="#Kafka" class="headerlink" title="Kafka"></a>Kafka</h1><h2 id="是什么"><a href="#是什么" class="headerlink" title="是什么"></a>是什么</h2><p>是一款开源的消息引擎系统，可以利用该系统在不同系统之间传递语义准确的消息，实现松耦合的异步式数据传递。<br>也是一个分布式流处理平台（Distributed Streaming Platform）<br>在设计之初提供了三个特性：</p>
-<ul>
-<li>提供一套 API 实现生产者和消费者</li>
-<li>降低网络传出和磁盘存储开销</li>
-<li>实现高伸缩性架构</li>
-</ul>
-<h3 id="流处理组件-Kafka-Streams"><a href="#流处理组件-Kafka-Streams" class="headerlink" title="流处理组件 - Kafka Streams"></a>流处理组件 - Kafka Streams</h3><p>Kafka 与其他主流大数据流式计算框架的优势</p>
-<ul>
-<li>更容易实现到端到端的正确性（Correctness）<br>替代批处理需要具备两点<br>1.要实现正确性和提供能够推导时间的工具</li>
-<li>实现正确性的基石：框架提供精确一次处理语义<br>精确一次处理语义：一条消息有且只有一次机会能够影响系统状态<br>2.实现正确性是流处理能够匹敌批处理的基石</li>
-<li>Kafka 自身对于流式计算的定位<br>官网标识 Kafka Streams 是一个用于搭建实时流处理的客户端库而不是一个完整的系统</li>
-</ul>
-<h3 id="连接器-Kafka-Connect"><a href="#连接器-Kafka-Connect" class="headerlink" title="连接器 - Kafka Connect"></a>连接器 - Kafka Connect</h3><p>Kafka Connect 通过一个个具体的连接器（Connector）串联起上下游的外部系统</p>
-<h3 id="Kafka-版本"><a href="#Kafka-版本" class="headerlink" title="Kafka 版本"></a>Kafka 版本</h3><h4 id="Apache-Kafka"><a href="#Apache-Kafka" class="headerlink" title="Apache Kafka"></a>Apache Kafka</h4><p>是最 “正宗” 的 Kafka，也被称为社区版 Kafka，是所有其他发行版的基础</p>
-<ul>
-<li>优势</li>
-<li>开发人数最多、 版本迭代速度最快</li>
-<li>社区活跃</li>
-<li>有更高的把控度</li>
-<li>劣势</li>
-<li>仅提供最最基础的组件</li>
-<li>社区版 Kafka 只提供一种连接器</li>
-<li>没有提供任何监控框架或工具<br>如果仅需要一个消息引擎系统或者简单的流处理应用场景，同时需要对系统有较大把控度，推荐使用 Apache Kafka</li>
-</ul>
-<h4 id="Confluent-Kafka"><a href="#Confluent-Kafka" class="headerlink" title="Confluent Kafka"></a>Confluent Kafka</h4><p>Kafka 的三个创始人创办的公司，专注于提供基于 Kafka 的企业级流处理解决方案</p>
-<ul>
-<li>优势<br>Kafka 原版人马打造，质量有保证，分为免费版和企业版</li>
-<li>社区版</li>
-<li>和 Apache Kafka 非常像</li>
-<li>提供：Schema 注册中心<br>帮助集中管理 Kafka 消息格式以实现数据向前 &#x2F; 向后兼容</li>
-<li>提供：REST Proxy<br>通过开放 HTTP 接口的方式提供网络访问 Kafka 的各种功能<br>包含更多的连接器</li>
-<li>企业版</li>
-<li>跨数据中心备份</li>
-<li>集群监控</li>
-<li>等</li>
-<li>劣势</li>
-<li>相关资料及技术支持都很欠缺</li>
-<li>在国内的普及率比较低<br>如果需要用到 Kafka 的一些高级特性，推荐使用 Confluent Kafka</li>
-</ul>
-<h4 id="Cloudera-Hortonworks-Kafka"><a href="#Cloudera-Hortonworks-Kafka" class="headerlink" title="Cloudera &#x2F; Hortonworks Kafka"></a>Cloudera &#x2F; Hortonworks Kafka</h4><p>Cloudera 提供的 CDH 和 Hortonworks 提供的 HDP 是非常著名的大数据平台，里面集成了目前主流的大数据框架，能够帮助用户实现从分布式存储、集群调度、流处理到机器学习、实时数据库等全方位的数据处理</p>
-<ul>
-<li>优势</li>
-<li>天然集成 Apache Kafka</li>
-<li>通过 UI 界面将 Kafka 的安装、运维、管理、监控统一在控制台中</li>
-<li>提供监控界面</li>
-<li>劣势</li>
-<li>降低了对 Kafka 集群的掌控程度</li>
-<li>版本滞后性<br>如果需要快速的搭建消息引擎系统，或者需要搭建多框架构成的数据平台且 Kafka 只是其中一个组件，推荐使用大数据云公司提供的 Kafka</li>
-</ul>
-<h3 id="Kafka-监控工具"><a href="#Kafka-监控工具" class="headerlink" title="Kafka 监控工具"></a>Kafka 监控工具</h3><ul>
-<li>Kafka Manager</li>
-<li>Kafka eagle</li>
-<li>JMXTrans + InfluxDB + Grafana</li>
-<li>滴滴开源 Logi-KafkaManager<br><a href="https://github.com/didi/Logi-KafkaManager">https://github.com/didi/Logi-KafkaManager</a></li>
-</ul>
-<h3 id="Kafka-性能测试工具"><a href="#Kafka-性能测试工具" class="headerlink" title="Kafka 性能测试工具"></a>Kafka 性能测试工具</h3><p>Kafka 自己提供 <code>kafka-producer-pref-test</code> 和 <code>kafka-consumer-perf-test</code> 脚本</p>
-<h2 id="基础的消息引擎"><a href="#基础的消息引擎" class="headerlink" title="基础的消息引擎"></a>基础的消息引擎</h2><ul>
-<li>传输的对象是消息（Kafka 默认是二进制字节，支持自定义 Serialize 和 DeSerialize）</li>
-<li>Google Protocol Buffer</li>
-<li>Facebook Thrift</li>
-<li>CSV</li>
-<li>XML</li>
-<li>JSON</li>
-<li>消息传输的具体协议</li>
-<li>点对点模型</li>
-<li>系统 A 发送的消息只能被系统 B 接收，其他系统不能读取 A 发送的消息</li>
-<li>举例：电话客服</li>
-<li>发布 &#x2F; 订阅模型</li>
-<li>消息容器 - Topic</li>
-<li>发布者 - Publisher</li>
-<li>订阅者 - Subscriber</li>
-<li>举例：报纸</li>
-</ul>
-<h2 id="JMS（Java-Message-Service）"><a href="#JMS（Java-Message-Service）" class="headerlink" title="JMS（Java Message Service）"></a>JMS（Java Message Service）</h2><p>Java 标准协议</p>
-<h2 id="基础概念"><a href="#基础概念" class="headerlink" title="基础概念"></a>基础概念</h2><h3 id="Topic-主题"><a href="#Topic-主题" class="headerlink" title="Topic - 主题"></a>Topic - 主题</h3><p>发布订阅的对象</p>
-<h3 id="Kafka-客户端-Clients"><a href="#Kafka-客户端-Clients" class="headerlink" title="Kafka 客户端 - Clients"></a>Kafka 客户端 - Clients</h3><p>Producer 和 Consumer 统称为 Clients</p>
-<h5 id="Producer-生产者"><a href="#Producer-生产者" class="headerlink" title="Producer - 生产者"></a>Producer - 生产者</h5><ul>
-<li>向主题发布消息的客户端应用程序</li>
-</ul>
-<h5 id="Consumer-消费者"><a href="#Consumer-消费者" class="headerlink" title="Consumer - 消费者"></a>Consumer - 消费者</h5><ul>
-<li>订阅主题的客户端应用程序</li>
-</ul>
-<h6 id="Consumer-Offset-消费者位移"><a href="#Consumer-Offset-消费者位移" class="headerlink" title="Consumer Offset - 消费者位移"></a>Consumer Offset - 消费者位移</h6><p>每个消费者在消费消息的过程中记录当前消费到分区的位置的字段，是随时变化的，每个消费者有自己的消费者位移</p>
-<h6 id="ConsumerGroup-消费者组"><a href="#ConsumerGroup-消费者组" class="headerlink" title="ConsumerGroup - 消费者组"></a>ConsumerGroup - 消费者组</h6><p>指多个消费者实例共同组成一个组消费一组主题<br>这组主题中的每个分区都只会被组内的一个消费者实例消费，其他消费者实例不能消费</p>
-<h6 id="为什么要引入消费者组"><a href="#为什么要引入消费者组" class="headerlink" title="为什么要引入消费者组"></a>为什么要引入消费者组</h6><p>为了提升消费者端的吞吐量，多个消费者实例同时消费，加速整个消费端的吞吐量（TPS）</p>
-<h5 id="Rebalance-重平衡"><a href="#Rebalance-重平衡" class="headerlink" title="Rebalance - 重平衡"></a>Rebalance - 重平衡</h5><p>当消费者组内的某个消费者实例挂掉以后， Kafka 能够自主检测到，然后把这个 Failed 实例之前负责的分区转移给其他活着的消费者，是 Kafka Bug 的主要来源之一</p>
-<h3 id="Kafka-服务端-Borker"><a href="#Kafka-服务端-Borker" class="headerlink" title="Kafka 服务端 - Borker"></a>Kafka 服务端 - Borker</h3><p>一个 Kafka 服务端由多个 Broker 服务进程构成<br>Broker 负责接收和处理客户端发送过来的请求，并对消息进行持久化</p>
-<h4 id="Kafka-提供高可用的手段之一-集群"><a href="#Kafka-提供高可用的手段之一-集群" class="headerlink" title="Kafka 提供高可用的手段之一 - 集群"></a>Kafka 提供高可用的手段之一 - 集群</h4><p>多个 Broker 的部署在不同服务器上，某一台机器宕机也不影响其他机器上的Broker 对外提供服务</p>
-<h4 id="数据持久化"><a href="#数据持久化" class="headerlink" title="数据持久化"></a>数据持久化</h4><p>使用消息日志（Log）保存数据，一个日志是磁盘上的一个只能追加写（Append-only）消息的物理文件</p>
-<h5 id="实现-Kafka-高吞吐量特性的重要手段"><a href="#实现-Kafka-高吞吐量特性的重要手段" class="headerlink" title="实现 Kafka 高吞吐量特性的重要手段"></a>实现 Kafka 高吞吐量特性的重要手段</h5><p>因为只能追加写入，使用性能较好的顺序 I&#x2F;O 写操作，避免了缓慢的随机 I&#x2F;O 操作</p>
-<h4 id="持久化数据的回收"><a href="#持久化数据的回收" class="headerlink" title="持久化数据的回收"></a>持久化数据的回收</h4><p>通过日志段（Log Segment）机制，在 Kafka 底层，将日志切分成多个日志段，消息被追加写到当前最新的日志段中，当写满一个日志段之后，Kafka 会自动切分出一个新的日志段，并将老的日志段封存起来。Kafka 在后台会有定时任定期检查老的日志段是否能够被删除</p>
-<h3 id="Replica-副本"><a href="#Replica-副本" class="headerlink" title="Replica - 副本"></a>Replica - 副本</h3><p>把相同的数据拷贝到多台机器上，而这些相同的数据拷贝在 Kafka 中被称为副本，副本的数量是可以配置的，这些副本保存着相同的数据，但却有不同的角色和作用</p>
-<ul>
-<li>Leader Replica - 领导者副本</li>
-<li>与客户端进行交互</li>
-<li>Follower Replica - 追随者副本</li>
-<li>被动追随领导者副本，不与外界进行交互<br>副本机制可以保证数据的持久化或消息不丢失</li>
-</ul>
-<h4 id="工作机制"><a href="#工作机制" class="headerlink" title="工作机制"></a>工作机制</h4><p>生产者向 Leader 写消息，消费者从 Leader 读消息，Follower 向 Leader 发送请求，请求 Leader 同步最新的消息给自己，保持与 Leader 的同步</p>
-<h3 id="Partitioning-分片"><a href="#Partitioning-分片" class="headerlink" title="Partitioning - 分片"></a>Partitioning - 分片</h3><p>与 MongoDB ES 中的 Sharding 和 HBase 中的 Region 概念相同</p>
-<h4 id="分区（Partition）机制"><a href="#分区（Partition）机制" class="headerlink" title="分区（Partition）机制"></a>分区（Partition）机制</h4><p>分区机制保证了数据的伸缩性，提供了负载均衡的能力<br>指将每个主题划分为多个分区，每个分区是一组有序的消息日志<br>生产者生产的每条消息只会被发送到一个分区中<br>Kafka 的分区编号是从 0 开始计数的<br>每个分区可以有若干个副本，但其中只能有一个 Leader 副本 和 N - 1 个 Folllower 副本</p>
-<h4 id="Partition-Offset-分区位移"><a href="#Partition-Offset-分区位移" class="headerlink" title="Partition Offset - 分区位移"></a>Partition Offset - 分区位移</h4><p>生产者向 Partition 写入消息，每条消息在分区中的位置信息用 Offset（位移）表示，一旦消息被成功写入到一个分区上，这个位移值就是固定的</p>
-<h2 id="Kafka-的三层消息结构"><a href="#Kafka-的三层消息结构" class="headerlink" title="Kafka 的三层消息结构"></a>Kafka 的三层消息结构</h2><p>客户端程序只能与分区的 Leader 副本进行交互</p>
-<h3 id="第一层-主题层"><a href="#第一层-主题层" class="headerlink" title="第一层 - 主题层"></a>第一层 - 主题层</h3><p>每个主题可以配置 M 个分区，每个分区可以配置 N 个副本</p>
-<h3 id="第二层-分区层"><a href="#第二层-分区层" class="headerlink" title="第二层 - 分区层"></a>第二层 - 分区层</h3><p>每个分区的 N 个副本中，只能有一个 Leader 副本对外提供服务，其他 N - 1 个副本是 Follower，只提供数据冗余</p>
-<h3 id="第三层-消息层"><a href="#第三层-消息层" class="headerlink" title="第三层 - 消息层"></a>第三层 - 消息层</h3><p>分区中包含若干条消息，每条消息的位移从 0 开始，依次递增</p>
-<h2 id="Kafka-名词术语"><a href="#Kafka-名词术语" class="headerlink" title="Kafka 名词术语"></a>Kafka 名词术语</h2><p>消息：Record。指 Kafka 处理的主要对象<br>主题：Topic。主题是承载消息的逻辑容器，在实际使用中多用来区分具体的业务<br>分区：Partition。一个有序不变的消息序列，每个主题下可以有多个分区<br>消息位移：Offset。表示分区中每条消息的位置信息，是一个单调递增且不变的值<br>副本：Replica。Kafka 中同一条消息被拷贝到多个地方以提供数据冗余，副本分为领导者副本和追随者副本，各自有不同的角色划分。副本是在分区层级下的，即每个分区可配置多个副本实现高可用<br>生产者：Producer。向主题发布新消息的应用程序<br>消费者：Consumer。从主题订阅新消息的应用程序<br>消费者位移：Consumer Offset。表征消费者消费进度，每个消费者都有自己的消费者位移<br>消费者组：Consumer Group。多个消费者实例共同组成的一个组，同时消费多个分区以实现高吞吐<br>重平衡：Rebalance。消费者组内某个消费者实例挂掉后，其他消费者实例自动重新分配订阅主题分区的过程。Rebalance 是 Kafka 消费者端实现高可用的重要手段</p>
-<h2 id="Kafka-版本命名"><a href="#Kafka-版本命名" class="headerlink" title="Kafka 版本命名"></a>Kafka 版本命名</h2><ul>
-<li>Scale 2.11 - kafka_2.11-2.2.1.tgz(asc, sha512)</li>
-<li>2.11 scale 的编译版本</li>
-<li>2.2.1 Kafka版本号</li>
-<li>大版本号-小版本号-Patch 号</li>
-</ul>
-<h3 id="Kafka-版本演进"><a href="#Kafka-版本演进" class="headerlink" title="Kafka 版本演进"></a>Kafka 版本演进</h3><ul>
-<li>0.7 版本：只提供最基础的消息队列功能</li>
-<li>0.8 版本：引入了副本机制，至此 Kafka 成为一个真正意义上完备的分布式高可靠消息队列解决方案</li>
-<li>0.9.0.0 版本：增加基础的安全认证 &#x2F; 权限功能，使用 Java 重写了新版本消费者 API，引入了 Kafka Connect 组件</li>
-<li>0.10.0.0 版本：引入了 Kafka Streams，正式升级成分布式流处理平台</li>
-<li>0.11.0.0 版本：提供了幂等性 Producer API 以及事务 API，对 Kafka 消息格式做了重构</li>
-<li>1.0 和 2.0 版本：主要对 Kafka Streams 的改进</li>
-</ul>
-<h2 id="Kafka-线上集群部署方案"><a href="#Kafka-线上集群部署方案" class="headerlink" title="Kafka 线上集群部署方案"></a>Kafka 线上集群部署方案</h2><p>Linux 在以下三个方面，优于 Windows Server 和 Mac OS Server</p>
-<ul>
-<li>I &#x2F; O 模型的使用</li>
-<li>数据网络传输效率</li>
-<li>社区支持度</li>
-</ul>
-<h3 id="主流的-I-O-模型"><a href="#主流的-I-O-模型" class="headerlink" title="主流的 I &#x2F; O 模型"></a>主流的 I &#x2F; O 模型</h3><p>按照低级 -&gt; 高级顺序排列</p>
-<ul>
-<li>阻塞式 I &#x2F; O - Java Socket 对象</li>
-<li>非阻塞式 I &#x2F; O - Java Socket 对象<br>-I &#x2F; O 多路复用 - Linux 系统调用 Select 函数</li>
-<li>信号驱动 I &#x2F; O</li>
-<li>异步 I &#x2F; O - Linux 很少支持，Windows 提供 IOCP 的线程模型<br>epoll 系统调用介于I &#x2F; O 多路复用和信号驱动 I &#x2F; O 之间<br>Kafka 客户端底层使用了 Java 的 Selector，Selector 在 Linux 上的实现机制是 epoll，在 Windows 平台上的实现机制是 select</li>
-</ul>
-<h3 id="网络传输效率"><a href="#网络传输效率" class="headerlink" title="网络传输效率"></a>网络传输效率</h3><p>Kafka 生产和消费的消息都是通过网络传输的，消息需要保存在磁盘上，所有 Kafka 需要在磁盘和网络之间进行大量数据传输</p>
-<h4 id="零拷贝（Zero-Copy）"><a href="#零拷贝（Zero-Copy）" class="headerlink" title="零拷贝（Zero Copy）"></a>零拷贝（Zero Copy）</h4><p>当数据在磁盘和网络进行传输时避免昂贵的内核态数据拷贝从而实现快速的数据传输<br>Linux 平台实现了零拷贝技术，Windows 平台需要等到 Java 8 的 60 更新版本</p>
-<h3 id="社区支持度"><a href="#社区支持度" class="headerlink" title="社区支持度"></a>社区支持度</h3><p>Windows 上的 Bug 一般不会修复，Windows 平台上部署 Kafka 只适用于个人测试或用于功能验证</p>
-<h3 id="磁盘规划和选择"><a href="#磁盘规划和选择" class="headerlink" title="磁盘规划和选择"></a>磁盘规划和选择</h3><ul>
-<li>机械磁盘：成本低容量大，易损坏</li>
-<li>固态磁盘：性能优势大，单价高</li>
-<li>通常 SSD 的顺序写 TPS 大约是 HDD 的 4 倍<br>建议使用普通机械磁盘：Kafka 使用的方式多是顺序读写操作，一定程度上规避了机械磁盘最大的劣势（随机读写操作慢）</li>
-</ul>
-<h4 id="磁盘阵列（RAID）"><a href="#磁盘阵列（RAID）" class="headerlink" title="磁盘阵列（RAID）"></a>磁盘阵列（RAID）</h4><p>使用 RAID 的两个优势</p>
-<ul>
-<li>提供冗余的磁盘存储空间</li>
-<li>提供负载均衡<br>追求性价比的公司可以不搭建 RAID，使用普通磁盘组成存储空间即可：Kafka 自己实现了冗余机制提供高可靠性，通过分区的概念在软件层面实现了负载均衡</li>
-</ul>
-<h3 id="磁盘容量"><a href="#磁盘容量" class="headerlink" title="磁盘容量"></a>磁盘容量</h3><p>规划磁盘容量时，需要考虑</p>
-<ul>
-<li>新增消息数</li>
-<li>消息留存时间</li>
-<li>平均消息大小</li>
-<li>备份数</li>
-<li>是否启用压缩<br>假设每天 1 亿条 1KB 大小的消息，保存两份且留存两周的时间，那么总的空间大小就等于 1 亿 * 1KB * 2 &#x2F; 1000 &#x2F; 1000 &#x3D; 200GB。一般情况下 Kafka 集群除了消息数据还有其他类型的数据，比如索引数据等，故再为这些数据预留出 10% 的磁盘空间，因此总的存储容量就是 220GB。既然要保存两周，那么整体容量即为 220GB * 14，大约 3TB 左右。Kafka 支持数据的压缩，假设压缩比是 0.75，那么最后需要规划的存储空间就是 0.75 * 3 &#x3D; 2.25TB</li>
-</ul>
-<h3 id="带宽"><a href="#带宽" class="headerlink" title="带宽"></a>带宽</h3><p>带宽资源的规划，实际规划的是所需的 Kafka 服务器的数量<br>假设机房环境是千兆网络，即 1Gbps，业务目标或 SLA 是在 1 个小时内处理 1TB 的业务数据。带宽是 1 Gbps，即 1 秒处理 1 Gb 的数据，假设 Kafka 服务器为专属服务器，没有混布其他服务，只能假设 Kafka 会用到 70% 的带宽资源，因为要为其他应用或进程保留一些资源。根据实际经验，超过 70% 的阈值就有网络丢包的可能，也就说单台 Kafka 服务器最多能使用大约 700Mb 的带宽资源。这是指 Kafka 服务器能使用的最大带宽，常规使用需要额外预留出 2 &#x2F; 3 的资源，即单台服务器使用带宽 700 Mb &#x2F; 3 ≈ 240 Mbps。计算 1 小时处理 1TB 数据所需的服务器数量，即每秒处理数据量：1024 * 1024 &#x2F; 3600 ≈ 291 MB，291 * 8 ≈ 2330 Mbps，除以 240 约等于 10 台服务器，如果每条消息有两个副本，则总服务器数据量还需要 * 3 &#x3D; 30 台</p>
-<ul>
-<li>带宽资源一般用 Mbps 而不是 MBps 衡量</li>
-<li>1 MB &#x3D; 8 Mb</li>
-<li>B &#x3D; Byte</li>
-<li>b &#x3D; b</li>
-</ul>
-<h2 id="Kafka-集群参数配置"><a href="#Kafka-集群参数配置" class="headerlink" title="Kafka 集群参数配置"></a>Kafka 集群参数配置</h2><h3 id="Broker-端参数"><a href="#Broker-端参数" class="headerlink" title="Broker 端参数"></a>Broker 端参数</h3><h4 id="存储信息的重要参数"><a href="#存储信息的重要参数" class="headerlink" title="存储信息的重要参数"></a>存储信息的重要参数</h4><p>即 Broker 使用哪些磁盘</p>
-<ul>
-<li>log.dirs：指定 Broker 需要使用的若干个文件目录路径，没有默认值，必须指定</li>
-<li>log.dir：表示单个路径，补充 log.dirs<br>一般只需要设置 log.dirs，不需要设置 log.dir，线上生产环境一定要配置多个路径（以 “，” 分隔），有条件最好挂载到不同的物理磁盘上。这样做的好处：</li>
-<li>提升读写性能：多块磁盘同时读写数据有更高的吞吐量</li>
-<li>能够实现故障转移：即 Failover。Kafka 1.1 版本引入的强大功能，坏掉的磁盘数据会自动转移到其他正常的磁盘上，而且 Broker 还能正常工作，没有 Failover 只能依靠 RAID 提供保障</li>
-<li>Broker 自动在好的路径上重建副本，然后从 Leader 同步</li>
-<li>Kafka 支持工具能够将某个路径上的数据拷贝到其他路径上</li>
-</ul>
-<h4 id="与-Zookeeper-相关的配置"><a href="#与-Zookeeper-相关的配置" class="headerlink" title="与 Zookeeper 相关的配置"></a>与 Zookeeper 相关的配置</h4><p>Zookeeper 是一个分布式协调框架，负责协调管理并保存 Kafka 集群的所有元数据信息</p>
-<ul>
-<li>哪些 Broker 在运行</li>
-<li>创建了哪些 Topic</li>
-<li>每个 Topic 都有哪些分区</li>
-<li>分区的 Leader 副本都在哪些机器上</li>
-<li>等<br>最重要的参数是：zookeeper.connect，用于指定 Kafka 连接的 Zookeeper 集群<br>多个 Kafka 集群使用同一套 Zookeeper 集群，需要使用 chroot（Zookeeper 概念，类似别名），eg：</li>
-<li>Kafka 集群1：zk1:2181,zk2:2181,zk3:2181&#x2F;kafka1</li>
-<li>Kafka 集群2：zk1:2181,zk2:2181,zk3:2181&#x2F;kafka2</li>
-</ul>
-<h4 id="与-Broker-连接相关的"><a href="#与-Broker-连接相关的" class="headerlink" title="与 Broker 连接相关的"></a>与 Broker 连接相关的</h4><p>客户端程序或其他 Broker 如何与该 Broker 进行通信的设置</p>
-<ul>
-<li>listeners：监听器，告诉外部连接着需要通过什么协议访问指定主机名和端口开放的 Kafka 服务</li>
-<li>advertised.listeners：advertised 表示宣称的、公开的，表明这组监听器是 Broker 用于对外发布的</li>
-<li>host.name &#x2F; port：过期参数，无用</li>
-</ul>
-<h5 id="监听器概念"><a href="#监听器概念" class="headerlink" title="监听器概念"></a>监听器概念</h5><p>若干个逗号分隔的三元组，每个三元组的格式为：&lt;协议名称，主机名，端口号&gt;，协议名称可能是标准的名字，比如 PLAINTEXT 表示明文传输、SSL 表示使用 SSL 或 TLS 加密传输等，也可以是自定义的协议名称，eg：<code>CONTROLLER: //localhost:9092</code><br>一旦定义了自定义协议名称，还必须指定 listener.security.protocol.map 参数告诉该协议底层使用了哪种安全协议，eg：<code>listener.security.protocol.map=CONTROLLER:PLAINTEXT 表示 CONTROLLER </code>这个自定义协议底层使用明文不加密传输数据<br>三元组中的主机名设置，最好全部使用主机名，即 Broker 和 Client 端应用配置中全部填写主机名，如果在某些地方使用了 IP，可能会发生无法连接的问题</p>
-<h4 id="Topic-管理"><a href="#Topic-管理" class="headerlink" title="Topic 管理"></a>Topic 管理</h4><ul>
-<li>auto.create.topics.enable：是否允许自动创建 Topic<br>建议设置成 false，Topic 应该严格把控，不能允许自行创建任何 Topic</li>
-<li>unclean.leader.election.enable：是否允许 Unclean Leader 选举</li>
-<li>设置成 false，坚决不能让数据保存较少的副本成为 Leader</li>
-<li>设置成 true，允许从数据保存较少的副本中选出一个 Leader，后果是数据有可能丢失</li>
-<li>auto.leader.rebalance.enable：是否允许定期进行 Leader 选举<br>建议设置为 false，如果设置为 true，表示允许 Kafka 定期对一些 Topic 分区进行 Leader 重选举（需要满足一定的条件），与 Leader 选举的不同时，该参数为换 Leader，换一次 Leader 的代价很高</li>
-</ul>
-<h4 id="数据留存相关参数"><a href="#数据留存相关参数" class="headerlink" title="数据留存相关参数"></a>数据留存相关参数</h4><ul>
-<li>log.retention.{hours|minutes|ms}：控制一条消息数据被保存多长时间，优先级：ms &gt; minutes &gt; hours<br>通常设置 hours 多一些，<code>log.retention.hours=168</code> 表示默认保存 7 天的数据，自动删除 7 天前的数据</li>
-<li>log.retention.bytes: 指定 Broker 为消息保存的总磁盘容量大小<br>默认值是 -1，表明想在这台 Broker 上保存多少数据都可以，真正发挥作用的场景是在云上构建多租户的 Kafka 集群</li>
-<li>message.max.bytes：控制 Broker 能够接收的最大消息大小<br>默认值 1000012 &#x3D; 976k，还不到 1M，在线上环境中设置一个比较大的值是比较保险的做法</li>
-</ul>
-<h3 id="Topic-级别参数"><a href="#Topic-级别参数" class="headerlink" title="Topic 级别参数"></a>Topic 级别参数</h3><p>Topic 级别的参数会覆盖全局 Broker 参数的值，每个 Topic 都能设置自己的参数值（Topic 参数的优先级高于 Broker 参数）<br>建议：每个 Topic 根据自身业务的需要，设置自己的留存时间和处理最大消息的大小</p>
-<h4 id="保存消息的维度"><a href="#保存消息的维度" class="headerlink" title="保存消息的维度"></a>保存消息的维度</h4><ul>
-<li>retention.ms：规定 Topic 消息被保存的时长，默认 7 天。</li>
-<li>retention.bytes：规定为 Topic 预留多大的磁盘空间。通常在多租户的 Kafka 集群中使用，默认值是 -1，表示可以无限使用磁盘空间</li>
-</ul>
-<h4 id="处理消息大小的维度"><a href="#处理消息大小的维度" class="headerlink" title="处理消息大小的维度"></a>处理消息大小的维度</h4><ul>
-<li>max.message.bytes：决定 Kafka Broker 能够正常接收该 Topic 的最大消息大小</li>
-</ul>
-<h4 id="设置-Topic-级别参数的情况"><a href="#设置-Topic-级别参数的情况" class="headerlink" title="设置 Topic 级别参数的情况"></a>设置 Topic 级别参数的情况</h4><p>建议使用<strong>修改时设置的方式</strong>修改 Topic 级别的参数</p>
-<ul>
-<li>创建时进行设置<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">发送最大值是 5MB 的消息</span></span><br><span class="line">bin/kafka-topics.sh --bootstrap-server localhost:9092 --create --topic transaction --partitions 1 --replication-factor 1 --config retention.ms=15552000000 --config max.message.bytes=5242880</span><br></pre></td></tr></table></figure></li>
-<li>修改时进设置<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">发送最大值是 10MB 的消息</span></span><br><span class="line">bin/kafka-configs.sh --zookeeper localhost:2181 --entity-type topics --entity-name transaction --alter --add-config max.message.bytes=10485760</span><br></pre></td></tr></table></figure></li>
-</ul>
-<h3 id="JVM-参数"><a href="#JVM-参数" class="headerlink" title="JVM 参数"></a>JVM 参数</h3><ul>
-<li>JVM 堆<br>无脑的建议：JVM 堆大小设置成 6GB<br>Kafka Broker 在与客户端进行交互时会在 JVM 堆上创建大量的 ByteBuffer 实例，Heap Size 不能太小</li>
-<li>垃圾回收器的设置</li>
-<li>Java 7</li>
-<li>如果 Broker 所在机器的 CPU 资源非常充裕，建议使用 CMS 收集器，启用方法：<code>-XX:+UseCurrentMarkSweepGC</code></li>
-<li>否在使用吞吐量收集器，启用方法：<code>-XX:+UseParallelGC</code></li>
-<li>Java 8</li>
-<li>手动设置 G1 收集器，在没有任何调优的情况下，G1 比 CMS 表现出色</li>
-</ul>
-<h4 id="设置的方式"><a href="#设置的方式" class="headerlink" title="设置的方式"></a>设置的方式</h4><ul>
-<li>设置两个环境变量</li>
-<li>KAFKA_HEAP_OPTS：指定堆大小</li>
-<li>KAFKA_JVM_PERFORMANCE_OPTS：指定 GC 参数</li>
-<li>修改启动脚本</li>
-</ul>
-<h3 id="操作系统参数"><a href="#操作系统参数" class="headerlink" title="操作系统参数"></a>操作系统参数</h3><ul>
-<li>文件描述符限制<br><code>ulimit -n</code>，任何一个 Java 项目都最好调整一下这个值，通常情况需要设置一个超大的值，如果不设置的话，会经常看到 “Too many open files” 的错误</li>
-<li>文件系统类型<br>XFS 的性能要高于 ext4，生产环境建议使用 XFS，最近的数据报告中 ZFS 的性能更加强劲</li>
-<li>Swappiness<br>建议将 <code>swappniess</code> 配置成一个接近 0 但不为 0 的值，比如 1，因为当设置成 0 时，当物理内存耗尽时，操作系统会触发 OOM killer 组件，这个组件会随机挑选一个进程然后 kill 掉，不会给用户任何的预警，如果设置成一个比较小的值，当开始使用 swap 空间时，至少能够观测到 Broker 性能开始出现急剧下降，从而给出进一步调优和诊断问的时间</li>
-<li>提交时间<br>向 Kafka 发送数据并不是需要等数据被写入磁盘才会被认为成功，而是只要数据被写入到操作系统的页缓存（Page Cache）上就可以了，随后操作系统根据 LRU 算法定期将页缓存上的 “脏” 数据落盘到物理磁盘上，定期是由提交时间来确定的，默认是 5 秒。可以适当增加提交间隔来降低物理磁盘的写操作</li>
-<li>页缓存属于磁盘缓存（Disk cache）的一种，主要是为了改善系统性能。重复访问磁盘上的磁盘块是常见的操作，把它们保存在内存中可以避免昂贵的磁盘IO操作</li>
-<li>既然叫页缓存，它是根据页（page）来组织的内存结构。每一页包含了很多磁盘上的块数据。Linux 使用 Radix 树实现页缓存，主要是加速特定页的查找速度。另外一般使用 LRU 策略来淘汰过期页数据。总之它是一个完全由内核来管理的磁盘缓存，用户应用程序通常是无感知的</li>
-</ul>
-<h2 id="生产者分区机制原理"><a href="#生产者分区机制原理" class="headerlink" title="生产者分区机制原理"></a>生产者分区机制原理</h2><h3 id="Kafka-的消息组织方式"><a href="#Kafka-的消息组织方式" class="headerlink" title="Kafka 的消息组织方式"></a>Kafka 的消息组织方式</h3><p>主题 - 分区 - 消息</p>
-<ul>
-<li>分区是实现负载均衡及高吞吐量的关键</li>
-<li>对数据进行分区的主要原因是为了实现系统的高伸缩性</li>
-<li>主题下的每条消息只会保存在某一个分区中，而不会在多个分区中保存</li>
-</ul>
-<h3 id="分区策略"><a href="#分区策略" class="headerlink" title="分区策略"></a>分区策略</h3><h4 id="自定义分区策略"><a href="#自定义分区策略" class="headerlink" title="自定义分区策略"></a>自定义分区策略</h4><p>通过编写 <code>org.apache.kafka.clients.producer.Partitioner</code> 接口实现，显示配置生产者端参数 partitioner.class 为实现类的权限定类名</p>
-<ul>
-<li>轮训策略（Round - robin）</li>
-<li>是 Kafka Java 生产者 API 默认提供的分区策略</li>
-<li>具有非常优秀的负载均衡表现，总是能保证消息最大限度地被平均分配到所有分区</li>
-<li>随机策略（Randomness）</li>
-<li>负载均衡的实际表现要逊色于轮训策略</li>
-<li>实现方式  <figure class="highlight java"><table><tr><td class="code"><pre><span class="line">List&lt;PartitionInfo&gt; partitions = cluster.partitionsForTopic(topic);</span><br><span class="line"><span class="keyword">return</span> ThreadLocalRandom.current().nextInt(partitions.size());</span><br></pre></td></tr></table></figure></li>
-<li>按消息键策略（Key - ordering）</li>
-<li>Key 可以使一个明确业务含义的字符串，也可以用于表征消息元数据</li>
-<li>如果指定了 Key 默认按消息键策略，如果没有指定 Key 则使用轮训策略</li>
-<li>实现方式  <figure class="highlight java"><table><tr><td class="code"><pre><span class="line">List&lt;PartitionInfo&gt; partitions = cluster.partitionsForTopic(topic);</span><br><span class="line"><span class="keyword">return</span> Math.abs(key.hashCode()) % partitions.size();</span><br></pre></td></tr></table></figure></li>
-<li>基于地理位置分区</li>
-<li>只针对大规模的 Kafka 集群</li>
-<li>跨城市、跨国家、跨大洲等</li>
-</ul>
-<h2 id="生产者压缩算法"><a href="#生产者压缩算法" class="headerlink" title="生产者压缩算法"></a>生产者压缩算法</h2><p>一个消息集合包含若干条日志项（真正封装消息的地方），消息是分批次（batch）读写的，batch 是 kafka 读写（网络传输和文件读写）的基本单位，Kafka 共有两大类消息格式，不同版本，叫法不一样<br>V1 Kafka 的消息（message）层次：</p>
-<ul>
-<li>消息集合 （message set）</li>
-<li>消息（message）</li>
-<li>每条消息都要计算 CRC 值<br>V2 Kafka 的消息（record）层次：<blockquote>
-<p>0.11.0.0 中正式引入</p>
-</blockquote>
-</li>
-<li>消息集合（record batch）</li>
-<li>消息（record）</li>
-<li>在 batch 层计算 CRC 值<blockquote>
-<p>CRC（Cyclic Redundancy Check）循环冗余校验，主要用来检测、校验数据传输或者保存后可能出现的错误。</p>
-</blockquote>
-</li>
-</ul>
-<h3 id="何时压缩"><a href="#何时压缩" class="headerlink" title="何时压缩"></a>何时压缩</h3><h4 id="生产者端"><a href="#生产者端" class="headerlink" title="生产者端"></a>生产者端</h4><p>在生产者程序中配置 compression.type 参数，表示启用指定类型的压缩算法</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">Properties</span> <span class="variable">props</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Properties</span>();</span><br><span class="line">props.put(<span class="string">&quot;bootstrap.servers&quot;</span>, <span class="string">&quot;localhost:9092&quot;</span>);</span><br><span class="line">props.put(<span class="string">&quot;acks&quot;</span>, <span class="string">&quot;all&quot;</span>);</span><br><span class="line">props.put(<span class="string">&quot;key.serializer&quot;</span>, <span class="string">&quot;org.apache.kafka.common.serialization.StringSerializer&quot;</span>);</span><br><span class="line">props.put(<span class="string">&quot;value.serializer&quot;</span>, <span class="string">&quot;org.apache.kafka.common.serialization.StringSerializer&quot;</span>);</span><br><span class="line"><span class="comment">// 开启GZIP压缩</span></span><br><span class="line">props.put(<span class="string">&quot;compression.type&quot;</span>, <span class="string">&quot;gzip&quot;</span>);</span><br><span class="line">Producer&lt;String, String&gt; producer = <span class="keyword">new</span> <span class="title class_">KafkaProducer</span>&lt;&gt;(props);</span><br></pre></td></tr></table></figure>
-<h4 id="Broker-端"><a href="#Broker-端" class="headerlink" title="Broker 端"></a>Broker 端</h4><p>大多数情况下，从 Producer 接收到消息后进行原封不动的保存，不会对消息进行修改<br>两种例外情况：</p>
-<ol>
-<li>Broker 指定了和 Producer 不同的压缩算法</li>
-</ol>
-<ul>
-<li>重新解压缩、压缩会导致 CPU 使用率飙升</li>
-</ul>
-<ol start="2">
-<li>Broker 发生了消息格式转换<br> 主要为了兼容 V1、V2 版本的消息</li>
-</ol>
-<ul>
-<li>该过程涉及到消息的解压缩和重新压缩</li>
-<li>使 Kafka 丧失 Zero Copy 特性</li>
-</ul>
-<h3 id="何时解压缩"><a href="#何时解压缩" class="headerlink" title="何时解压缩"></a>何时解压缩</h3><p>通常发生在消费者程序中，Kafka 会将 Producer 启用了哪种压缩算法封装进消息集合中</p>
-<h4 id="Broker-端的解压缩"><a href="#Broker-端的解压缩" class="headerlink" title="Broker 端的解压缩"></a>Broker 端的解压缩</h4><p>每个压缩过的消息集合在 Broker 端写入时都要发生解压缩操作，目的是为了对消息执行各种验证</p>
-<ul>
-<li>Broker 只需要把数据解压之后进行动态校验，而不需要把解压后的结果保存</li>
-<li>这种压缩对 Broker 性能有一定影响，特别是 CPU。<blockquote>
-<p>总结：Producer 压缩、Broker 保持、Consumer 解压缩</p>
-</blockquote>
-</li>
-</ul>
-<h3 id="压缩算法对比"><a href="#压缩算法对比" class="headerlink" title="压缩算法对比"></a>压缩算法对比</h3><p>Kafka 2.1.0 版本之前，支持 3 种压缩算法 GZIP、Snappy、LZ4，2.1.0 版本后开始正式支持 Zstandard 算法（zstd）</p>
-<ul>
-<li>zstd 是 Facebook 开源的压缩算法，可以提供超高的压缩比</li>
-</ul>
-<h4 id="压缩算法的两个重要指标"><a href="#压缩算法的两个重要指标" class="headerlink" title="压缩算法的两个重要指标"></a>压缩算法的两个重要指标</h4><ol>
-<li>压缩比，压缩比越高越好</li>
-<li>压缩 &#x2F; 解压缩吞吐量 ，吞吐量越高越好</li>
-</ol>
-<h4 id="在-Kafka-中的表现"><a href="#在-Kafka-中的表现" class="headerlink" title="在 Kafka 中的表现"></a>在 Kafka 中的表现</h4><h5 id="吞吐量"><a href="#吞吐量" class="headerlink" title="吞吐量"></a>吞吐量</h5><p>LZ4 &gt; Snappy &gt; ztsd &#x3D; GZIP</p>
-<h5 id="压缩比"><a href="#压缩比" class="headerlink" title="压缩比"></a>压缩比</h5><p>ztsd &gt; LZ4 &gt; GZIP &gt; Snappy</p>
-<h5 id="物理资源"><a href="#物理资源" class="headerlink" title="物理资源"></a>物理资源</h5><p>Snappy 占用的网络带宽最多，zstd 最少<br>Snappy 压缩时占用的 CPU 多一些，解压缩是 GZIP 占用的 CPU 多一些，其余的算法表现差不多</p>
-<h3 id="最佳实践"><a href="#最佳实践" class="headerlink" title="最佳实践"></a>最佳实践</h3><p>启用压缩的条件：</p>
-<ul>
-<li>Producer 程序运行机器上的 CPU 资源要很充足</li>
-<li>环境中的带宽资源有限</li>
-<li>如果客户端 CPU 资源有富余，强烈建议开启 zstd 压缩，可以极大节省网络资源消耗<br>需要根据实际情况选择合适的压缩算法，以求实现最大的资源利用率</li>
-</ul>
-<h2 id="无消息丢失配置"><a href="#无消息丢失配置" class="headerlink" title="无消息丢失配置"></a>无消息丢失配置</h2><p>Kafka 只对 “已提交” 的消息做有限度的持久化保证</p>
-<ul>
-<li>已提交的消息：Kafka 的若干个 Broker 成功接收到一条消息后并写入到日志文件，会通知 Producer 该消息已成功提交</li>
-<li>有限度的持久化保证：Kafka 不可能保证在任何情况下都不丢失消息</li>
-</ul>
-<h3 id="认为消息丢失的误区"><a href="#认为消息丢失的误区" class="headerlink" title="认为消息丢失的误区"></a>认为消息丢失的误区</h3><h4 id="Producer-丢失数据"><a href="#Producer-丢失数据" class="headerlink" title="Producer 丢失数据"></a>Producer 丢失数据</h4><p>误区：调用 producer.send(msg) API，会立即返回，此时不能认为消息已发送成功<br>解决方案：调用 producer.send(msg, callback)，可以根据回调通知确认消息是否已发送成功，并做针对性处理</p>
-<h4 id="Consumer-丢失数据"><a href="#Consumer-丢失数据" class="headerlink" title="Consumer 丢失数据"></a>Consumer 丢失数据</h4><h5 id="案例一"><a href="#案例一" class="headerlink" title="案例一"></a>案例一</h5><p>误区：先更新了消费位移，消费时因某种原因中断，再次消费，导致中断点到 offset 的位置消息丢失<br>解决方案：先消费消息，再更新消费位移</p>
-<h5 id="案例二"><a href="#案例二" class="headerlink" title="案例二"></a>案例二</h5><p>误区：多线程异步处理消费消息，Consumer 自动向前更新位移，某个线程运行失败，但位移已更新，对于 Consumer 来说，该消息已丢失<br>解决方案：多线程异步处理消费消息时，Consumer 不能开启自动提交位移，而应由应用程序手动提交</p>
-<h3 id="最佳实践-1"><a href="#最佳实践-1" class="headerlink" title="最佳实践"></a>最佳实践</h3><ol>
-<li>使用带有回调通知的 producer.send(msg, callback)</li>
-<li>设置 Producer 参数 acks &#x3D; all。该参数代表对已提交消息的定义，当 &#x3D; all 时，表示所有 Broker 都要接收到消息，该消息才算是 commited，是最高等级的 “已提交” 定义</li>
-<li>设置 Producer 参数 retries 为一个较大的值。该参数代表重试次数，当出现网络抖动时，配置了 retries &gt; 0 的 Producer 可以自动重试消息发送，避免消息丢失</li>
-<li>设置 Broker 参数 unclean.leader.election.enable &#x3D; false。该参数控制哪些 Broker 有资格竞选分区的 Leader。如果某个 Broker 落后 Leader 太多，当该 Broker 成为 Leader 后，必然会造成消息丢失。设置成 false，表示不允许该情况的发生</li>
-<li>设置 Broker 参数 repliacation.factor &gt;&#x3D; 3。该参数表示将消息多保存几份<blockquote>
-<p>防止消息丢失的主要机制就是冗余</p>
-</blockquote>
-</li>
-<li>设置 Broker 参数 min.insync.replicas &gt; 1。该参数表示控制的消息至少被写入到多少个 Broker 才算 “已提交” 。&gt; 1 可以提升消息持久性，实际生产环境不要使用默认值 1。</li>
-<li>确保 replication.factor &gt; min.insync.replicas。如果两者相等，只要有一个 Broker 挂机，整个分区就无法正常工作。推荐设置成 replication.factor &#x3D; min.insync.replicas + 1</li>
-</ol>
-<ul>
-<li>replication.factor 的含义是：副本总数</li>
-<li>min.insync.replicas 的含义是：至少确保有多少个 replica 写入才算提交成功</li>
-<li>replication.factor &gt; min.insync.replicas 是因为如果相等时，只要有一个 Broker 宕机，就永远也无法达到 ack &#x3D; all 的要求</li>
-</ul>
-<ol start="8">
-<li>确保消息消费完成再提交。设置 Consumer 参数 enable.auto.commit &#x3D; false。采用手动提交位移的方式。</li>
-</ol>
-<h2 id="Kafka-拦截器"><a href="#Kafka-拦截器" class="headerlink" title="Kafka 拦截器"></a>Kafka 拦截器</h2><h3 id="什么是拦截器"><a href="#什么是拦截器" class="headerlink" title="什么是拦截器"></a>什么是拦截器</h3><p>允许应用程序在不修改逻辑的情况下，动态的实现一组可插拔的事件处理逻辑链。它能够在主业务操作前后多个时间点上插入对应的 ”拦截“ 逻辑。</p>
-<h3 id="拦截器分类"><a href="#拦截器分类" class="headerlink" title="拦截器分类"></a>拦截器分类</h3><p>支持链的方式，可以将一组拦截器串联成一个大的拦截器，Kafka 会按照添加顺序依次执行拦截器逻辑。</p>
-<h4 id="生产者拦截器"><a href="#生产者拦截器" class="headerlink" title="生产者拦截器"></a>生产者拦截器</h4><p>允许在发送消息前及消息提交成功后植入拦截器逻辑。<br>自定义的拦截器要继承 <code>org.apache.kafka.clients.producer.ProducerInterceptor</code> 接口<br>两个核心方法：</p>
-<ol>
-<li>onSend：在消息发送之前调用</li>
-<li>onAcknowledgement：在消息成功提交或发送失败后被调用。onAcknowledgement 的调用要早于 callback 的调用。</li>
-</ol>
-<h4 id="消费者拦截器"><a href="#消费者拦截器" class="headerlink" title="消费者拦截器"></a>消费者拦截器</h4><p>支持在消息消息前以及提交为以后编写特定逻辑。<br>自定的拦截器要继承 org.apacke.kafka.clients.consumer.ConsumerInterceptor 接口<br>两个核心方法：</p>
-<ol>
-<li>onConsume：在消息返回给 Consumer 程序之前调用。</li>
-<li>onCommit：Consumer 在提交位移之后调用。</li>
-</ol>
-<h4 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h4><p><strong>注意</strong>：指定拦截器时要指定全限定类名。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">Properties</span> <span class="variable">props</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Properties</span>();</span><br><span class="line">List&lt;String&gt; interceptors = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">interceptors.add(<span class="string">&quot;com.yourcompany.kafkaproject.interceptors.AddTimestampInterceptor&quot;</span>); <span class="comment">// 拦截器1</span></span><br><span class="line">interceptors.add(<span class="string">&quot;com.yourcompany.kafkaproject.interceptors.UpdateCounterInterceptor&quot;</span>); <span class="comment">// 拦截器2</span></span><br><span class="line">props.put(ProducerConfig.INTERCEPTOR_CLASSES_CONFIG, interceptors);</span><br></pre></td></tr></table></figure>
-<h3 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h3><h4 id="典型使用场景"><a href="#典型使用场景" class="headerlink" title="典型使用场景"></a>典型使用场景</h4><ul>
-<li>客户端监控</li>
-<li>端到端系统性能检测</li>
-<li>消息审计</li>
-<li>etc</li>
-</ul>
-<h4 id="端到端性能检测"><a href="#端到端性能检测" class="headerlink" title="端到端性能检测"></a>端到端性能检测</h4><p>功能：在消息一批消息前，从当前的时钟时间减去封装在消息中的创建时间，累计得到该批消息的总端到端处理延迟，再更新到 Redis 中。最后从别从 Redis 中读取更新过的总延迟和总消息数，两者相处即使端到端消息的平均处理延迟。</p>
-<h5 id="生产者拦截器实现"><a href="#生产者拦截器实现" class="headerlink" title="生产者拦截器实现"></a>生产者拦截器实现</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">AvgLatencyProducerInterceptor</span> <span class="keyword">implements</span> <span class="title class_">ProducerInterceptor</span>&lt;String, String&gt; &#123;</span><br><span class="line">	<span class="keyword">private</span> Jedis jedis; <span class="comment">// 省略Jedis初始化</span></span><br><span class="line">	</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="keyword">public</span> ProducerRecord&lt;String, String&gt; <span class="title function_">onSend</span><span class="params">(ProducerRecord&lt;String, String&gt; record)</span> &#123;</span><br><span class="line">		jedis.incr(<span class="string">&quot;totalSentMessage&quot;</span>);</span><br><span class="line">		<span class="keyword">return</span> record;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onAcknowledgement</span><span class="params">(RecordMetadata metadata, Exception exception)</span> &#123;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">close</span><span class="params">()</span> &#123;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">configure</span><span class="params">(Map&lt;String, ?&gt; configs)</span> &#123;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="消费者拦截器实现"><a href="#消费者拦截器实现" class="headerlink" title="消费者拦截器实现"></a>消费者拦截器实现</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">AvgLatencyConsumerInterceptor</span> <span class="keyword">implements</span> <span class="title class_">ConsumerInterceptor</span>&lt;String, String&gt; &#123;</span><br><span class="line">	<span class="keyword">private</span> Jedis jedis; <span class="comment">//省略Jedis初始化</span></span><br><span class="line">	</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="keyword">public</span> ConsumerRecords&lt;String, String&gt; <span class="title function_">onConsume</span><span class="params">(ConsumerRecords&lt;String, String&gt; records)</span> &#123;</span><br><span class="line">		<span class="type">long</span> <span class="variable">lantency</span> <span class="operator">=</span> <span class="number">0L</span>;</span><br><span class="line">		<span class="keyword">for</span> (ConsumerRecord&lt;String, String&gt; record : records) &#123;</span><br><span class="line">			lantency += (System.currentTimeMillis() - record.timestamp());</span><br><span class="line">		&#125;</span><br><span class="line">		jedis.incrBy(<span class="string">&quot;totalLatency&quot;</span>, lantency);</span><br><span class="line">		<span class="type">long</span> <span class="variable">totalLatency</span> <span class="operator">=</span> Long.parseLong(jedis.get(<span class="string">&quot;totalLatency&quot;</span>));</span><br><span class="line">		<span class="type">long</span> <span class="variable">totalSentMsgs</span> <span class="operator">=</span> Long.parseLong(jedis.get(<span class="string">&quot;totalSentMessage&quot;</span>));</span><br><span class="line">		jedis.set(<span class="string">&quot;avgLatency&quot;</span>, String.valueOf(totalLatency / totalSentMsgs));</span><br><span class="line">		<span class="keyword">return</span> records;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onCommit</span><span class="params">(Map&lt;TopicPartition, OffsetAndMetadata&gt; offsets)</span> &#123;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">close</span><span class="params">()</span> &#123;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">configure</span><span class="params">(Map&lt;String, ?&gt; configs)</span> &#123;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="Kafka-是如何管理-TCP-连接的"><a href="#Kafka-是如何管理-TCP-连接的" class="headerlink" title="Kafka 是如何管理 TCP 连接的"></a>Kafka 是如何管理 TCP 连接的</h2><h3 id="为什么采用-TCP-连接"><a href="#为什么采用-TCP-连接" class="headerlink" title="为什么采用 TCP 连接"></a>为什么采用 TCP 连接</h3><p>Apache Kafka 的所有通信都是基于 TCP 的<br>采用 TCP 而不是 HTTP 的原因：</p>
-<ul>
-<li>开发客户端时，人们能够利用 TCP 本身提供的一些高级功能</li>
-<li>多路复用请求</li>
-<li>同时轮询多个连接</li>
-<li>目前已知的 HTTP 库在很多编程语言中都略显简陋</li>
-</ul>
-<h3 id="何时创建-TCP-连接"><a href="#何时创建-TCP-连接" class="headerlink" title="何时创建 TCP 连接"></a>何时创建 TCP 连接</h3><p>TCP 连接是在创建 Kafka Producer 实例时创建的。还可能在两个地方被创建：</p>
-<ul>
-<li>更新元数据后，发现与某些 Broker 当前没有连接，会创建一个 TCP 连接</li>
-<li>消息发送时，发现不存在与目标 Broker 的连接时，会创建一个 TCP 连接<blockquote>
-<p>在创建 Kafka Producer 实例时，生产者应用会在后台创建并启动一个名为 Sender 的线程，该 Sender 线程开始运行时首先会创建与 Broker 的连接（连接所有 bootstrap.servers 指定的所有 Broker）<br>实际中，建议指定 3 ~ 4 台即可（服务发现）。<br>更新集群元数据信息得两个场景：</p>
-</blockquote>
-</li>
-<li>当 Producer 尝试给不存在的主题发送消息时，Broker 会告诉 Producer 该主题不存在，此时 Producer 发送 METADATA 请求给 Kafka 集群，尝试获取最新的元数据信息</li>
-<li>Producer 通过 metadata.max.age.ms 参数定期更新元数据信息。默认值是 300000（5 分钟）</li>
-</ul>
-<h3 id="何时关闭-TCP-连接"><a href="#何时关闭-TCP-连接" class="headerlink" title="何时关闭 TCP 连接"></a>何时关闭 TCP 连接</h3><p>关闭TCP 连接的两种方式：</p>
-<ul>
-<li>用户主动关闭</li>
-<li>广义的主动 ”关闭“</li>
-<li>包括 kill -9</li>
-<li>推荐使用 producer.close 方法关闭</li>
-<li>Kafka 自动关闭（TCP 连接在Broker端被关闭，属于被动关闭）</li>
-<li>Producer 参数 connections.max.idels.ms 值有关，默认值 9 分钟，如果在 9 分钟内没有任何请求 ”流过“ 某个 TCP 连接，Kafka 会主动关闭该 TCP 连接。如果设置成 -1，该 TCP 连接会成为永久长连接（软件层面）。Kafka 创建的 socket 连接都开启了 keepalive，会遵守 keepalive 探活机制。</li>
-<li>被动关闭的后果是产生大量的 CLOSE_WAIT 连接</li>
-</ul>
-<h2 id="Kafka-消息交付可靠性保障及精确处理一次的语义"><a href="#Kafka-消息交付可靠性保障及精确处理一次的语义" class="headerlink" title="Kafka 消息交付可靠性保障及精确处理一次的语义"></a>Kafka 消息交付可靠性保障及精确处理一次的语义</h2><p>常见的三种消息交付可靠性保障：</p>
-<ul>
-<li>最多一次（at most once）：消息可能会丢失，但绝不会被重复发送</li>
-<li>至少一次（at least once）：消息不会丢失，但有可能被重复发送</li>
-<li>精确一次（exactly once）：消息不会丢失，也不会被重复发送<br>Kafka 默认提供第二种，即至少一次。<br>Kafka 配置 Producer 禁止重试，即可提供最多一次交付保障。<br>Kafka 通过幂等性（Idmpotence）和事务（Transaction）可以做到精确一次的交付保障。</li>
-</ul>
-<h3 id="幂等性-Producer"><a href="#幂等性-Producer" class="headerlink" title="幂等性 Producer"></a>幂等性 Producer</h3><h4 id="幂等性"><a href="#幂等性" class="headerlink" title="幂等性"></a>幂等性</h4><p>指某些操作或函数能够被执行多次，但每次得到的结果都是不变的。</p>
-<ul>
-<li>若一个子程序是幂等的，那它必然不能修改系统状态，不管运行多少次，与该子程序相关联的那部分系统状态保持不变。</li>
-<li>在函数式编程语言中，纯函数天然幂等，不执行任何的 side effect。<br>幂等性的优势：可以安全的重试任何幂等性操作。</li>
-</ul>
-<h4 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h4><p>Kafka Producer 默认不是幂等的，可以创建幂等性 Producer（0.11.0.0 版本引入）：</p>
-<ul>
-<li>设置 <code>props.put(&quot;enable.idempotence&quot;, true)</code> 或 <code>props.put(&quot;ProducerConfig.ENABLE_IDEMPOTENCE_CONFIG&quot;, true)</code></li>
-</ul>
-<h5 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h5><p>利用空间换时间的优化思路（在 Broker 多存一些字段）</p>
-<ul>
-<li>ProducerID：在每个新的 Producer 初始化时，会被分配一个唯一的 ProducerID，该 ProducerID 对客户端不可见</li>
-<li>SequenceNumber：对于每个 ProducerID，Producer 发送数据的每个 Topic和 Partition 都对应一个从 0 开始单调递增的SequenceNumber 值</li>
-</ul>
-<h5 id="作用范围"><a href="#作用范围" class="headerlink" title="作用范围"></a>作用范围</h5><ul>
-<li>只能保证单分区上的幂等性</li>
-<li>只能实现单会话上的幂等性，不能实现跨会话的幂等性（重启后，幂等性保证消失）</li>
-</ul>
-<h3 id="事务性-Producer"><a href="#事务性-Producer" class="headerlink" title="事务性 Producer"></a>事务性 Producer</h3><h4 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h4><p>类似数据库提供的事务。数据库领域，事务提供的安全性保障是经典的 ACID。</p>
-<ul>
-<li>原子性（Atomicity）</li>
-<li>一致性（Consistency）</li>
-<li>隔离性（Isolation）</li>
-<li>持久性（Durability）</li>
-</ul>
-<h4 id="实现-1"><a href="#实现-1" class="headerlink" title="实现"></a>实现</h4><p>Kafka 提供对事务的支持（0.11版本），主要作用在 read committed 隔离级别，可以保证多条消息原子性的写入到目标区，同时也能保证 Consumer 只能看到事务提交成功的消息。</p>
-<ol>
-<li>和幂等性 producer 一样，开启 <code>enable.idempotence = true</code></li>
-<li>设置 Producer 端参数 transactional.id</li>
-<li><pre><code class="java">
-</code></pre>
-</li>
-</ol>
-<p> producer.initTransactions(); &#x2F;&#x2F; 事务初始化<br> try {<br> producer.beginTransaction(); &#x2F;&#x2F; 事务开始<br> producer.send(record1);<br> producer.send(record2);<br> producer.commitTransaction(); &#x2F;&#x2F; 事务提交<br> } catch (KafkaException e) {<br> producer.abortTransaction(); &#x2F;&#x2F; 事务终止<br> }<br> &#x2F;&#x2F; 事务失败的情况，也会被写入到底层的日志中，Kafka 依赖 LSO 等机制设定事务型 Consumer 的可见范围，保证事务的准确性<br>4. Consumer 读取事务型 Producer 的消息需要修改 isolation.level 参数</p>
-<ul>
-<li>read_uncommitted：默认值，表明 Consumer 可以读取到 Kafka 写入的任何消息</li>
-<li>read_committed：表明 Consumer 只会读取事务型 Producer 成功提交事务写入的消息（也可以看到非事务型 Producer 写入的消息）</li>
-</ul>
-<h5 id="原理-1"><a href="#原理-1" class="headerlink" title="原理"></a>原理</h5><p>两阶段提交（2PC）</p>
-<h5 id="作用范围-1"><a href="#作用范围-1" class="headerlink" title="作用范围"></a>作用范围</h5><p>比起幂等性 Producer， 事务型 Producer 的性能更差</p>
-<ul>
-<li>跨分区的幂等性</li>
-<li>跨会话的幂等性</li>
-</ul>
-<h2 id="Consumer-Group-消费者组"><a href="#Consumer-Group-消费者组" class="headerlink" title="Consumer Group 消费者组"></a>Consumer Group 消费者组</h2><p>Consumer Group 是 Kafka 提供的可扩展且具有容错性的消费者机制。</p>
-<ul>
-<li>Consumer Group 下可以有一个或多个 Consumer 实例。</li>
-<li>实例可以是一个单独的进程</li>
-<li>也可以是同一进程下的线程</li>
-<li>Group ID 是一个字符串，在一个 Kafka 集群中，它标识唯一的 Consumer Group。</li>
-<li>Consumer Group 下所有实例订阅的主题的单个分区，只能分配给组内的某个 Conusmer 实例消费。这个分区也可以被其他的 Group 消费</li>
-<li>理想情况下，Consumer 实例的数量应该等于该 Group 订阅主题的分区总数。<blockquote>
-<p>如果消费者数量大于分区数量时：</p>
-<ul>
-<li>Consumer &lt; Partition，一个 Consumer 消费多个 Partition</li>
-<li>Consumer &#x3D; Partition，一个 Consumer 消费一个 Partition</li>
-<li>Consumer &gt; Partition，多个 Consumer 处于空闲状态<br>Kafka 通过 Consumer Group 机制，同时实现了传统消息引擎系统的两大模型：</li>
-</ul>
-</blockquote>
-</li>
-<li>消息队列模型：所有实例都属于一个 Group</li>
-<li>发布 &#x2F; 订阅模型：所有实例分别属于不同的 Group</li>
-</ul>
-<h3 id="位移管理"><a href="#位移管理" class="headerlink" title="位移管理"></a>位移管理</h3><h4 id="老版本"><a href="#老版本" class="headerlink" title="老版本"></a>老版本</h4><p>Consumer Group 将 offset 保存在 ZooKeeper 中。但 ZooKeeper 不适合进行频繁的写更新，大量的 offset 写操作会拖慢 ZooKeeper 集群的性能。</p>
-<h4 id="新版本"><a href="#新版本" class="headerlink" title="新版本"></a>新版本</h4><p>Consumer Group 将 offset 保存在 Kafka 内部主题中的 __consumer_offsets__ 中</p>
-<h3 id="Rebalance"><a href="#Rebalance" class="headerlink" title="Rebalance"></a>Rebalance</h3><p>Rebalance 是一种协议，规定了一个 Conusmer Group 下的所有 Consumer 如何达成一致，来分配订阅 Topic 的每个分区。</p>
-<h4 id="Rebalance-的触发条件"><a href="#Rebalance-的触发条件" class="headerlink" title="Rebalance 的触发条件"></a>Rebalance 的触发条件</h4><ol>
-<li>组成员数发生变更（有新的 Consumer 加入组或者离开组，或者某个 Consumer 崩溃被 “踢出“ 组）</li>
-<li>订阅主题数发生变更。</li>
-</ol>
-<ul>
-<li>支持使用正则表达式的方式订阅主题</li>
-</ul>
-<ol start="3">
-<li>订阅主题的分区数发生变更。</li>
-</ol>
-<h4 id="Rebalance-的分配策略"><a href="#Rebalance-的分配策略" class="headerlink" title="Rebalance 的分配策略"></a>Rebalance 的分配策略</h4><p>Rebalance 发生时， Group 下的所有 Consumer 会协调在一起共同参与。Kafka 提供了三种分配策略：</p>
-<ol>
-<li>Range 分配策略：面向每个主题，首先会对同一个主题里面的分区按照序号进行排序，并把消费者线程按照字母顺序进行排序。然后用分区数除以消费者线程数量判断每个消费者线程消费几个分区。如果除不尽，那么前面几个消费者线程将会多消费一个分区。</li>
-<li>RoundRobin 策略：是将消费组内所有消费者以及消费者所订阅的所有 topic 的 Partition 按照字典序排序，然后通过轮询算法逐个将分区以此分配给每个消费者。 使用 RoundRobin 分配策略时会出现两种情况： </li>
-<li>如果同一消费组内，所有的消费者订阅的消息都是相同的，那么 RoundRobin 策略的分区分配会是均匀的。 </li>
-<li>如果同一消费者组内，所订阅的消息是不相同的，那么在执行分区分配的时候，就不是完全的轮询分配，有可能会导致分区分配的不均匀。如果某个消费者没有订阅消费组内的某个 topic，那么在分配分区的时候，此消费者将不会分配到这个 topic 的任何分区。 </li>
-<li>Sticky 分配策略：在 Kafka的 0.11.X 版本才开始引入的，是目前最复杂也是最优秀的分配策略。 Sticky 分配策略的原理比较复杂，主要实现了两个目的： </li>
-<li>分区的分配要尽可能的均匀； </li>
-<li>分区的分配尽可能的与上次分配的保持相同。 如果这两个目的发生了冲突，优先实现第一个目的。</li>
-</ol>
-<h4 id="Rebalance-臭名昭著的原因"><a href="#Rebalance-臭名昭著的原因" class="headerlink" title="Rebalance 臭名昭著的原因"></a>Rebalance 臭名昭著的原因</h4><ol>
-<li>在 Rebalance 的过程中，所有 Consumer 实例都会停止消费，等待 Rebalance 完成。</li>
-<li>Rebalance 中是所有 Consumer 共同参与，全部重新分配。更高效的做法是通过一致性 Hash 消费之前负责的分区，避免重新创建连接其它 Broker 的 Socket 资源。</li>
-<li>Rebalance 的过程很慢。</li>
-</ol>
-<h3 id="避免-Rebalance"><a href="#避免-Rebalance" class="headerlink" title="避免 Rebalance"></a>避免 Rebalance</h3><p>在 Rebalance 过程中，所有 Conusmer 实例共同参与，在协调者组件的帮助下，完成订阅主题分区的分配。</p>
-<h4 id="协调者"><a href="#协调者" class="headerlink" title="协调者"></a>协调者</h4><p>Coordinator，专门为 Consumer Group 服务，负责为 Group 执行 Rebalance 以及提供位移管理和组成员管理等。<br>所有 Broker 都有各自的 Coordinator 组件， Consumer 在提交位移时，实际是向 Coordinator 所在的 Broker 提交位移，请求同理。<br>Kafka 为某个 Consumer Group 确定 Coordinator 所在的 Broker 的算法有两个步骤（__consumer_offsets）：</p>
-<ol>
-<li>确定由位移主题的哪个分区来保存该 Group 数据：<code>partitionId = Math.abs(GroupId.hashCode() % offsetsTopicPartitionCount)</code></li>
-<li>找出该分区 Leader 副本所在的 Broker，该 Broker 即为对应的 Coordinator</li>
-</ol>
-<h4 id="排查"><a href="#排查" class="headerlink" title="排查"></a>排查</h4><p>当 Consumer Group 出现问题时，需要快速排查 Broker 端日志时，可以根据这个算法准确定位 Coordinator Broker。<br>日志中会有类似 “(Re)join group” 之类的 日志</p>
-<h4 id="如何避免"><a href="#如何避免" class="headerlink" title="如何避免"></a>如何避免</h4><p>在真实的业务场景中，很多 Rebalance 都是计划外的或者说是不必要的。需要从 Rebalance 发生的时机入手，才可能避免 Rebalance。<br>Rebalance 发生的三个时机：</p>
-<ul>
-<li>组成员数量发生变化</li>
-<li>订阅主题数量发生变化</li>
-<li>订阅主题的分区数发生变化<br>Coordinator 认定 Consumer 实例已挂需要退组：</li>
-</ul>
-<ol>
-<li>Consumer 端参数：session.timeout.ms，默认值 10 秒。决定了 Consumer 存活的时间间隔。</li>
-</ol>
-<ul>
-<li>Coordinator 在 10 秒内没有收到 Group 下某个 Consumer 实例的心跳，会认为该实例已挂。</li>
-</ul>
-<ol start="2">
-<li>Conusmer 端参数：heartbeat.interval.ms。控制发送心跳请求评率的参数。</li>
-</ol>
-<ul>
-<li>频繁发送心跳会额外消耗带宽资源，但可以快速知晓当前是否开启 Rebalance。</li>
-<li>Coordinator 通知 Consumer 实例开启 Rebalance 的方法，是将 REBALANCE_NEEDED 标志位封装进心跳请求的响应体中。</li>
-</ul>
-<ol start="3">
-<li>Consumer 端参数：max.poll.interval.ms，默认值 5 分钟。限定 Consumer 端两次调用 poll 方法的最大时间间隔。</li>
-</ol>
-<ul>
-<li>Conusmer 如果在 5 分钟之内无法消费完 poll 方法返回的消息，Consumer 会主动发起离组请求，Coordinator 会开启新的 Rebalance。</li>
-</ul>
-<h4 id="不必要的-Rebalance"><a href="#不必要的-Rebalance" class="headerlink" title="不必要的 Rebalance"></a>不必要的 Rebalance</h4><h5 id="未能及时发送心跳"><a href="#未能及时发送心跳" class="headerlink" title="未能及时发送心跳"></a>未能及时发送心跳</h5><p>需要仔细设置 session.timeout.ms 和 heartbeat.interval.ms<br>推荐数值：</p>
-<ul>
-<li>session.tiemout.ms &#x3D; 6s</li>
-<li>Heartbeat.inverval.ms &#x3D; 2s<blockquote>
-<p>要保证 Consumer 实例在被判定为 “dead” 之前，能够发送至少 3 轮心跳请求。</p>
-<p>session.timeout.ms &gt;&#x3D; 3 * heartbeat.invertval.ms</p>
-</blockquote>
-</li>
-</ul>
-<h5 id="Consumer-消费时间过长"><a href="#Consumer-消费时间过长" class="headerlink" title="Consumer 消费时间过长"></a>Consumer 消费时间过长</h5><p>为业务处理逻辑留下充足的时间</p>
-<h5 id="Conusmer-端的-GC-表现"><a href="#Conusmer-端的-GC-表现" class="headerlink" title="Conusmer 端的 GC 表现"></a>Conusmer 端的 GC 表现</h5><p>频繁的 Full GC 会引发非预期的 Rebalance</p>
-<h2 id="位移主题"><a href="#位移主题" class="headerlink" title="位移主题"></a>位移主题</h2><p>位移主题（__consumer_offsets）是 Kafka 中的内部主题。该主题和 Kafka 中的其他主题一样，可以手动的创建、修改、删除。通常情况下不需要人为的管理。<br>位移主题的消息格式是 Kafka 定义的，不可以进行修改，也不能随意写消息（不符合格式，会无法解析造成 Broker 的崩溃）。<br>Kafka 新版本中 Consumer 的位移管理机制：将 Consumer 的位移数据作为一条条普通的 Kafka 消息，提交到 __consumer_offsets 中。</p>
-<h3 id="消息格式"><a href="#消息格式" class="headerlink" title="消息格式"></a>消息格式</h3><p>KV 对，在 Kafka 中就是字节数组：</p>
-<ul>
-<li>Key：消息的键值，包括 &lt;Grouop ID，主题名，分区号&gt;</li>
-<li>Value：消息体，有三种消息格式：</li>
-</ul>
-<ol>
-<li>位移值，时间戳，用户自定义数据</li>
-<li>用于注册 Consumer Group 消息的数据</li>
-<li>用于删除 Group 过期位移、删除 Group 的数据。称为墓碑消息（tombstone 消息，也称 delete mark）。</li>
-</ol>
-<ul>
-<li>主要特点：消息体为 null</li>
-<li>何时写入：某个 Conusmer Group 下的所有 Consumer 实例都停止，且位移数据都已被删除时，Kafka 会向位移主题的对应分区写入 tombstone 消息，表明彻底删除该 Group</li>
-</ul>
-<h3 id="怎么创建的"><a href="#怎么创建的" class="headerlink" title="怎么创建的"></a>怎么创建的</h3><h4 id="自动创建（建议）"><a href="#自动创建（建议）" class="headerlink" title="自动创建（建议）"></a>自动创建（建议）</h4><p>当 Kafka 集群中的第一个 Consumer 程序启动时，Kafka 会自动创建该位移主题，该主题的分区数是 50，副本数是 3。</p>
-<ul>
-<li>分区数的设置：Broker 端参数 offsets.topic.num.partitions，默认值是 50。</li>
-<li>副本数的设置：Broker 端参数 offsets.topic.replication.factor，默认值是 3。</li>
-</ul>
-<h4 id="手动创建"><a href="#手动创建" class="headerlink" title="手动创建"></a>手动创建</h4><p>在 Kafka 集群未启动任何 Consumer 之前，使用 Kafka API 创建。<br>好处：可以创建满足实际场景需要的位移主题，不必理会 offsets.topic.num.partitions 的值。</p>
-<h3 id="Consumer-提交位移的方式"><a href="#Consumer-提交位移的方式" class="headerlink" title="Consumer 提交位移的方式"></a>Consumer 提交位移的方式</h3><h4 id="自动提交"><a href="#自动提交" class="headerlink" title="自动提交"></a>自动提交</h4><p>Consumer 参数 <code>enable.auto.commit</code> ，如果值为 true，则 Consumer 会在后台定期提交位移，提交间隔由 auto.commit.interval.ms 控制。<br>优点：省事<br>缺点：丧失了很大的灵活性和可控性，不能把控 Consumer 端的位移管理<br>问题：只要 Consumer 一直启动着，就会无限期地向位移主题写入消息（不是基于消费时间的处理，而是周期性的采集当前消息情况进行提交）。</p>
-<h4 id="手动提交"><a href="#手动提交" class="headerlink" title="手动提交"></a>手动提交</h4><p>Consumer 参数 <code>enable.auto.commit</code> ，如果值为 false，需要手动提交位移。<br>Consumer API 提供的位移提交的方法：</p>
-<ul>
-<li>consumer.commitSync</li>
-<li>commitAsync</li>
-</ul>
-<h3 id="过期消息的删除"><a href="#过期消息的删除" class="headerlink" title="过期消息的删除"></a>过期消息的删除</h3><p>通过 Compact 策略。Compact 的过程就是扫描日志的所有消息，剔除过期的消息，然后把剩下的消息整理在一起。</p>
-<h4 id="如何定义过期消息"><a href="#如何定义过期消息" class="headerlink" title="如何定义过期消息"></a>如何定义过期消息</h4><p>对于同一个 Key 的两条消息 M1 和 M2，如果 M1 的发送时间早于 M2，那么 M1 就是过期消息。<br>Kafka 提供了专门的后台线程定期巡检待 Compact 的主题，该线程叫 Log Cleaner。如果生产环境中出现位移主题无限膨胀占用过多磁盘空间的问题，通常都是该线程挂掉后导致的，</p>
-<h2 id="Consumer-位移提交"><a href="#Consumer-位移提交" class="headerlink" title="Consumer 位移提交"></a>Consumer 位移提交</h2><p>Consumer 向 Kafka 汇报自己的位移数据的过程被称为位移提交（Committing Offsets）。Consumer 需要为分配给他的每个分区提交各自的位移数据。<br><strong>Consumer 的消费位移，记录了 Consumer 要消费的下一条消息的位移，不是目前最新消费消息的位移。</strong><br>位移提交的语义保障是由 Conusmer 应用程序负责的，Kafka 只会 “无脑” 接收提交的位移。</p>
-<ol>
-<li>用户的角度</li>
-</ol>
-<ul>
-<li>自动提交</li>
-<li>手动提交</li>
-</ul>
-<ol start="2">
-<li>Consumer 角度</li>
-</ol>
-<ul>
-<li>同步提交</li>
-<li>异步提交</li>
-</ul>
-<h3 id="设置自动提交位移的方法"><a href="#设置自动提交位移的方法" class="headerlink" title="设置自动提交位移的方法"></a>设置自动提交位移的方法</h3><p>自动提交位移的问题在于：可能会重复消费，只能通过减少 auto.commit.interval.ms 的值提高提交评率，但只能缩小重复消费的窗口，不可能完全消除它</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">Properties</span> <span class="variable">props</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Properties</span>();</span><br><span class="line">props.put(<span class="string">&quot;bootstrap.servers&quot;</span>, <span class="string">&quot;localhost:9092&quot;</span>);</span><br><span class="line">props.put(<span class="string">&quot;group.id&quot;</span>, <span class="string">&quot;test&quot;</span>);</span><br><span class="line"><span class="comment">// 开启自动提交位移，默认值是 true </span></span><br><span class="line">props.put(<span class="string">&quot;enable.auto.commit&quot;</span>, <span class="string">&quot;true&quot;</span>);</span><br><span class="line"><span class="comment">// 每两秒提交一次位移，默认值是 5 秒</span></span><br><span class="line">props.put(<span class="string">&quot;auto.commit.interval.ms&quot;</span>, <span class="string">&quot;2000&quot;</span>);</span><br><span class="line">props.put(<span class="string">&quot;key.deserializer&quot;</span>, <span class="string">&quot;org.apache.kafka.common.serialization.StringDeserializer&quot;</span>);</span><br><span class="line">props.put(<span class="string">&quot;value.deserializer&quot;</span>, <span class="string">&quot;org.apache.kafka.common.serialization.StringDeserializer&quot;</span>);</span><br><span class="line">KafkaConsumer&lt;String, String&gt; consumer = <span class="keyword">new</span> <span class="title class_">KafkaConsumer</span>&lt;&gt;(props);</span><br><span class="line">consumer.subscribe(Arrays.asList(<span class="string">&quot;foo&quot;</span>, <span class="string">&quot;bar&quot;</span>));</span><br><span class="line"><span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">	ConsumerRecords&lt;String, String&gt; records = consumer.poll(<span class="number">100</span>);</span><br><span class="line">	<span class="keyword">for</span> (ConsumerRecord&lt;String, String&gt; record : records)</span><br><span class="line">		System.out.printf(<span class="string">&quot;offset = %d, key = %s, value = %s%n&quot;</span>, record.offset(), record.key(), record.value());</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="手动提交位移的方法"><a href="#手动提交位移的方法" class="headerlink" title="手动提交位移的方法"></a>手动提交位移的方法</h3><h4 id="同步"><a href="#同步" class="headerlink" title="同步"></a>同步</h4><p>同步提交的问题在于：调用 commitSync 时，Conusmer 程序处于阻塞状态，直到 Broker 返回提交结果，才会结束。会影响整个系统的 TPS。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">	ConsumerRecords&lt;String, String&gt; records =consumer.poll(Duration.ofSeconds(<span class="number">1</span>));</span><br><span class="line">	process(records); <span class="comment">// 处理消息</span></span><br><span class="line">	<span class="keyword">try</span> &#123;</span><br><span class="line">		consumer.commitSync();</span><br><span class="line">	&#125; <span class="keyword">catch</span> (CommitFailedException e) &#123;</span><br><span class="line">		handle(e); <span class="comment">// 处理提交失败异常</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="异步"><a href="#异步" class="headerlink" title="异步"></a>异步</h4><p>异步提交的问题在于：出现问题时不会自动重试。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">	ConsumerRecords&lt;String, String&gt; records = consumer.poll(Duration.ofSeconds(<span class="number">1</span>));</span><br><span class="line">	process(records); <span class="comment">// 处理消息</span></span><br><span class="line">	consumer.commitAsync((offsets, exception) -&gt; &#123;</span><br><span class="line">		<span class="keyword">if</span> (exception != <span class="literal">null</span>)</span><br><span class="line">			handle(exception);</span><br><span class="line">	&#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="组合使用"><a href="#组合使用" class="headerlink" title="组合使用"></a>组合使用</h4><p>组合使用可以达到最理想的效果，原因：</p>
-<ol>
-<li>可以利用 commitSync 的自动重试规避瞬时错误，例如：网络的瞬时抖动、Broker 端 GC。</li>
-<li>不希望程序总处于阻塞状态，影响 TPS<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">	<span class="keyword">while</span>(<span class="literal">true</span>) &#123;</span><br><span class="line">		ConsumerRecords&lt;String, String&gt; records = consumer.poll(Duration.ofSeconds(<span class="number">1</span>));</span><br><span class="line">		process(records); <span class="comment">// 处理消息</span></span><br><span class="line">		commitAysnc(); <span class="comment">// 使用异步提交规避阻塞</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125; <span class="keyword">catch</span>(Exception e) &#123;</span><br><span class="line">	handle(e); <span class="comment">// 处理异常</span></span><br><span class="line">&#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">	<span class="keyword">try</span> &#123;</span><br><span class="line">	consumer.commitSync(); <span class="comment">// 最后一次提交使用同步阻塞式提交</span></span><br><span class="line">	&#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">	consumer.close();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-</ol>
-<ul>
-<li>常规性、阶段性的手动提交，通过 commitAsync 避免程序阻塞</li>
-<li>在 Consumer 关闭前，通过commitSync 执行同步阻塞式的位移提交，确保 Consumer 关闭前能够保存正确的位移数据</li>
-</ul>
-<h3 id="更精细化的位移提交"><a href="#更精细化的位移提交" class="headerlink" title="更精细化的位移提交"></a>更精细化的位移提交</h3><p>通过 commitSync(Map&lt;TopicPartition, OffsetAndMetadata&gt;) 和 commitAsync(Map&lt;TopicPartition, OffsetAndMetadata&gt; 在消费的中间进行位移提交。Map 对象的键是消费的分区，值对象中主要是位移数据。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">private</span> Map&lt;TopicPartition, OffsetAndMetadata&gt; offsets = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line"><span class="type">int</span> <span class="variable">count</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line"><span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">	ConsumerRecords&lt;String, String&gt; records = </span><br><span class="line">	consumer.poll(Duration.ofSeconds(<span class="number">1</span>));</span><br><span class="line">	<span class="keyword">for</span> (ConsumerRecord&lt;String, String&gt; record: records) &#123;</span><br><span class="line">		process(record);<span class="comment">// 处理消息</span></span><br><span class="line">		offsets.put(<span class="keyword">new</span> <span class="title class_">TopicPartition</span>(record.topic(), record.partition()), <span class="keyword">new</span> <span class="title class_">OffsetAndMetadata</span>(record.offset() + <span class="number">1</span>)； <span class="comment">// 提交下一条消息的位移</span></span><br><span class="line">		<span class="keyword">if</span>（count % <span class="number">100</span> == <span class="number">0</span>）</span><br><span class="line">			consumer.commitAsync(offsets, <span class="literal">null</span>); <span class="comment">// 回调处理逻辑是null</span></span><br><span class="line">			count++;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="削峰填谷"><a href="#削峰填谷" class="headerlink" title="削峰填谷"></a>削峰填谷</h2><blockquote>
-<p>Q：为什么系统 A 不能直接发送消息给系统 B，还需要隔一个消息引擎<br>A：<br>1.削峰填谷 -&gt; 指缓冲上下游瞬时突发流量，使其更平滑，如果没有消息引擎的保护，下游系统可能会直接被压垮导致全链路服务雪崩<br>2.发送方和接收方的解耦，一定程度上简化了应用的开发</p>
-<p>Q：如何使用 Kafka 解决实时相应问题<br>A：使用 Kafka Streams，是为 read-process-write 场景服务的</p>
-<p>Q：MQ 和 RPC 调用的区别<br>A：常见的数据流有三种：</p>
-<pre><code>    1. 通过数据库
-    2. 通过服务调用（REST / RPC）
-    3. 通过异步消息传递（消息引擎）
-</code></pre>
-<p>不同之处在于：<br>1.MQ 有自己的 buffer，能够对抗过载和不可用场景<br>2.MQ 支持重试<br>3.允许发布 &#x2F; 订阅模式<br>RPC 是介于通过数据库和通过 MQ 之间的数据流模式</p>
-<p>Q：什么时候用 Kafka，什么时候用其他消息引擎<br>A：传统消息中间件支持的消息传输协议：AMQP、STOMP、MQTT，都支持比较复杂的消息路由（如 RabbitMQ），Kafka 并不具备<br>如果应用要支持这些协议或者是用于 SOA 中的应用互联，适合使用传统消息中间件，RocketMQ 擅长主打金融业务领域<br>如果应用场景是大数据方面的，可以考虑使用 Kakfa，它有较好的容错性、高伸缩性以及存储特性</p>
-<p>Q：如何避免 Rebalance<br>A：使用 standalone consumer 可以完全避免，大多数主流大数据框架（Spark、Flink）就是这么做的</p>
-<p>Q：Kafka 为什么不像 MySQL 那样允许 Follower 副本对外提供读服务<br>A：<br>1.因为 Kafka 的分区已经考虑了负载均衡<br>2.Leader 副本和 Follower 副本之间是有延迟的，如果 Follower 对外提供服务，需要进行同步，延迟更大<br>3.即便满足了《2》点的同步，Follower 提供读服务时，可能会导致不均衡的现象，因为 Leader 副本本身就尽量分摊到不同的 Broker 上</p>
-<p>Q：Kafka 是按照什么规则将消息划分到各个分区的<br>A：<br>1.如果 Producer 指定了要发送的目标分区，消息则发送到指定的分区；否则按照 Producer 端参数 partitioner.class 指定的分区策略决定<br>2.如果没有指定过 partitioner.class，默认的规则是：消息如果包含 Key，则计算 Key 的murmur2 哈希值 % topic 分区数；不包含 Key，则按照轮询的方式确定分区</p>
-<p>Q：Kafka 如何保证全局的消息顺序<br>A：目前 Kafka 的设计中多个分区无法保证全局的消息顺序，如果一定要实现，只能使用单分区</p>
-</blockquote>
-<h2 id="ISR"><a href="#ISR" class="headerlink" title="ISR"></a>ISR</h2><p>同步复制：只有所有的 follower 把数据拿过去后才commit，一致性好，可用性不高。<br>异步复制：只要 leader 拿到数据立即 commit，等 follower 慢慢去复制，可用性高，立即返回，一致性差一些。<br>Commit：是指 leader 告诉客户端，这条数据写成功了。kafka尽量保证 commit 后立即 leader 挂掉，其他 flower 都有该条数据。<br>kafka不是完全同步，也不是完全异步，是一种ISR机制：</p>
-<ol>
-<li>leader会维护一个与其基本保持同步的 Replica 列表，该列表称为 ISR(in-sync Replica)，每个 Partition 都会有一个 ISR，而且是由leader 动态维护</li>
-<li>如果一个 flower 比一个 leader 落后太多，或者超过一定时间未发起数据复制请求，则 leader 将其重 ISR 中移除</li>
-<li>当 ISR 中所有 Replica 都向 Leader 发送 ACK 时，leader 才 commit</li>
-</ol>
-<h2 id="消息经常堆积，不能消费"><a href="#消息经常堆积，不能消费" class="headerlink" title="消息经常堆积，不能消费"></a>消息经常堆积，不能消费</h2><p>产生的原因可能如下：</p>
-<ol>
-<li>生产速度大于消费速度，可以适当增加分区，增加 Consumer 输血量，提升消费 TPS</li>
-<li>Consumer 消费性能偏低，排查是否有很重的消费逻辑，是否可以优化 Consumer 的 TPS</li>
-<li>确保 Conusumer 没有因为异常而导致消费 Hang 住</li>
-<li>如果使用的是消费者组，确保没有频繁发生 rebalance</li>
-</ol>
-<h2 id="针对消息去重"><a href="#针对消息去重" class="headerlink" title="针对消息去重"></a>针对消息去重</h2><p>Redis 缓存 Topic + Partition + Group 的偏移量，使精度提升到每一条消息。</p>
-]]></content>
-      <categories>
-        <category>中间件</category>
-      </categories>
-      <tags>
-        <tag>kafka</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Maven</title>
     <url>/MiracleDx/2020/05/18/Maven/</url>
     <content><![CDATA[<h1 id="scope-provided-和-optional-true-的区别"><a href="#scope-provided-和-optional-true-的区别" class="headerlink" title="scope provided 和 optional &#x3D; true 的区别"></a>scope provided 和 optional &#x3D; true 的区别</h1><h3 id="相同点"><a href="#相同点" class="headerlink" title="相同点"></a>相同点</h3><p>两者都不会将依赖直接打入包中</p>
@@ -2036,59 +1402,637 @@
       </tags>
   </entry>
   <entry>
-    <title>常用指令</title>
-    <url>/MiracleDx/2024/03/12/%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4/</url>
-    <content><![CDATA[<h1 id="正则"><a href="#正则" class="headerlink" title="正则"></a>正则</h1><h2 id="删代码注释的正则"><a href="#删代码注释的正则" class="headerlink" title="删代码注释的正则"></a>删代码注释的正则</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">(/\*([^*]|[\r\n]|(\*+([^*/]|[\r\n])))*\*+/|[ \t]*<span class="comment">//.*)</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="匹配中文的正则"><a href="#匹配中文的正则" class="headerlink" title="匹配中文的正则"></a>匹配中文的正则</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 匹配单字节</span><br><span class="line">[\u4e00-\u9fa5]</span><br><span class="line"># 匹配双字节</span><br><span class="line">[^\x00-\xff]</span><br></pre></td></tr></table></figure>
-
-<h1 id="Linux"><a href="#Linux" class="headerlink" title="Linux"></a>Linux</h1><h2 id="查看是否为-Linux-OOM-Killer-杀掉的进程"><a href="#查看是否为-Linux-OOM-Killer-杀掉的进程" class="headerlink" title="查看是否为 Linux OOM Killer 杀掉的进程"></a>查看是否为 Linux OOM Killer 杀掉的进程</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo egrep -i -r &#x27;Out Of&#x27; /var/log</span><br></pre></td></tr></table></figure>
-
-<h2 id="查看进程直接杀掉"><a href="#查看进程直接杀掉" class="headerlink" title="查看进程直接杀掉"></a>查看进程直接杀掉</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">ps -ef | grep filebeat-sfzt-s.yml | awk -F &quot;[ ]+&quot; &#x27;NR==1&#123;print $2&#125;&#x27; | xargs kill -9</span><br></pre></td></tr></table></figure>
-
-<h2 id="文件大小排序"><a href="#文件大小排序" class="headerlink" title="文件大小排序"></a>文件大小排序</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">du -hsx * | sort -rh | head -6</span><br><span class="line">du – 估计文件的空间使用情况</span><br><span class="line">-hsx – （-h）更易读的格式，（-s）汇总输出，（-x）跳过其他文件系统的文件</span><br><span class="line">sort – 对文本文件按行排序</span><br><span class="line">-rf – （-r）将比较的结果逆序输出，（-f）忽略大小写</span><br><span class="line">head – 输出文件的头几行</span><br></pre></td></tr></table></figure>
-
-<h2 id="查看每个文件的行数"><a href="#查看每个文件的行数" class="headerlink" title="查看每个文件的行数"></a>查看每个文件的行数</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">find ./ -type f -name cilogPlatform*.log|awk &#x27;&#123;print &quot;echo \&quot;&quot;$1&quot;\&quot;;cat &quot;$1&quot;|wc -l&quot;&#125;&#x27;|sh &gt; cilogPlatform_info.txt</span><br></pre></td></tr></table></figure>
-
-<h1 id="Git"><a href="#Git" class="headerlink" title="Git"></a>Git</h1><h2 id="Rebase-历史丢失"><a href="#Rebase-历史丢失" class="headerlink" title="Rebase 历史丢失"></a>Rebase 历史丢失</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">查找变更记录</span></span><br><span class="line">git reflog</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">找到rebase前的<span class="built_in">hash</span> 创建一个备份分支</span></span><br><span class="line">git checkout -b branch-bak d1ccec7</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">一顿操作。能不能恢复看自己发挥了</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="查看每个人提交的行数"><a href="#查看每个人提交的行数" class="headerlink" title="查看每个人提交的行数"></a>查看每个人提交的行数</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git log --format=&#x27;%aN&#x27; | sort -u | while read name; do echo -en &quot;$name\t&quot;; git log --author=&quot;$name&quot; --pretty=tformat: --numstat | awk &#x27;&#123; add += $1; subs += $2; loc += $1 - $2 &#125; END &#123; printf &quot;added lines: %s, removed lines: %s, total lines: %s\n&quot;, add, subs, loc &#125;&#x27; -; done</span><br></pre></td></tr></table></figure>
-
-<h2 id="统计代码总行数"><a href="#统计代码总行数" class="headerlink" title="统计代码总行数"></a>统计代码总行数</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git ls-files | xargs cat | wc -l</span><br></pre></td></tr></table></figure>
-
-<h1 id="K8s"><a href="#K8s" class="headerlink" title="K8s"></a>K8s</h1><h2 id="查询所有运行时的容器"><a href="#查询所有运行时的容器" class="headerlink" title="查询所有运行时的容器"></a>查询所有运行时的容器</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">kubectl get nodes -o wide</span><br></pre></td></tr></table></figure>
-
-<h2 id="查看所有-pods-的命名空间"><a href="#查看所有-pods-的命名空间" class="headerlink" title="查看所有 pods 的命名空间"></a>查看所有 pods 的命名空间</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">kubectl get pods --all-namespaces</span><br></pre></td></tr></table></figure>
-
-<h2 id="创建命名空间"><a href="#创建命名空间" class="headerlink" title="创建命名空间"></a>创建命名空间</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">kubectl create namespace xxx</span><br></pre></td></tr></table></figure>
-
-<h2 id="实时查看-Deployment-对象的状态变化"><a href="#实时查看-Deployment-对象的状态变化" class="headerlink" title="实时查看 Deployment 对象的状态变化"></a>实时查看 Deployment 对象的状态变化</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">kubectl rollout status</span><br></pre></td></tr></table></figure>
-
-<h2 id="回滚-Deployment"><a href="#回滚-Deployment" class="headerlink" title="回滚 Deployment"></a>回滚 Deployment</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">回滚到上一次</span></span><br><span class="line">kubectl rollout undo deployment_name</span><br></pre></td></tr></table></figure>
-
-<h2 id="查看每次-Deployment-变更对应版本"><a href="#查看每次-Deployment-变更对应版本" class="headerlink" title="查看每次 Deployment 变更对应版本"></a>查看每次 Deployment 变更对应版本</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">查看全部版本</span></span><br><span class="line">kubectl rollout history deployment_name</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">查看每个版本的细节</span></span><br><span class="line">kubectl rollout history deployment_name --revision=version_number</span><br></pre></td></tr></table></figure>
-
-<h2 id="回滚-Deployment-到指定版本"><a href="#回滚-Deployment-到指定版本" class="headerlink" title="回滚 Deployment 到指定版本"></a>回滚 Deployment 到指定版本</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">kubuctl rollout undo deployment_nmame --to-revision=version_number</span><br></pre></td></tr></table></figure>
-
-<h2 id="防止每次更新-Deployment，生成多个-ReplicaSet-对象"><a href="#防止每次更新-Deployment，生成多个-ReplicaSet-对象" class="headerlink" title="防止每次更新 Deployment，生成多个 ReplicaSet 对象"></a>防止每次更新 Deployment，生成多个 ReplicaSet 对象</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">kubectl rollout pause deployment_name</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">update deployment</span></span><br><span class="line">kubectl rollout resume deployment_name</span><br></pre></td></tr></table></figure>
-
-<h2 id="Dns-测试"><a href="#Dns-测试" class="headerlink" title="Dns 测试"></a>Dns 测试</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">kubectl run -i --tty --image busybox:1.28.4 dns-test --restart=Never --rm /bin/sh </span><br></pre></td></tr></table></figure>
-
-<h1 id="MySQL"><a href="#MySQL" class="headerlink" title="MySQL"></a>MySQL</h1><h2 id="MySQL-增加-on-update-语句"><a href="#MySQL-增加-on-update-语句" class="headerlink" title="MySQL 增加 on update 语句"></a>MySQL 增加 on update 语句</h2><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> sys_summary CHANGE update_time update_time <span class="type">TIMESTAMP</span> <span class="keyword">NOT</span> <span class="keyword">NULL</span> <span class="keyword">DEFAULT</span> <span class="built_in">CURRENT_TIMESTAMP</span> <span class="keyword">on</span> <span class="keyword">update</span> <span class="built_in">CURRENT_TIMESTAMP</span> comment <span class="string">&#x27;更新时间&#x27;</span>;</span><br><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> sys_summary CHANGE update_time update_time <span class="type">TIMESTAMP</span> <span class="keyword">NOT</span> <span class="keyword">NULL</span> <span class="keyword">DEFAULT</span> <span class="built_in">CURRENT_TIMESTAMP</span> comment <span class="string">&#x27;更新时间&#x27;</span>;</span><br></pre></td></tr></table></figure>
-
-<h2 id="去除回车和空行"><a href="#去除回车和空行" class="headerlink" title="去除回车和空行"></a>去除回车和空行</h2><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">UPDATE</span> tableName <span class="keyword">SET</span> field <span class="operator">=</span> REPLACE(REPLACE(field, <span class="type">CHAR</span>(<span class="number">10</span>), <span class="string">&#x27;&#x27;</span>), <span class="type">CHAR</span>(<span class="number">13</span>), <span class="string">&#x27;&#x27;</span>);</span><br></pre></td></tr></table></figure>
-
-<h2 id="按照-1-1-1-2-版本号进行排序"><a href="#按照-1-1-1-2-版本号进行排序" class="headerlink" title="按照 1.1 1.2 版本号进行排序"></a>按照 1.1 1.2 版本号进行排序</h2><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 当每一层值可以控制在0-9时，可直接使用如下方法  序号转成小数的形式即可实现排序</span></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> 表名 <span class="keyword">ORDER</span> <span class="keyword">BY</span> <span class="built_in">cast</span>(concat(<span class="keyword">left</span>(字段名,INSTR(字段名,<span class="string">&#x27;.&#x27;</span>)), replace(<span class="built_in">subString</span>(字段名,instr(字段名,<span class="string">&#x27;.&#x27;</span>)<span class="operator">+</span><span class="number">1</span>), <span class="string">&#x27;.&#x27;</span>, <span class="string">&#x27;&#x27;</span>)) <span class="keyword">as</span> <span class="type">DECIMAL</span>(<span class="number">4</span>,<span class="number">2</span>));</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 当序号层数可以控制时，每一项值不可控时，可使用</span></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> 表名 <span class="keyword">order</span> <span class="keyword">by</span> SUBSTRING_INDEX(SUBSTRING_INDEX(CONCAT(字段名, <span class="string">&#x27;.&#x27;</span>), <span class="string">&#x27;.&#x27;</span>, <span class="number">1</span>), <span class="string">&#x27;.&#x27;</span>, <span class="number">-1</span>)<span class="operator">+</span><span class="number">0</span>,SUBSTRING_INDEX(SUBSTRING_INDEX(CONCAT(字段名, <span class="string">&#x27;.&#x27;</span>), <span class="string">&#x27;.&#x27;</span>, <span class="number">2</span>), <span class="string">&#x27;.&#x27;</span>, <span class="number">-1</span>)<span class="operator">+</span><span class="number">0</span>,SUBSTRING_INDEX(SUBSTRING_INDEX(CONCAT(字段名, <span class="string">&#x27;.&#x27;</span>), <span class="string">&#x27;.&#x27;</span>, <span class="number">3</span>), <span class="string">&#x27;.&#x27;</span>, <span class="number">-1</span>)<span class="operator">+</span><span class="number">0</span>,SUBSTRING_INDEX(SUBSTRING_INDEX(CONCAT(字段名, <span class="string">&#x27;.&#x27;</span>), <span class="string">&#x27;.&#x27;</span>, <span class="number">4</span>), <span class="string">&#x27;.&#x27;</span>, <span class="number">-1</span>)<span class="operator">+</span><span class="number">0</span>,SUBSTRING_INDEX(SUBSTRING_INDEX(CONCAT(字段名, <span class="string">&#x27;.&#x27;</span>), <span class="string">&#x27;.&#x27;</span>, <span class="number">5</span>), <span class="string">&#x27;.&#x27;</span>, <span class="number">-1</span>)<span class="operator">+</span><span class="number">0</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="清除有外键的表数据"><a href="#清除有外键的表数据" class="headerlink" title="清除有外键的表数据"></a>清除有外键的表数据</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">SET FOREIGN_KEY_CHECKS = 0; </span><br><span class="line">TRUNCATE TABLE TABLE_NAME;</span><br><span class="line">SET FOREIGN_KEY_CHECKS = 1;</span><br></pre></td></tr></table></figure>
-
-<h1 id="Maven"><a href="#Maven" class="headerlink" title="Maven"></a>Maven</h1><h2 id="Maven-下载源文件和-document"><a href="#Maven-下载源文件和-document" class="headerlink" title="Maven 下载源文件和 document"></a>Maven 下载源文件和 document</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">mvn dependency:resolve -Dclassifier=sources</span><br></pre></td></tr></table></figure>
+    <title>Kafka基础</title>
+    <url>/MiracleDx/2022/07/08/Kafka%20%E5%9F%BA%E7%A1%80/</url>
+    <content><![CDATA[<h1 id="Kafka"><a href="#Kafka" class="headerlink" title="Kafka"></a>Kafka</h1><h2 id="是什么"><a href="#是什么" class="headerlink" title="是什么"></a>是什么</h2><p>是一款开源的消息引擎系统，可以利用该系统在不同系统之间传递语义准确的消息，实现松耦合的异步式数据传递。<br>也是一个分布式流处理平台（Distributed Streaming Platform）<br>在设计之初提供了三个特性：</p>
+<ul>
+<li>提供一套 API 实现生产者和消费者</li>
+<li>降低网络传出和磁盘存储开销</li>
+<li>实现高伸缩性架构</li>
+</ul>
+<h3 id="流处理组件-Kafka-Streams"><a href="#流处理组件-Kafka-Streams" class="headerlink" title="流处理组件 - Kafka Streams"></a>流处理组件 - Kafka Streams</h3><p>Kafka 与其他主流大数据流式计算框架的优势</p>
+<ul>
+<li>更容易实现到端到端的正确性（Correctness）<br>替代批处理需要具备两点<br>1.要实现正确性和提供能够推导时间的工具</li>
+<li>实现正确性的基石：框架提供精确一次处理语义<br>精确一次处理语义：一条消息有且只有一次机会能够影响系统状态<br>2.实现正确性是流处理能够匹敌批处理的基石</li>
+<li>Kafka 自身对于流式计算的定位<br>官网标识 Kafka Streams 是一个用于搭建实时流处理的客户端库而不是一个完整的系统</li>
+</ul>
+<h3 id="连接器-Kafka-Connect"><a href="#连接器-Kafka-Connect" class="headerlink" title="连接器 - Kafka Connect"></a>连接器 - Kafka Connect</h3><p>Kafka Connect 通过一个个具体的连接器（Connector）串联起上下游的外部系统</p>
+<h3 id="Kafka-版本"><a href="#Kafka-版本" class="headerlink" title="Kafka 版本"></a>Kafka 版本</h3><h4 id="Apache-Kafka"><a href="#Apache-Kafka" class="headerlink" title="Apache Kafka"></a>Apache Kafka</h4><p>是最 “正宗” 的 Kafka，也被称为社区版 Kafka，是所有其他发行版的基础</p>
+<ul>
+<li>优势</li>
+<li>开发人数最多、 版本迭代速度最快</li>
+<li>社区活跃</li>
+<li>有更高的把控度</li>
+<li>劣势</li>
+<li>仅提供最最基础的组件</li>
+<li>社区版 Kafka 只提供一种连接器</li>
+<li>没有提供任何监控框架或工具<br>如果仅需要一个消息引擎系统或者简单的流处理应用场景，同时需要对系统有较大把控度，推荐使用 Apache Kafka</li>
+</ul>
+<h4 id="Confluent-Kafka"><a href="#Confluent-Kafka" class="headerlink" title="Confluent Kafka"></a>Confluent Kafka</h4><p>Kafka 的三个创始人创办的公司，专注于提供基于 Kafka 的企业级流处理解决方案</p>
+<ul>
+<li>优势<br>Kafka 原版人马打造，质量有保证，分为免费版和企业版</li>
+<li>社区版</li>
+<li>和 Apache Kafka 非常像</li>
+<li>提供：Schema 注册中心<br>帮助集中管理 Kafka 消息格式以实现数据向前 &#x2F; 向后兼容</li>
+<li>提供：REST Proxy<br>通过开放 HTTP 接口的方式提供网络访问 Kafka 的各种功能<br>包含更多的连接器</li>
+<li>企业版</li>
+<li>跨数据中心备份</li>
+<li>集群监控</li>
+<li>等</li>
+<li>劣势</li>
+<li>相关资料及技术支持都很欠缺</li>
+<li>在国内的普及率比较低<br>如果需要用到 Kafka 的一些高级特性，推荐使用 Confluent Kafka</li>
+</ul>
+<h4 id="Cloudera-Hortonworks-Kafka"><a href="#Cloudera-Hortonworks-Kafka" class="headerlink" title="Cloudera &#x2F; Hortonworks Kafka"></a>Cloudera &#x2F; Hortonworks Kafka</h4><p>Cloudera 提供的 CDH 和 Hortonworks 提供的 HDP 是非常著名的大数据平台，里面集成了目前主流的大数据框架，能够帮助用户实现从分布式存储、集群调度、流处理到机器学习、实时数据库等全方位的数据处理</p>
+<ul>
+<li>优势</li>
+<li>天然集成 Apache Kafka</li>
+<li>通过 UI 界面将 Kafka 的安装、运维、管理、监控统一在控制台中</li>
+<li>提供监控界面</li>
+<li>劣势</li>
+<li>降低了对 Kafka 集群的掌控程度</li>
+<li>版本滞后性<br>如果需要快速的搭建消息引擎系统，或者需要搭建多框架构成的数据平台且 Kafka 只是其中一个组件，推荐使用大数据云公司提供的 Kafka</li>
+</ul>
+<h3 id="Kafka-监控工具"><a href="#Kafka-监控工具" class="headerlink" title="Kafka 监控工具"></a>Kafka 监控工具</h3><ul>
+<li>Kafka Manager</li>
+<li>Kafka eagle</li>
+<li>JMXTrans + InfluxDB + Grafana</li>
+<li>滴滴开源 Logi-KafkaManager<br><a href="https://github.com/didi/Logi-KafkaManager">https://github.com/didi/Logi-KafkaManager</a></li>
+</ul>
+<h3 id="Kafka-性能测试工具"><a href="#Kafka-性能测试工具" class="headerlink" title="Kafka 性能测试工具"></a>Kafka 性能测试工具</h3><p>Kafka 自己提供 <code>kafka-producer-pref-test</code> 和 <code>kafka-consumer-perf-test</code> 脚本</p>
+<h2 id="基础的消息引擎"><a href="#基础的消息引擎" class="headerlink" title="基础的消息引擎"></a>基础的消息引擎</h2><ul>
+<li>传输的对象是消息（Kafka 默认是二进制字节，支持自定义 Serialize 和 DeSerialize）</li>
+<li>Google Protocol Buffer</li>
+<li>Facebook Thrift</li>
+<li>CSV</li>
+<li>XML</li>
+<li>JSON</li>
+<li>消息传输的具体协议</li>
+<li>点对点模型</li>
+<li>系统 A 发送的消息只能被系统 B 接收，其他系统不能读取 A 发送的消息</li>
+<li>举例：电话客服</li>
+<li>发布 &#x2F; 订阅模型</li>
+<li>消息容器 - Topic</li>
+<li>发布者 - Publisher</li>
+<li>订阅者 - Subscriber</li>
+<li>举例：报纸</li>
+</ul>
+<h2 id="JMS（Java-Message-Service）"><a href="#JMS（Java-Message-Service）" class="headerlink" title="JMS（Java Message Service）"></a>JMS（Java Message Service）</h2><p>Java 标准协议</p>
+<h2 id="基础概念"><a href="#基础概念" class="headerlink" title="基础概念"></a>基础概念</h2><h3 id="Topic-主题"><a href="#Topic-主题" class="headerlink" title="Topic - 主题"></a>Topic - 主题</h3><p>发布订阅的对象</p>
+<h3 id="Kafka-客户端-Clients"><a href="#Kafka-客户端-Clients" class="headerlink" title="Kafka 客户端 - Clients"></a>Kafka 客户端 - Clients</h3><p>Producer 和 Consumer 统称为 Clients</p>
+<h5 id="Producer-生产者"><a href="#Producer-生产者" class="headerlink" title="Producer - 生产者"></a>Producer - 生产者</h5><ul>
+<li>向主题发布消息的客户端应用程序</li>
+</ul>
+<h5 id="Consumer-消费者"><a href="#Consumer-消费者" class="headerlink" title="Consumer - 消费者"></a>Consumer - 消费者</h5><ul>
+<li>订阅主题的客户端应用程序</li>
+</ul>
+<h6 id="Consumer-Offset-消费者位移"><a href="#Consumer-Offset-消费者位移" class="headerlink" title="Consumer Offset - 消费者位移"></a>Consumer Offset - 消费者位移</h6><p>每个消费者在消费消息的过程中记录当前消费到分区的位置的字段，是随时变化的，每个消费者有自己的消费者位移</p>
+<h6 id="ConsumerGroup-消费者组"><a href="#ConsumerGroup-消费者组" class="headerlink" title="ConsumerGroup - 消费者组"></a>ConsumerGroup - 消费者组</h6><p>指多个消费者实例共同组成一个组消费一组主题<br>这组主题中的每个分区都只会被组内的一个消费者实例消费，其他消费者实例不能消费</p>
+<h6 id="为什么要引入消费者组"><a href="#为什么要引入消费者组" class="headerlink" title="为什么要引入消费者组"></a>为什么要引入消费者组</h6><p>为了提升消费者端的吞吐量，多个消费者实例同时消费，加速整个消费端的吞吐量（TPS）</p>
+<h5 id="Rebalance-重平衡"><a href="#Rebalance-重平衡" class="headerlink" title="Rebalance - 重平衡"></a>Rebalance - 重平衡</h5><p>当消费者组内的某个消费者实例挂掉以后， Kafka 能够自主检测到，然后把这个 Failed 实例之前负责的分区转移给其他活着的消费者，是 Kafka Bug 的主要来源之一</p>
+<h3 id="Kafka-服务端-Borker"><a href="#Kafka-服务端-Borker" class="headerlink" title="Kafka 服务端 - Borker"></a>Kafka 服务端 - Borker</h3><p>一个 Kafka 服务端由多个 Broker 服务进程构成<br>Broker 负责接收和处理客户端发送过来的请求，并对消息进行持久化</p>
+<h4 id="Kafka-提供高可用的手段之一-集群"><a href="#Kafka-提供高可用的手段之一-集群" class="headerlink" title="Kafka 提供高可用的手段之一 - 集群"></a>Kafka 提供高可用的手段之一 - 集群</h4><p>多个 Broker 的部署在不同服务器上，某一台机器宕机也不影响其他机器上的Broker 对外提供服务</p>
+<h4 id="数据持久化"><a href="#数据持久化" class="headerlink" title="数据持久化"></a>数据持久化</h4><p>使用消息日志（Log）保存数据，一个日志是磁盘上的一个只能追加写（Append-only）消息的物理文件</p>
+<h5 id="实现-Kafka-高吞吐量特性的重要手段"><a href="#实现-Kafka-高吞吐量特性的重要手段" class="headerlink" title="实现 Kafka 高吞吐量特性的重要手段"></a>实现 Kafka 高吞吐量特性的重要手段</h5><p>因为只能追加写入，使用性能较好的顺序 I&#x2F;O 写操作，避免了缓慢的随机 I&#x2F;O 操作</p>
+<h4 id="持久化数据的回收"><a href="#持久化数据的回收" class="headerlink" title="持久化数据的回收"></a>持久化数据的回收</h4><p>通过日志段（Log Segment）机制，在 Kafka 底层，将日志切分成多个日志段，消息被追加写到当前最新的日志段中，当写满一个日志段之后，Kafka 会自动切分出一个新的日志段，并将老的日志段封存起来。Kafka 在后台会有定时任定期检查老的日志段是否能够被删除</p>
+<h3 id="Replica-副本"><a href="#Replica-副本" class="headerlink" title="Replica - 副本"></a>Replica - 副本</h3><p>把相同的数据拷贝到多台机器上，而这些相同的数据拷贝在 Kafka 中被称为副本，副本的数量是可以配置的，这些副本保存着相同的数据，但却有不同的角色和作用</p>
+<ul>
+<li>Leader Replica - 领导者副本</li>
+<li>与客户端进行交互</li>
+<li>Follower Replica - 追随者副本</li>
+<li>被动追随领导者副本，不与外界进行交互<br>副本机制可以保证数据的持久化或消息不丢失</li>
+</ul>
+<h4 id="工作机制"><a href="#工作机制" class="headerlink" title="工作机制"></a>工作机制</h4><p>生产者向 Leader 写消息，消费者从 Leader 读消息，Follower 向 Leader 发送请求，请求 Leader 同步最新的消息给自己，保持与 Leader 的同步</p>
+<h3 id="Partitioning-分片"><a href="#Partitioning-分片" class="headerlink" title="Partitioning - 分片"></a>Partitioning - 分片</h3><p>与 MongoDB ES 中的 Sharding 和 HBase 中的 Region 概念相同</p>
+<h4 id="分区（Partition）机制"><a href="#分区（Partition）机制" class="headerlink" title="分区（Partition）机制"></a>分区（Partition）机制</h4><p>分区机制保证了数据的伸缩性，提供了负载均衡的能力<br>指将每个主题划分为多个分区，每个分区是一组有序的消息日志<br>生产者生产的每条消息只会被发送到一个分区中<br>Kafka 的分区编号是从 0 开始计数的<br>每个分区可以有若干个副本，但其中只能有一个 Leader 副本 和 N - 1 个 Folllower 副本</p>
+<h4 id="Partition-Offset-分区位移"><a href="#Partition-Offset-分区位移" class="headerlink" title="Partition Offset - 分区位移"></a>Partition Offset - 分区位移</h4><p>生产者向 Partition 写入消息，每条消息在分区中的位置信息用 Offset（位移）表示，一旦消息被成功写入到一个分区上，这个位移值就是固定的</p>
+<h2 id="Kafka-的三层消息结构"><a href="#Kafka-的三层消息结构" class="headerlink" title="Kafka 的三层消息结构"></a>Kafka 的三层消息结构</h2><p>客户端程序只能与分区的 Leader 副本进行交互</p>
+<h3 id="第一层-主题层"><a href="#第一层-主题层" class="headerlink" title="第一层 - 主题层"></a>第一层 - 主题层</h3><p>每个主题可以配置 M 个分区，每个分区可以配置 N 个副本</p>
+<h3 id="第二层-分区层"><a href="#第二层-分区层" class="headerlink" title="第二层 - 分区层"></a>第二层 - 分区层</h3><p>每个分区的 N 个副本中，只能有一个 Leader 副本对外提供服务，其他 N - 1 个副本是 Follower，只提供数据冗余</p>
+<h3 id="第三层-消息层"><a href="#第三层-消息层" class="headerlink" title="第三层 - 消息层"></a>第三层 - 消息层</h3><p>分区中包含若干条消息，每条消息的位移从 0 开始，依次递增</p>
+<h2 id="Kafka-名词术语"><a href="#Kafka-名词术语" class="headerlink" title="Kafka 名词术语"></a>Kafka 名词术语</h2><p>消息：Record。指 Kafka 处理的主要对象<br>主题：Topic。主题是承载消息的逻辑容器，在实际使用中多用来区分具体的业务<br>分区：Partition。一个有序不变的消息序列，每个主题下可以有多个分区<br>消息位移：Offset。表示分区中每条消息的位置信息，是一个单调递增且不变的值<br>副本：Replica。Kafka 中同一条消息被拷贝到多个地方以提供数据冗余，副本分为领导者副本和追随者副本，各自有不同的角色划分。副本是在分区层级下的，即每个分区可配置多个副本实现高可用<br>生产者：Producer。向主题发布新消息的应用程序<br>消费者：Consumer。从主题订阅新消息的应用程序<br>消费者位移：Consumer Offset。表征消费者消费进度，每个消费者都有自己的消费者位移<br>消费者组：Consumer Group。多个消费者实例共同组成的一个组，同时消费多个分区以实现高吞吐<br>重平衡：Rebalance。消费者组内某个消费者实例挂掉后，其他消费者实例自动重新分配订阅主题分区的过程。Rebalance 是 Kafka 消费者端实现高可用的重要手段</p>
+<h2 id="Kafka-版本命名"><a href="#Kafka-版本命名" class="headerlink" title="Kafka 版本命名"></a>Kafka 版本命名</h2><ul>
+<li>Scale 2.11 - kafka_2.11-2.2.1.tgz(asc, sha512)</li>
+<li>2.11 scale 的编译版本</li>
+<li>2.2.1 Kafka版本号</li>
+<li>大版本号-小版本号-Patch 号</li>
+</ul>
+<h3 id="Kafka-版本演进"><a href="#Kafka-版本演进" class="headerlink" title="Kafka 版本演进"></a>Kafka 版本演进</h3><ul>
+<li>0.7 版本：只提供最基础的消息队列功能</li>
+<li>0.8 版本：引入了副本机制，至此 Kafka 成为一个真正意义上完备的分布式高可靠消息队列解决方案</li>
+<li>0.9.0.0 版本：增加基础的安全认证 &#x2F; 权限功能，使用 Java 重写了新版本消费者 API，引入了 Kafka Connect 组件</li>
+<li>0.10.0.0 版本：引入了 Kafka Streams，正式升级成分布式流处理平台</li>
+<li>0.11.0.0 版本：提供了幂等性 Producer API 以及事务 API，对 Kafka 消息格式做了重构</li>
+<li>1.0 和 2.0 版本：主要对 Kafka Streams 的改进</li>
+</ul>
+<h2 id="Kafka-线上集群部署方案"><a href="#Kafka-线上集群部署方案" class="headerlink" title="Kafka 线上集群部署方案"></a>Kafka 线上集群部署方案</h2><p>Linux 在以下三个方面，优于 Windows Server 和 Mac OS Server</p>
+<ul>
+<li>I &#x2F; O 模型的使用</li>
+<li>数据网络传输效率</li>
+<li>社区支持度</li>
+</ul>
+<h3 id="主流的-I-O-模型"><a href="#主流的-I-O-模型" class="headerlink" title="主流的 I &#x2F; O 模型"></a>主流的 I &#x2F; O 模型</h3><p>按照低级 -&gt; 高级顺序排列</p>
+<ul>
+<li>阻塞式 I &#x2F; O - Java Socket 对象</li>
+<li>非阻塞式 I &#x2F; O - Java Socket 对象<br>-I &#x2F; O 多路复用 - Linux 系统调用 Select 函数</li>
+<li>信号驱动 I &#x2F; O</li>
+<li>异步 I &#x2F; O - Linux 很少支持，Windows 提供 IOCP 的线程模型<br>epoll 系统调用介于I &#x2F; O 多路复用和信号驱动 I &#x2F; O 之间<br>Kafka 客户端底层使用了 Java 的 Selector，Selector 在 Linux 上的实现机制是 epoll，在 Windows 平台上的实现机制是 select</li>
+</ul>
+<h3 id="网络传输效率"><a href="#网络传输效率" class="headerlink" title="网络传输效率"></a>网络传输效率</h3><p>Kafka 生产和消费的消息都是通过网络传输的，消息需要保存在磁盘上，所有 Kafka 需要在磁盘和网络之间进行大量数据传输</p>
+<h4 id="零拷贝（Zero-Copy）"><a href="#零拷贝（Zero-Copy）" class="headerlink" title="零拷贝（Zero Copy）"></a>零拷贝（Zero Copy）</h4><p>当数据在磁盘和网络进行传输时避免昂贵的内核态数据拷贝从而实现快速的数据传输<br>Linux 平台实现了零拷贝技术，Windows 平台需要等到 Java 8 的 60 更新版本</p>
+<h3 id="社区支持度"><a href="#社区支持度" class="headerlink" title="社区支持度"></a>社区支持度</h3><p>Windows 上的 Bug 一般不会修复，Windows 平台上部署 Kafka 只适用于个人测试或用于功能验证</p>
+<h3 id="磁盘规划和选择"><a href="#磁盘规划和选择" class="headerlink" title="磁盘规划和选择"></a>磁盘规划和选择</h3><ul>
+<li>机械磁盘：成本低容量大，易损坏</li>
+<li>固态磁盘：性能优势大，单价高</li>
+<li>通常 SSD 的顺序写 TPS 大约是 HDD 的 4 倍<br>建议使用普通机械磁盘：Kafka 使用的方式多是顺序读写操作，一定程度上规避了机械磁盘最大的劣势（随机读写操作慢）</li>
+</ul>
+<h4 id="磁盘阵列（RAID）"><a href="#磁盘阵列（RAID）" class="headerlink" title="磁盘阵列（RAID）"></a>磁盘阵列（RAID）</h4><p>使用 RAID 的两个优势</p>
+<ul>
+<li>提供冗余的磁盘存储空间</li>
+<li>提供负载均衡<br>追求性价比的公司可以不搭建 RAID，使用普通磁盘组成存储空间即可：Kafka 自己实现了冗余机制提供高可靠性，通过分区的概念在软件层面实现了负载均衡</li>
+</ul>
+<h3 id="磁盘容量"><a href="#磁盘容量" class="headerlink" title="磁盘容量"></a>磁盘容量</h3><p>规划磁盘容量时，需要考虑</p>
+<ul>
+<li>新增消息数</li>
+<li>消息留存时间</li>
+<li>平均消息大小</li>
+<li>备份数</li>
+<li>是否启用压缩<br>假设每天 1 亿条 1KB 大小的消息，保存两份且留存两周的时间，那么总的空间大小就等于 1 亿 * 1KB * 2 &#x2F; 1000 &#x2F; 1000 &#x3D; 200GB。一般情况下 Kafka 集群除了消息数据还有其他类型的数据，比如索引数据等，故再为这些数据预留出 10% 的磁盘空间，因此总的存储容量就是 220GB。既然要保存两周，那么整体容量即为 220GB * 14，大约 3TB 左右。Kafka 支持数据的压缩，假设压缩比是 0.75，那么最后需要规划的存储空间就是 0.75 * 3 &#x3D; 2.25TB</li>
+</ul>
+<h3 id="带宽"><a href="#带宽" class="headerlink" title="带宽"></a>带宽</h3><p>带宽资源的规划，实际规划的是所需的 Kafka 服务器的数量<br>假设机房环境是千兆网络，即 1Gbps，业务目标或 SLA 是在 1 个小时内处理 1TB 的业务数据。带宽是 1 Gbps，即 1 秒处理 1 Gb 的数据，假设 Kafka 服务器为专属服务器，没有混布其他服务，只能假设 Kafka 会用到 70% 的带宽资源，因为要为其他应用或进程保留一些资源。根据实际经验，超过 70% 的阈值就有网络丢包的可能，也就说单台 Kafka 服务器最多能使用大约 700Mb 的带宽资源。这是指 Kafka 服务器能使用的最大带宽，常规使用需要额外预留出 2 &#x2F; 3 的资源，即单台服务器使用带宽 700 Mb &#x2F; 3 ≈ 240 Mbps。计算 1 小时处理 1TB 数据所需的服务器数量，即每秒处理数据量：1024 * 1024 &#x2F; 3600 ≈ 291 MB，291 * 8 ≈ 2330 Mbps，除以 240 约等于 10 台服务器，如果每条消息有两个副本，则总服务器数据量还需要 * 3 &#x3D; 30 台</p>
+<ul>
+<li>带宽资源一般用 Mbps 而不是 MBps 衡量</li>
+<li>1 MB &#x3D; 8 Mb</li>
+<li>B &#x3D; Byte</li>
+<li>b &#x3D; b</li>
+</ul>
+<h2 id="Kafka-集群参数配置"><a href="#Kafka-集群参数配置" class="headerlink" title="Kafka 集群参数配置"></a>Kafka 集群参数配置</h2><h3 id="Broker-端参数"><a href="#Broker-端参数" class="headerlink" title="Broker 端参数"></a>Broker 端参数</h3><h4 id="存储信息的重要参数"><a href="#存储信息的重要参数" class="headerlink" title="存储信息的重要参数"></a>存储信息的重要参数</h4><p>即 Broker 使用哪些磁盘</p>
+<ul>
+<li>log.dirs：指定 Broker 需要使用的若干个文件目录路径，没有默认值，必须指定</li>
+<li>log.dir：表示单个路径，补充 log.dirs<br>一般只需要设置 log.dirs，不需要设置 log.dir，线上生产环境一定要配置多个路径（以 “，” 分隔），有条件最好挂载到不同的物理磁盘上。这样做的好处：</li>
+<li>提升读写性能：多块磁盘同时读写数据有更高的吞吐量</li>
+<li>能够实现故障转移：即 Failover。Kafka 1.1 版本引入的强大功能，坏掉的磁盘数据会自动转移到其他正常的磁盘上，而且 Broker 还能正常工作，没有 Failover 只能依靠 RAID 提供保障</li>
+<li>Broker 自动在好的路径上重建副本，然后从 Leader 同步</li>
+<li>Kafka 支持工具能够将某个路径上的数据拷贝到其他路径上</li>
+</ul>
+<h4 id="与-Zookeeper-相关的配置"><a href="#与-Zookeeper-相关的配置" class="headerlink" title="与 Zookeeper 相关的配置"></a>与 Zookeeper 相关的配置</h4><p>Zookeeper 是一个分布式协调框架，负责协调管理并保存 Kafka 集群的所有元数据信息</p>
+<ul>
+<li>哪些 Broker 在运行</li>
+<li>创建了哪些 Topic</li>
+<li>每个 Topic 都有哪些分区</li>
+<li>分区的 Leader 副本都在哪些机器上</li>
+<li>等<br>最重要的参数是：zookeeper.connect，用于指定 Kafka 连接的 Zookeeper 集群<br>多个 Kafka 集群使用同一套 Zookeeper 集群，需要使用 chroot（Zookeeper 概念，类似别名），eg：</li>
+<li>Kafka 集群1：zk1:2181,zk2:2181,zk3:2181&#x2F;kafka1</li>
+<li>Kafka 集群2：zk1:2181,zk2:2181,zk3:2181&#x2F;kafka2</li>
+</ul>
+<h4 id="与-Broker-连接相关的"><a href="#与-Broker-连接相关的" class="headerlink" title="与 Broker 连接相关的"></a>与 Broker 连接相关的</h4><p>客户端程序或其他 Broker 如何与该 Broker 进行通信的设置</p>
+<ul>
+<li>listeners：监听器，告诉外部连接着需要通过什么协议访问指定主机名和端口开放的 Kafka 服务</li>
+<li>advertised.listeners：advertised 表示宣称的、公开的，表明这组监听器是 Broker 用于对外发布的</li>
+<li>host.name &#x2F; port：过期参数，无用</li>
+</ul>
+<h5 id="监听器概念"><a href="#监听器概念" class="headerlink" title="监听器概念"></a>监听器概念</h5><p>若干个逗号分隔的三元组，每个三元组的格式为：&lt;协议名称，主机名，端口号&gt;，协议名称可能是标准的名字，比如 PLAINTEXT 表示明文传输、SSL 表示使用 SSL 或 TLS 加密传输等，也可以是自定义的协议名称，eg：<code>CONTROLLER: //localhost:9092</code><br>一旦定义了自定义协议名称，还必须指定 listener.security.protocol.map 参数告诉该协议底层使用了哪种安全协议，eg：<code>listener.security.protocol.map=CONTROLLER:PLAINTEXT 表示 CONTROLLER </code>这个自定义协议底层使用明文不加密传输数据<br>三元组中的主机名设置，最好全部使用主机名，即 Broker 和 Client 端应用配置中全部填写主机名，如果在某些地方使用了 IP，可能会发生无法连接的问题</p>
+<h4 id="Topic-管理"><a href="#Topic-管理" class="headerlink" title="Topic 管理"></a>Topic 管理</h4><ul>
+<li>auto.create.topics.enable：是否允许自动创建 Topic<br>建议设置成 false，Topic 应该严格把控，不能允许自行创建任何 Topic</li>
+<li>unclean.leader.election.enable：是否允许 Unclean Leader 选举</li>
+<li>设置成 false，坚决不能让数据保存较少的副本成为 Leader</li>
+<li>设置成 true，允许从数据保存较少的副本中选出一个 Leader，后果是数据有可能丢失</li>
+<li>auto.leader.rebalance.enable：是否允许定期进行 Leader 选举<br>建议设置为 false，如果设置为 true，表示允许 Kafka 定期对一些 Topic 分区进行 Leader 重选举（需要满足一定的条件），与 Leader 选举的不同时，该参数为换 Leader，换一次 Leader 的代价很高</li>
+</ul>
+<h4 id="数据留存相关参数"><a href="#数据留存相关参数" class="headerlink" title="数据留存相关参数"></a>数据留存相关参数</h4><ul>
+<li>log.retention.{hours|minutes|ms}：控制一条消息数据被保存多长时间，优先级：ms &gt; minutes &gt; hours<br>通常设置 hours 多一些，<code>log.retention.hours=168</code> 表示默认保存 7 天的数据，自动删除 7 天前的数据</li>
+<li>log.retention.bytes: 指定 Broker 为消息保存的总磁盘容量大小<br>默认值是 -1，表明想在这台 Broker 上保存多少数据都可以，真正发挥作用的场景是在云上构建多租户的 Kafka 集群</li>
+<li>message.max.bytes：控制 Broker 能够接收的最大消息大小<br>默认值 1000012 &#x3D; 976k，还不到 1M，在线上环境中设置一个比较大的值是比较保险的做法</li>
+</ul>
+<h3 id="Topic-级别参数"><a href="#Topic-级别参数" class="headerlink" title="Topic 级别参数"></a>Topic 级别参数</h3><p>Topic 级别的参数会覆盖全局 Broker 参数的值，每个 Topic 都能设置自己的参数值（Topic 参数的优先级高于 Broker 参数）<br>建议：每个 Topic 根据自身业务的需要，设置自己的留存时间和处理最大消息的大小</p>
+<h4 id="保存消息的维度"><a href="#保存消息的维度" class="headerlink" title="保存消息的维度"></a>保存消息的维度</h4><ul>
+<li>retention.ms：规定 Topic 消息被保存的时长，默认 7 天。</li>
+<li>retention.bytes：规定为 Topic 预留多大的磁盘空间。通常在多租户的 Kafka 集群中使用，默认值是 -1，表示可以无限使用磁盘空间</li>
+</ul>
+<h4 id="处理消息大小的维度"><a href="#处理消息大小的维度" class="headerlink" title="处理消息大小的维度"></a>处理消息大小的维度</h4><ul>
+<li>max.message.bytes：决定 Kafka Broker 能够正常接收该 Topic 的最大消息大小</li>
+</ul>
+<h4 id="设置-Topic-级别参数的情况"><a href="#设置-Topic-级别参数的情况" class="headerlink" title="设置 Topic 级别参数的情况"></a>设置 Topic 级别参数的情况</h4><p>建议使用<strong>修改时设置的方式</strong>修改 Topic 级别的参数</p>
+<ul>
+<li>创建时进行设置<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">发送最大值是 5MB 的消息</span></span><br><span class="line">bin/kafka-topics.sh --bootstrap-server localhost:9092 --create --topic transaction --partitions 1 --replication-factor 1 --config retention.ms=15552000000 --config max.message.bytes=5242880</span><br></pre></td></tr></table></figure></li>
+<li>修改时进设置<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">发送最大值是 10MB 的消息</span></span><br><span class="line">bin/kafka-configs.sh --zookeeper localhost:2181 --entity-type topics --entity-name transaction --alter --add-config max.message.bytes=10485760</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="JVM-参数"><a href="#JVM-参数" class="headerlink" title="JVM 参数"></a>JVM 参数</h3><ul>
+<li>JVM 堆<br>无脑的建议：JVM 堆大小设置成 6GB<br>Kafka Broker 在与客户端进行交互时会在 JVM 堆上创建大量的 ByteBuffer 实例，Heap Size 不能太小</li>
+<li>垃圾回收器的设置</li>
+<li>Java 7</li>
+<li>如果 Broker 所在机器的 CPU 资源非常充裕，建议使用 CMS 收集器，启用方法：<code>-XX:+UseCurrentMarkSweepGC</code></li>
+<li>否在使用吞吐量收集器，启用方法：<code>-XX:+UseParallelGC</code></li>
+<li>Java 8</li>
+<li>手动设置 G1 收集器，在没有任何调优的情况下，G1 比 CMS 表现出色</li>
+</ul>
+<h4 id="设置的方式"><a href="#设置的方式" class="headerlink" title="设置的方式"></a>设置的方式</h4><ul>
+<li>设置两个环境变量</li>
+<li>KAFKA_HEAP_OPTS：指定堆大小</li>
+<li>KAFKA_JVM_PERFORMANCE_OPTS：指定 GC 参数</li>
+<li>修改启动脚本</li>
+</ul>
+<h3 id="操作系统参数"><a href="#操作系统参数" class="headerlink" title="操作系统参数"></a>操作系统参数</h3><ul>
+<li>文件描述符限制<br><code>ulimit -n</code>，任何一个 Java 项目都最好调整一下这个值，通常情况需要设置一个超大的值，如果不设置的话，会经常看到 “Too many open files” 的错误</li>
+<li>文件系统类型<br>XFS 的性能要高于 ext4，生产环境建议使用 XFS，最近的数据报告中 ZFS 的性能更加强劲</li>
+<li>Swappiness<br>建议将 <code>swappniess</code> 配置成一个接近 0 但不为 0 的值，比如 1，因为当设置成 0 时，当物理内存耗尽时，操作系统会触发 OOM killer 组件，这个组件会随机挑选一个进程然后 kill 掉，不会给用户任何的预警，如果设置成一个比较小的值，当开始使用 swap 空间时，至少能够观测到 Broker 性能开始出现急剧下降，从而给出进一步调优和诊断问的时间</li>
+<li>提交时间<br>向 Kafka 发送数据并不是需要等数据被写入磁盘才会被认为成功，而是只要数据被写入到操作系统的页缓存（Page Cache）上就可以了，随后操作系统根据 LRU 算法定期将页缓存上的 “脏” 数据落盘到物理磁盘上，定期是由提交时间来确定的，默认是 5 秒。可以适当增加提交间隔来降低物理磁盘的写操作</li>
+<li>页缓存属于磁盘缓存（Disk cache）的一种，主要是为了改善系统性能。重复访问磁盘上的磁盘块是常见的操作，把它们保存在内存中可以避免昂贵的磁盘IO操作</li>
+<li>既然叫页缓存，它是根据页（page）来组织的内存结构。每一页包含了很多磁盘上的块数据。Linux 使用 Radix 树实现页缓存，主要是加速特定页的查找速度。另外一般使用 LRU 策略来淘汰过期页数据。总之它是一个完全由内核来管理的磁盘缓存，用户应用程序通常是无感知的</li>
+</ul>
+<h2 id="生产者分区机制原理"><a href="#生产者分区机制原理" class="headerlink" title="生产者分区机制原理"></a>生产者分区机制原理</h2><h3 id="Kafka-的消息组织方式"><a href="#Kafka-的消息组织方式" class="headerlink" title="Kafka 的消息组织方式"></a>Kafka 的消息组织方式</h3><p>主题 - 分区 - 消息</p>
+<ul>
+<li>分区是实现负载均衡及高吞吐量的关键</li>
+<li>对数据进行分区的主要原因是为了实现系统的高伸缩性</li>
+<li>主题下的每条消息只会保存在某一个分区中，而不会在多个分区中保存</li>
+</ul>
+<h3 id="分区策略"><a href="#分区策略" class="headerlink" title="分区策略"></a>分区策略</h3><h4 id="自定义分区策略"><a href="#自定义分区策略" class="headerlink" title="自定义分区策略"></a>自定义分区策略</h4><p>通过编写 <code>org.apache.kafka.clients.producer.Partitioner</code> 接口实现，显示配置生产者端参数 partitioner.class 为实现类的权限定类名</p>
+<ul>
+<li>轮训策略（Round - robin）</li>
+<li>是 Kafka Java 生产者 API 默认提供的分区策略</li>
+<li>具有非常优秀的负载均衡表现，总是能保证消息最大限度地被平均分配到所有分区</li>
+<li>随机策略（Randomness）</li>
+<li>负载均衡的实际表现要逊色于轮训策略</li>
+<li>实现方式  <figure class="highlight java"><table><tr><td class="code"><pre><span class="line">List&lt;PartitionInfo&gt; partitions = cluster.partitionsForTopic(topic);</span><br><span class="line"><span class="keyword">return</span> ThreadLocalRandom.current().nextInt(partitions.size());</span><br></pre></td></tr></table></figure></li>
+<li>按消息键策略（Key - ordering）</li>
+<li>Key 可以使一个明确业务含义的字符串，也可以用于表征消息元数据</li>
+<li>如果指定了 Key 默认按消息键策略，如果没有指定 Key 则使用轮训策略</li>
+<li>实现方式  <figure class="highlight java"><table><tr><td class="code"><pre><span class="line">List&lt;PartitionInfo&gt; partitions = cluster.partitionsForTopic(topic);</span><br><span class="line"><span class="keyword">return</span> Math.abs(key.hashCode()) % partitions.size();</span><br></pre></td></tr></table></figure></li>
+<li>基于地理位置分区</li>
+<li>只针对大规模的 Kafka 集群</li>
+<li>跨城市、跨国家、跨大洲等</li>
+</ul>
+<h2 id="生产者压缩算法"><a href="#生产者压缩算法" class="headerlink" title="生产者压缩算法"></a>生产者压缩算法</h2><p>一个消息集合包含若干条日志项（真正封装消息的地方），消息是分批次（batch）读写的，batch 是 kafka 读写（网络传输和文件读写）的基本单位，Kafka 共有两大类消息格式，不同版本，叫法不一样<br>V1 Kafka 的消息（message）层次：</p>
+<ul>
+<li>消息集合 （message set）</li>
+<li>消息（message）</li>
+<li>每条消息都要计算 CRC 值<br>V2 Kafka 的消息（record）层次：<blockquote>
+<p>0.11.0.0 中正式引入</p>
+</blockquote>
+</li>
+<li>消息集合（record batch）</li>
+<li>消息（record）</li>
+<li>在 batch 层计算 CRC 值<blockquote>
+<p>CRC（Cyclic Redundancy Check）循环冗余校验，主要用来检测、校验数据传输或者保存后可能出现的错误。</p>
+</blockquote>
+</li>
+</ul>
+<h3 id="何时压缩"><a href="#何时压缩" class="headerlink" title="何时压缩"></a>何时压缩</h3><h4 id="生产者端"><a href="#生产者端" class="headerlink" title="生产者端"></a>生产者端</h4><p>在生产者程序中配置 compression.type 参数，表示启用指定类型的压缩算法</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">Properties</span> <span class="variable">props</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Properties</span>();</span><br><span class="line">props.put(<span class="string">&quot;bootstrap.servers&quot;</span>, <span class="string">&quot;localhost:9092&quot;</span>);</span><br><span class="line">props.put(<span class="string">&quot;acks&quot;</span>, <span class="string">&quot;all&quot;</span>);</span><br><span class="line">props.put(<span class="string">&quot;key.serializer&quot;</span>, <span class="string">&quot;org.apache.kafka.common.serialization.StringSerializer&quot;</span>);</span><br><span class="line">props.put(<span class="string">&quot;value.serializer&quot;</span>, <span class="string">&quot;org.apache.kafka.common.serialization.StringSerializer&quot;</span>);</span><br><span class="line"><span class="comment">// 开启GZIP压缩</span></span><br><span class="line">props.put(<span class="string">&quot;compression.type&quot;</span>, <span class="string">&quot;gzip&quot;</span>);</span><br><span class="line">Producer&lt;String, String&gt; producer = <span class="keyword">new</span> <span class="title class_">KafkaProducer</span>&lt;&gt;(props);</span><br></pre></td></tr></table></figure>
+<h4 id="Broker-端"><a href="#Broker-端" class="headerlink" title="Broker 端"></a>Broker 端</h4><p>大多数情况下，从 Producer 接收到消息后进行原封不动的保存，不会对消息进行修改<br>两种例外情况：</p>
+<ol>
+<li>Broker 指定了和 Producer 不同的压缩算法</li>
+</ol>
+<ul>
+<li>重新解压缩、压缩会导致 CPU 使用率飙升</li>
+</ul>
+<ol start="2">
+<li>Broker 发生了消息格式转换<br> 主要为了兼容 V1、V2 版本的消息</li>
+</ol>
+<ul>
+<li>该过程涉及到消息的解压缩和重新压缩</li>
+<li>使 Kafka 丧失 Zero Copy 特性</li>
+</ul>
+<h3 id="何时解压缩"><a href="#何时解压缩" class="headerlink" title="何时解压缩"></a>何时解压缩</h3><p>通常发生在消费者程序中，Kafka 会将 Producer 启用了哪种压缩算法封装进消息集合中</p>
+<h4 id="Broker-端的解压缩"><a href="#Broker-端的解压缩" class="headerlink" title="Broker 端的解压缩"></a>Broker 端的解压缩</h4><p>每个压缩过的消息集合在 Broker 端写入时都要发生解压缩操作，目的是为了对消息执行各种验证</p>
+<ul>
+<li>Broker 只需要把数据解压之后进行动态校验，而不需要把解压后的结果保存</li>
+<li>这种压缩对 Broker 性能有一定影响，特别是 CPU。<blockquote>
+<p>总结：Producer 压缩、Broker 保持、Consumer 解压缩</p>
+</blockquote>
+</li>
+</ul>
+<h3 id="压缩算法对比"><a href="#压缩算法对比" class="headerlink" title="压缩算法对比"></a>压缩算法对比</h3><p>Kafka 2.1.0 版本之前，支持 3 种压缩算法 GZIP、Snappy、LZ4，2.1.0 版本后开始正式支持 Zstandard 算法（zstd）</p>
+<ul>
+<li>zstd 是 Facebook 开源的压缩算法，可以提供超高的压缩比</li>
+</ul>
+<h4 id="压缩算法的两个重要指标"><a href="#压缩算法的两个重要指标" class="headerlink" title="压缩算法的两个重要指标"></a>压缩算法的两个重要指标</h4><ol>
+<li>压缩比，压缩比越高越好</li>
+<li>压缩 &#x2F; 解压缩吞吐量 ，吞吐量越高越好</li>
+</ol>
+<h4 id="在-Kafka-中的表现"><a href="#在-Kafka-中的表现" class="headerlink" title="在 Kafka 中的表现"></a>在 Kafka 中的表现</h4><h5 id="吞吐量"><a href="#吞吐量" class="headerlink" title="吞吐量"></a>吞吐量</h5><p>LZ4 &gt; Snappy &gt; ztsd &#x3D; GZIP</p>
+<h5 id="压缩比"><a href="#压缩比" class="headerlink" title="压缩比"></a>压缩比</h5><p>ztsd &gt; LZ4 &gt; GZIP &gt; Snappy</p>
+<h5 id="物理资源"><a href="#物理资源" class="headerlink" title="物理资源"></a>物理资源</h5><p>Snappy 占用的网络带宽最多，zstd 最少<br>Snappy 压缩时占用的 CPU 多一些，解压缩是 GZIP 占用的 CPU 多一些，其余的算法表现差不多</p>
+<h3 id="最佳实践"><a href="#最佳实践" class="headerlink" title="最佳实践"></a>最佳实践</h3><p>启用压缩的条件：</p>
+<ul>
+<li>Producer 程序运行机器上的 CPU 资源要很充足</li>
+<li>环境中的带宽资源有限</li>
+<li>如果客户端 CPU 资源有富余，强烈建议开启 zstd 压缩，可以极大节省网络资源消耗<br>需要根据实际情况选择合适的压缩算法，以求实现最大的资源利用率</li>
+</ul>
+<h2 id="无消息丢失配置"><a href="#无消息丢失配置" class="headerlink" title="无消息丢失配置"></a>无消息丢失配置</h2><p>Kafka 只对 “已提交” 的消息做有限度的持久化保证</p>
+<ul>
+<li>已提交的消息：Kafka 的若干个 Broker 成功接收到一条消息后并写入到日志文件，会通知 Producer 该消息已成功提交</li>
+<li>有限度的持久化保证：Kafka 不可能保证在任何情况下都不丢失消息</li>
+</ul>
+<h3 id="认为消息丢失的误区"><a href="#认为消息丢失的误区" class="headerlink" title="认为消息丢失的误区"></a>认为消息丢失的误区</h3><h4 id="Producer-丢失数据"><a href="#Producer-丢失数据" class="headerlink" title="Producer 丢失数据"></a>Producer 丢失数据</h4><p>误区：调用 producer.send(msg) API，会立即返回，此时不能认为消息已发送成功<br>解决方案：调用 producer.send(msg, callback)，可以根据回调通知确认消息是否已发送成功，并做针对性处理</p>
+<h4 id="Consumer-丢失数据"><a href="#Consumer-丢失数据" class="headerlink" title="Consumer 丢失数据"></a>Consumer 丢失数据</h4><h5 id="案例一"><a href="#案例一" class="headerlink" title="案例一"></a>案例一</h5><p>误区：先更新了消费位移，消费时因某种原因中断，再次消费，导致中断点到 offset 的位置消息丢失<br>解决方案：先消费消息，再更新消费位移</p>
+<h5 id="案例二"><a href="#案例二" class="headerlink" title="案例二"></a>案例二</h5><p>误区：多线程异步处理消费消息，Consumer 自动向前更新位移，某个线程运行失败，但位移已更新，对于 Consumer 来说，该消息已丢失<br>解决方案：多线程异步处理消费消息时，Consumer 不能开启自动提交位移，而应由应用程序手动提交</p>
+<h3 id="最佳实践-1"><a href="#最佳实践-1" class="headerlink" title="最佳实践"></a>最佳实践</h3><ol>
+<li>使用带有回调通知的 producer.send(msg, callback)</li>
+<li>设置 Producer 参数 acks &#x3D; all。该参数代表对已提交消息的定义，当 &#x3D; all 时，表示所有 Broker 都要接收到消息，该消息才算是 commited，是最高等级的 “已提交” 定义</li>
+<li>设置 Producer 参数 retries 为一个较大的值。该参数代表重试次数，当出现网络抖动时，配置了 retries &gt; 0 的 Producer 可以自动重试消息发送，避免消息丢失</li>
+<li>设置 Broker 参数 unclean.leader.election.enable &#x3D; false。该参数控制哪些 Broker 有资格竞选分区的 Leader。如果某个 Broker 落后 Leader 太多，当该 Broker 成为 Leader 后，必然会造成消息丢失。设置成 false，表示不允许该情况的发生</li>
+<li>设置 Broker 参数 repliacation.factor &gt;&#x3D; 3。该参数表示将消息多保存几份<blockquote>
+<p>防止消息丢失的主要机制就是冗余</p>
+</blockquote>
+</li>
+<li>设置 Broker 参数 min.insync.replicas &gt; 1。该参数表示控制的消息至少被写入到多少个 Broker 才算 “已提交” 。&gt; 1 可以提升消息持久性，实际生产环境不要使用默认值 1。</li>
+<li>确保 replication.factor &gt; min.insync.replicas。如果两者相等，只要有一个 Broker 挂机，整个分区就无法正常工作。推荐设置成 replication.factor &#x3D; min.insync.replicas + 1</li>
+</ol>
+<ul>
+<li>replication.factor 的含义是：副本总数</li>
+<li>min.insync.replicas 的含义是：至少确保有多少个 replica 写入才算提交成功</li>
+<li>replication.factor &gt; min.insync.replicas 是因为如果相等时，只要有一个 Broker 宕机，就永远也无法达到 ack &#x3D; all 的要求</li>
+</ul>
+<ol start="8">
+<li>确保消息消费完成再提交。设置 Consumer 参数 enable.auto.commit &#x3D; false。采用手动提交位移的方式。</li>
+</ol>
+<h2 id="Kafka-拦截器"><a href="#Kafka-拦截器" class="headerlink" title="Kafka 拦截器"></a>Kafka 拦截器</h2><h3 id="什么是拦截器"><a href="#什么是拦截器" class="headerlink" title="什么是拦截器"></a>什么是拦截器</h3><p>允许应用程序在不修改逻辑的情况下，动态的实现一组可插拔的事件处理逻辑链。它能够在主业务操作前后多个时间点上插入对应的 ”拦截“ 逻辑。</p>
+<h3 id="拦截器分类"><a href="#拦截器分类" class="headerlink" title="拦截器分类"></a>拦截器分类</h3><p>支持链的方式，可以将一组拦截器串联成一个大的拦截器，Kafka 会按照添加顺序依次执行拦截器逻辑。</p>
+<h4 id="生产者拦截器"><a href="#生产者拦截器" class="headerlink" title="生产者拦截器"></a>生产者拦截器</h4><p>允许在发送消息前及消息提交成功后植入拦截器逻辑。<br>自定义的拦截器要继承 <code>org.apache.kafka.clients.producer.ProducerInterceptor</code> 接口<br>两个核心方法：</p>
+<ol>
+<li>onSend：在消息发送之前调用</li>
+<li>onAcknowledgement：在消息成功提交或发送失败后被调用。onAcknowledgement 的调用要早于 callback 的调用。</li>
+</ol>
+<h4 id="消费者拦截器"><a href="#消费者拦截器" class="headerlink" title="消费者拦截器"></a>消费者拦截器</h4><p>支持在消息消息前以及提交为以后编写特定逻辑。<br>自定的拦截器要继承 org.apacke.kafka.clients.consumer.ConsumerInterceptor 接口<br>两个核心方法：</p>
+<ol>
+<li>onConsume：在消息返回给 Consumer 程序之前调用。</li>
+<li>onCommit：Consumer 在提交位移之后调用。</li>
+</ol>
+<h4 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h4><p><strong>注意</strong>：指定拦截器时要指定全限定类名。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">Properties</span> <span class="variable">props</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Properties</span>();</span><br><span class="line">List&lt;String&gt; interceptors = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">interceptors.add(<span class="string">&quot;com.yourcompany.kafkaproject.interceptors.AddTimestampInterceptor&quot;</span>); <span class="comment">// 拦截器1</span></span><br><span class="line">interceptors.add(<span class="string">&quot;com.yourcompany.kafkaproject.interceptors.UpdateCounterInterceptor&quot;</span>); <span class="comment">// 拦截器2</span></span><br><span class="line">props.put(ProducerConfig.INTERCEPTOR_CLASSES_CONFIG, interceptors);</span><br></pre></td></tr></table></figure>
+<h3 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h3><h4 id="典型使用场景"><a href="#典型使用场景" class="headerlink" title="典型使用场景"></a>典型使用场景</h4><ul>
+<li>客户端监控</li>
+<li>端到端系统性能检测</li>
+<li>消息审计</li>
+<li>etc</li>
+</ul>
+<h4 id="端到端性能检测"><a href="#端到端性能检测" class="headerlink" title="端到端性能检测"></a>端到端性能检测</h4><p>功能：在消息一批消息前，从当前的时钟时间减去封装在消息中的创建时间，累计得到该批消息的总端到端处理延迟，再更新到 Redis 中。最后从别从 Redis 中读取更新过的总延迟和总消息数，两者相处即使端到端消息的平均处理延迟。</p>
+<h5 id="生产者拦截器实现"><a href="#生产者拦截器实现" class="headerlink" title="生产者拦截器实现"></a>生产者拦截器实现</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">AvgLatencyProducerInterceptor</span> <span class="keyword">implements</span> <span class="title class_">ProducerInterceptor</span>&lt;String, String&gt; &#123;</span><br><span class="line">	<span class="keyword">private</span> Jedis jedis; <span class="comment">// 省略Jedis初始化</span></span><br><span class="line">	</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="keyword">public</span> ProducerRecord&lt;String, String&gt; <span class="title function_">onSend</span><span class="params">(ProducerRecord&lt;String, String&gt; record)</span> &#123;</span><br><span class="line">		jedis.incr(<span class="string">&quot;totalSentMessage&quot;</span>);</span><br><span class="line">		<span class="keyword">return</span> record;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onAcknowledgement</span><span class="params">(RecordMetadata metadata, Exception exception)</span> &#123;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">close</span><span class="params">()</span> &#123;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">configure</span><span class="params">(Map&lt;String, ?&gt; configs)</span> &#123;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="消费者拦截器实现"><a href="#消费者拦截器实现" class="headerlink" title="消费者拦截器实现"></a>消费者拦截器实现</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">AvgLatencyConsumerInterceptor</span> <span class="keyword">implements</span> <span class="title class_">ConsumerInterceptor</span>&lt;String, String&gt; &#123;</span><br><span class="line">	<span class="keyword">private</span> Jedis jedis; <span class="comment">//省略Jedis初始化</span></span><br><span class="line">	</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="keyword">public</span> ConsumerRecords&lt;String, String&gt; <span class="title function_">onConsume</span><span class="params">(ConsumerRecords&lt;String, String&gt; records)</span> &#123;</span><br><span class="line">		<span class="type">long</span> <span class="variable">lantency</span> <span class="operator">=</span> <span class="number">0L</span>;</span><br><span class="line">		<span class="keyword">for</span> (ConsumerRecord&lt;String, String&gt; record : records) &#123;</span><br><span class="line">			lantency += (System.currentTimeMillis() - record.timestamp());</span><br><span class="line">		&#125;</span><br><span class="line">		jedis.incrBy(<span class="string">&quot;totalLatency&quot;</span>, lantency);</span><br><span class="line">		<span class="type">long</span> <span class="variable">totalLatency</span> <span class="operator">=</span> Long.parseLong(jedis.get(<span class="string">&quot;totalLatency&quot;</span>));</span><br><span class="line">		<span class="type">long</span> <span class="variable">totalSentMsgs</span> <span class="operator">=</span> Long.parseLong(jedis.get(<span class="string">&quot;totalSentMessage&quot;</span>));</span><br><span class="line">		jedis.set(<span class="string">&quot;avgLatency&quot;</span>, String.valueOf(totalLatency / totalSentMsgs));</span><br><span class="line">		<span class="keyword">return</span> records;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onCommit</span><span class="params">(Map&lt;TopicPartition, OffsetAndMetadata&gt; offsets)</span> &#123;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">close</span><span class="params">()</span> &#123;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">configure</span><span class="params">(Map&lt;String, ?&gt; configs)</span> &#123;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Kafka-是如何管理-TCP-连接的"><a href="#Kafka-是如何管理-TCP-连接的" class="headerlink" title="Kafka 是如何管理 TCP 连接的"></a>Kafka 是如何管理 TCP 连接的</h2><h3 id="为什么采用-TCP-连接"><a href="#为什么采用-TCP-连接" class="headerlink" title="为什么采用 TCP 连接"></a>为什么采用 TCP 连接</h3><p>Apache Kafka 的所有通信都是基于 TCP 的<br>采用 TCP 而不是 HTTP 的原因：</p>
+<ul>
+<li>开发客户端时，人们能够利用 TCP 本身提供的一些高级功能</li>
+<li>多路复用请求</li>
+<li>同时轮询多个连接</li>
+<li>目前已知的 HTTP 库在很多编程语言中都略显简陋</li>
+</ul>
+<h3 id="何时创建-TCP-连接"><a href="#何时创建-TCP-连接" class="headerlink" title="何时创建 TCP 连接"></a>何时创建 TCP 连接</h3><p>TCP 连接是在创建 Kafka Producer 实例时创建的。还可能在两个地方被创建：</p>
+<ul>
+<li>更新元数据后，发现与某些 Broker 当前没有连接，会创建一个 TCP 连接</li>
+<li>消息发送时，发现不存在与目标 Broker 的连接时，会创建一个 TCP 连接<blockquote>
+<p>在创建 Kafka Producer 实例时，生产者应用会在后台创建并启动一个名为 Sender 的线程，该 Sender 线程开始运行时首先会创建与 Broker 的连接（连接所有 bootstrap.servers 指定的所有 Broker）<br>实际中，建议指定 3 ~ 4 台即可（服务发现）。<br>更新集群元数据信息得两个场景：</p>
+</blockquote>
+</li>
+<li>当 Producer 尝试给不存在的主题发送消息时，Broker 会告诉 Producer 该主题不存在，此时 Producer 发送 METADATA 请求给 Kafka 集群，尝试获取最新的元数据信息</li>
+<li>Producer 通过 metadata.max.age.ms 参数定期更新元数据信息。默认值是 300000（5 分钟）</li>
+</ul>
+<h3 id="何时关闭-TCP-连接"><a href="#何时关闭-TCP-连接" class="headerlink" title="何时关闭 TCP 连接"></a>何时关闭 TCP 连接</h3><p>关闭TCP 连接的两种方式：</p>
+<ul>
+<li>用户主动关闭</li>
+<li>广义的主动 ”关闭“</li>
+<li>包括 kill -9</li>
+<li>推荐使用 producer.close 方法关闭</li>
+<li>Kafka 自动关闭（TCP 连接在Broker端被关闭，属于被动关闭）</li>
+<li>Producer 参数 connections.max.idels.ms 值有关，默认值 9 分钟，如果在 9 分钟内没有任何请求 ”流过“ 某个 TCP 连接，Kafka 会主动关闭该 TCP 连接。如果设置成 -1，该 TCP 连接会成为永久长连接（软件层面）。Kafka 创建的 socket 连接都开启了 keepalive，会遵守 keepalive 探活机制。</li>
+<li>被动关闭的后果是产生大量的 CLOSE_WAIT 连接</li>
+</ul>
+<h2 id="Kafka-消息交付可靠性保障及精确处理一次的语义"><a href="#Kafka-消息交付可靠性保障及精确处理一次的语义" class="headerlink" title="Kafka 消息交付可靠性保障及精确处理一次的语义"></a>Kafka 消息交付可靠性保障及精确处理一次的语义</h2><p>常见的三种消息交付可靠性保障：</p>
+<ul>
+<li>最多一次（at most once）：消息可能会丢失，但绝不会被重复发送</li>
+<li>至少一次（at least once）：消息不会丢失，但有可能被重复发送</li>
+<li>精确一次（exactly once）：消息不会丢失，也不会被重复发送<br>Kafka 默认提供第二种，即至少一次。<br>Kafka 配置 Producer 禁止重试，即可提供最多一次交付保障。<br>Kafka 通过幂等性（Idmpotence）和事务（Transaction）可以做到精确一次的交付保障。</li>
+</ul>
+<h3 id="幂等性-Producer"><a href="#幂等性-Producer" class="headerlink" title="幂等性 Producer"></a>幂等性 Producer</h3><h4 id="幂等性"><a href="#幂等性" class="headerlink" title="幂等性"></a>幂等性</h4><p>指某些操作或函数能够被执行多次，但每次得到的结果都是不变的。</p>
+<ul>
+<li>若一个子程序是幂等的，那它必然不能修改系统状态，不管运行多少次，与该子程序相关联的那部分系统状态保持不变。</li>
+<li>在函数式编程语言中，纯函数天然幂等，不执行任何的 side effect。<br>幂等性的优势：可以安全的重试任何幂等性操作。</li>
+</ul>
+<h4 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h4><p>Kafka Producer 默认不是幂等的，可以创建幂等性 Producer（0.11.0.0 版本引入）：</p>
+<ul>
+<li>设置 <code>props.put(&quot;enable.idempotence&quot;, true)</code> 或 <code>props.put(&quot;ProducerConfig.ENABLE_IDEMPOTENCE_CONFIG&quot;, true)</code></li>
+</ul>
+<h5 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h5><p>利用空间换时间的优化思路（在 Broker 多存一些字段）</p>
+<ul>
+<li>ProducerID：在每个新的 Producer 初始化时，会被分配一个唯一的 ProducerID，该 ProducerID 对客户端不可见</li>
+<li>SequenceNumber：对于每个 ProducerID，Producer 发送数据的每个 Topic和 Partition 都对应一个从 0 开始单调递增的SequenceNumber 值</li>
+</ul>
+<h5 id="作用范围"><a href="#作用范围" class="headerlink" title="作用范围"></a>作用范围</h5><ul>
+<li>只能保证单分区上的幂等性</li>
+<li>只能实现单会话上的幂等性，不能实现跨会话的幂等性（重启后，幂等性保证消失）</li>
+</ul>
+<h3 id="事务性-Producer"><a href="#事务性-Producer" class="headerlink" title="事务性 Producer"></a>事务性 Producer</h3><h4 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h4><p>类似数据库提供的事务。数据库领域，事务提供的安全性保障是经典的 ACID。</p>
+<ul>
+<li>原子性（Atomicity）</li>
+<li>一致性（Consistency）</li>
+<li>隔离性（Isolation）</li>
+<li>持久性（Durability）</li>
+</ul>
+<h4 id="实现-1"><a href="#实现-1" class="headerlink" title="实现"></a>实现</h4><p>Kafka 提供对事务的支持（0.11版本），主要作用在 read committed 隔离级别，可以保证多条消息原子性的写入到目标区，同时也能保证 Consumer 只能看到事务提交成功的消息。</p>
+<ol>
+<li>和幂等性 producer 一样，开启 <code>enable.idempotence = true</code></li>
+<li>设置 Producer 端参数 transactional.id</li>
+<li><pre><code class="java">
+</code></pre>
+</li>
+</ol>
+<p> producer.initTransactions(); &#x2F;&#x2F; 事务初始化<br> try {<br> producer.beginTransaction(); &#x2F;&#x2F; 事务开始<br> producer.send(record1);<br> producer.send(record2);<br> producer.commitTransaction(); &#x2F;&#x2F; 事务提交<br> } catch (KafkaException e) {<br> producer.abortTransaction(); &#x2F;&#x2F; 事务终止<br> }<br> &#x2F;&#x2F; 事务失败的情况，也会被写入到底层的日志中，Kafka 依赖 LSO 等机制设定事务型 Consumer 的可见范围，保证事务的准确性<br>4. Consumer 读取事务型 Producer 的消息需要修改 isolation.level 参数</p>
+<ul>
+<li>read_uncommitted：默认值，表明 Consumer 可以读取到 Kafka 写入的任何消息</li>
+<li>read_committed：表明 Consumer 只会读取事务型 Producer 成功提交事务写入的消息（也可以看到非事务型 Producer 写入的消息）</li>
+</ul>
+<h5 id="原理-1"><a href="#原理-1" class="headerlink" title="原理"></a>原理</h5><p>两阶段提交（2PC）</p>
+<h5 id="作用范围-1"><a href="#作用范围-1" class="headerlink" title="作用范围"></a>作用范围</h5><p>比起幂等性 Producer， 事务型 Producer 的性能更差</p>
+<ul>
+<li>跨分区的幂等性</li>
+<li>跨会话的幂等性</li>
+</ul>
+<h2 id="Consumer-Group-消费者组"><a href="#Consumer-Group-消费者组" class="headerlink" title="Consumer Group 消费者组"></a>Consumer Group 消费者组</h2><p>Consumer Group 是 Kafka 提供的可扩展且具有容错性的消费者机制。</p>
+<ul>
+<li>Consumer Group 下可以有一个或多个 Consumer 实例。</li>
+<li>实例可以是一个单独的进程</li>
+<li>也可以是同一进程下的线程</li>
+<li>Group ID 是一个字符串，在一个 Kafka 集群中，它标识唯一的 Consumer Group。</li>
+<li>Consumer Group 下所有实例订阅的主题的单个分区，只能分配给组内的某个 Conusmer 实例消费。这个分区也可以被其他的 Group 消费</li>
+<li>理想情况下，Consumer 实例的数量应该等于该 Group 订阅主题的分区总数。<blockquote>
+<p>如果消费者数量大于分区数量时：</p>
+<ul>
+<li>Consumer &lt; Partition，一个 Consumer 消费多个 Partition</li>
+<li>Consumer &#x3D; Partition，一个 Consumer 消费一个 Partition</li>
+<li>Consumer &gt; Partition，多个 Consumer 处于空闲状态<br>Kafka 通过 Consumer Group 机制，同时实现了传统消息引擎系统的两大模型：</li>
+</ul>
+</blockquote>
+</li>
+<li>消息队列模型：所有实例都属于一个 Group</li>
+<li>发布 &#x2F; 订阅模型：所有实例分别属于不同的 Group</li>
+</ul>
+<h3 id="位移管理"><a href="#位移管理" class="headerlink" title="位移管理"></a>位移管理</h3><h4 id="老版本"><a href="#老版本" class="headerlink" title="老版本"></a>老版本</h4><p>Consumer Group 将 offset 保存在 ZooKeeper 中。但 ZooKeeper 不适合进行频繁的写更新，大量的 offset 写操作会拖慢 ZooKeeper 集群的性能。</p>
+<h4 id="新版本"><a href="#新版本" class="headerlink" title="新版本"></a>新版本</h4><p>Consumer Group 将 offset 保存在 Kafka 内部主题中的 __consumer_offsets__ 中</p>
+<h3 id="Rebalance"><a href="#Rebalance" class="headerlink" title="Rebalance"></a>Rebalance</h3><p>Rebalance 是一种协议，规定了一个 Conusmer Group 下的所有 Consumer 如何达成一致，来分配订阅 Topic 的每个分区。</p>
+<h4 id="Rebalance-的触发条件"><a href="#Rebalance-的触发条件" class="headerlink" title="Rebalance 的触发条件"></a>Rebalance 的触发条件</h4><ol>
+<li>组成员数发生变更（有新的 Consumer 加入组或者离开组，或者某个 Consumer 崩溃被 “踢出“ 组）</li>
+<li>订阅主题数发生变更。</li>
+</ol>
+<ul>
+<li>支持使用正则表达式的方式订阅主题</li>
+</ul>
+<ol start="3">
+<li>订阅主题的分区数发生变更。</li>
+</ol>
+<h4 id="Rebalance-的分配策略"><a href="#Rebalance-的分配策略" class="headerlink" title="Rebalance 的分配策略"></a>Rebalance 的分配策略</h4><p>Rebalance 发生时， Group 下的所有 Consumer 会协调在一起共同参与。Kafka 提供了三种分配策略：</p>
+<ol>
+<li>Range 分配策略：面向每个主题，首先会对同一个主题里面的分区按照序号进行排序，并把消费者线程按照字母顺序进行排序。然后用分区数除以消费者线程数量判断每个消费者线程消费几个分区。如果除不尽，那么前面几个消费者线程将会多消费一个分区。</li>
+<li>RoundRobin 策略：是将消费组内所有消费者以及消费者所订阅的所有 topic 的 Partition 按照字典序排序，然后通过轮询算法逐个将分区以此分配给每个消费者。 使用 RoundRobin 分配策略时会出现两种情况： </li>
+<li>如果同一消费组内，所有的消费者订阅的消息都是相同的，那么 RoundRobin 策略的分区分配会是均匀的。 </li>
+<li>如果同一消费者组内，所订阅的消息是不相同的，那么在执行分区分配的时候，就不是完全的轮询分配，有可能会导致分区分配的不均匀。如果某个消费者没有订阅消费组内的某个 topic，那么在分配分区的时候，此消费者将不会分配到这个 topic 的任何分区。 </li>
+<li>Sticky 分配策略：在 Kafka的 0.11.X 版本才开始引入的，是目前最复杂也是最优秀的分配策略。 Sticky 分配策略的原理比较复杂，主要实现了两个目的： </li>
+<li>分区的分配要尽可能的均匀； </li>
+<li>分区的分配尽可能的与上次分配的保持相同。 如果这两个目的发生了冲突，优先实现第一个目的。</li>
+</ol>
+<h4 id="Rebalance-臭名昭著的原因"><a href="#Rebalance-臭名昭著的原因" class="headerlink" title="Rebalance 臭名昭著的原因"></a>Rebalance 臭名昭著的原因</h4><ol>
+<li>在 Rebalance 的过程中，所有 Consumer 实例都会停止消费，等待 Rebalance 完成。</li>
+<li>Rebalance 中是所有 Consumer 共同参与，全部重新分配。更高效的做法是通过一致性 Hash 消费之前负责的分区，避免重新创建连接其它 Broker 的 Socket 资源。</li>
+<li>Rebalance 的过程很慢。</li>
+</ol>
+<h3 id="避免-Rebalance"><a href="#避免-Rebalance" class="headerlink" title="避免 Rebalance"></a>避免 Rebalance</h3><p>在 Rebalance 过程中，所有 Conusmer 实例共同参与，在协调者组件的帮助下，完成订阅主题分区的分配。</p>
+<h4 id="协调者"><a href="#协调者" class="headerlink" title="协调者"></a>协调者</h4><p>Coordinator，专门为 Consumer Group 服务，负责为 Group 执行 Rebalance 以及提供位移管理和组成员管理等。<br>所有 Broker 都有各自的 Coordinator 组件， Consumer 在提交位移时，实际是向 Coordinator 所在的 Broker 提交位移，请求同理。<br>Kafka 为某个 Consumer Group 确定 Coordinator 所在的 Broker 的算法有两个步骤（__consumer_offsets）：</p>
+<ol>
+<li>确定由位移主题的哪个分区来保存该 Group 数据：<code>partitionId = Math.abs(GroupId.hashCode() % offsetsTopicPartitionCount)</code></li>
+<li>找出该分区 Leader 副本所在的 Broker，该 Broker 即为对应的 Coordinator</li>
+</ol>
+<h4 id="排查"><a href="#排查" class="headerlink" title="排查"></a>排查</h4><p>当 Consumer Group 出现问题时，需要快速排查 Broker 端日志时，可以根据这个算法准确定位 Coordinator Broker。<br>日志中会有类似 “(Re)join group” 之类的 日志</p>
+<h4 id="如何避免"><a href="#如何避免" class="headerlink" title="如何避免"></a>如何避免</h4><p>在真实的业务场景中，很多 Rebalance 都是计划外的或者说是不必要的。需要从 Rebalance 发生的时机入手，才可能避免 Rebalance。<br>Rebalance 发生的三个时机：</p>
+<ul>
+<li>组成员数量发生变化</li>
+<li>订阅主题数量发生变化</li>
+<li>订阅主题的分区数发生变化<br>Coordinator 认定 Consumer 实例已挂需要退组：</li>
+</ul>
+<ol>
+<li>Consumer 端参数：session.timeout.ms，默认值 10 秒。决定了 Consumer 存活的时间间隔。</li>
+</ol>
+<ul>
+<li>Coordinator 在 10 秒内没有收到 Group 下某个 Consumer 实例的心跳，会认为该实例已挂。</li>
+</ul>
+<ol start="2">
+<li>Conusmer 端参数：heartbeat.interval.ms。控制发送心跳请求评率的参数。</li>
+</ol>
+<ul>
+<li>频繁发送心跳会额外消耗带宽资源，但可以快速知晓当前是否开启 Rebalance。</li>
+<li>Coordinator 通知 Consumer 实例开启 Rebalance 的方法，是将 REBALANCE_NEEDED 标志位封装进心跳请求的响应体中。</li>
+</ul>
+<ol start="3">
+<li>Consumer 端参数：max.poll.interval.ms，默认值 5 分钟。限定 Consumer 端两次调用 poll 方法的最大时间间隔。</li>
+</ol>
+<ul>
+<li>Conusmer 如果在 5 分钟之内无法消费完 poll 方法返回的消息，Consumer 会主动发起离组请求，Coordinator 会开启新的 Rebalance。</li>
+</ul>
+<h4 id="不必要的-Rebalance"><a href="#不必要的-Rebalance" class="headerlink" title="不必要的 Rebalance"></a>不必要的 Rebalance</h4><h5 id="未能及时发送心跳"><a href="#未能及时发送心跳" class="headerlink" title="未能及时发送心跳"></a>未能及时发送心跳</h5><p>需要仔细设置 session.timeout.ms 和 heartbeat.interval.ms<br>推荐数值：</p>
+<ul>
+<li>session.tiemout.ms &#x3D; 6s</li>
+<li>Heartbeat.inverval.ms &#x3D; 2s<blockquote>
+<p>要保证 Consumer 实例在被判定为 “dead” 之前，能够发送至少 3 轮心跳请求。</p>
+<p>session.timeout.ms &gt;&#x3D; 3 * heartbeat.invertval.ms</p>
+</blockquote>
+</li>
+</ul>
+<h5 id="Consumer-消费时间过长"><a href="#Consumer-消费时间过长" class="headerlink" title="Consumer 消费时间过长"></a>Consumer 消费时间过长</h5><p>为业务处理逻辑留下充足的时间</p>
+<h5 id="Conusmer-端的-GC-表现"><a href="#Conusmer-端的-GC-表现" class="headerlink" title="Conusmer 端的 GC 表现"></a>Conusmer 端的 GC 表现</h5><p>频繁的 Full GC 会引发非预期的 Rebalance</p>
+<h2 id="位移主题"><a href="#位移主题" class="headerlink" title="位移主题"></a>位移主题</h2><p>位移主题（__consumer_offsets）是 Kafka 中的内部主题。该主题和 Kafka 中的其他主题一样，可以手动的创建、修改、删除。通常情况下不需要人为的管理。<br>位移主题的消息格式是 Kafka 定义的，不可以进行修改，也不能随意写消息（不符合格式，会无法解析造成 Broker 的崩溃）。<br>Kafka 新版本中 Consumer 的位移管理机制：将 Consumer 的位移数据作为一条条普通的 Kafka 消息，提交到 __consumer_offsets 中。</p>
+<h3 id="消息格式"><a href="#消息格式" class="headerlink" title="消息格式"></a>消息格式</h3><p>KV 对，在 Kafka 中就是字节数组：</p>
+<ul>
+<li>Key：消息的键值，包括 &lt;Grouop ID，主题名，分区号&gt;</li>
+<li>Value：消息体，有三种消息格式：</li>
+</ul>
+<ol>
+<li>位移值，时间戳，用户自定义数据</li>
+<li>用于注册 Consumer Group 消息的数据</li>
+<li>用于删除 Group 过期位移、删除 Group 的数据。称为墓碑消息（tombstone 消息，也称 delete mark）。</li>
+</ol>
+<ul>
+<li>主要特点：消息体为 null</li>
+<li>何时写入：某个 Conusmer Group 下的所有 Consumer 实例都停止，且位移数据都已被删除时，Kafka 会向位移主题的对应分区写入 tombstone 消息，表明彻底删除该 Group</li>
+</ul>
+<h3 id="怎么创建的"><a href="#怎么创建的" class="headerlink" title="怎么创建的"></a>怎么创建的</h3><h4 id="自动创建（建议）"><a href="#自动创建（建议）" class="headerlink" title="自动创建（建议）"></a>自动创建（建议）</h4><p>当 Kafka 集群中的第一个 Consumer 程序启动时，Kafka 会自动创建该位移主题，该主题的分区数是 50，副本数是 3。</p>
+<ul>
+<li>分区数的设置：Broker 端参数 offsets.topic.num.partitions，默认值是 50。</li>
+<li>副本数的设置：Broker 端参数 offsets.topic.replication.factor，默认值是 3。</li>
+</ul>
+<h4 id="手动创建"><a href="#手动创建" class="headerlink" title="手动创建"></a>手动创建</h4><p>在 Kafka 集群未启动任何 Consumer 之前，使用 Kafka API 创建。<br>好处：可以创建满足实际场景需要的位移主题，不必理会 offsets.topic.num.partitions 的值。</p>
+<h3 id="Consumer-提交位移的方式"><a href="#Consumer-提交位移的方式" class="headerlink" title="Consumer 提交位移的方式"></a>Consumer 提交位移的方式</h3><h4 id="自动提交"><a href="#自动提交" class="headerlink" title="自动提交"></a>自动提交</h4><p>Consumer 参数 <code>enable.auto.commit</code> ，如果值为 true，则 Consumer 会在后台定期提交位移，提交间隔由 auto.commit.interval.ms 控制。<br>优点：省事<br>缺点：丧失了很大的灵活性和可控性，不能把控 Consumer 端的位移管理<br>问题：只要 Consumer 一直启动着，就会无限期地向位移主题写入消息（不是基于消费时间的处理，而是周期性的采集当前消息情况进行提交）。</p>
+<h4 id="手动提交"><a href="#手动提交" class="headerlink" title="手动提交"></a>手动提交</h4><p>Consumer 参数 <code>enable.auto.commit</code> ，如果值为 false，需要手动提交位移。<br>Consumer API 提供的位移提交的方法：</p>
+<ul>
+<li>consumer.commitSync</li>
+<li>commitAsync</li>
+</ul>
+<h3 id="过期消息的删除"><a href="#过期消息的删除" class="headerlink" title="过期消息的删除"></a>过期消息的删除</h3><p>通过 Compact 策略。Compact 的过程就是扫描日志的所有消息，剔除过期的消息，然后把剩下的消息整理在一起。</p>
+<h4 id="如何定义过期消息"><a href="#如何定义过期消息" class="headerlink" title="如何定义过期消息"></a>如何定义过期消息</h4><p>对于同一个 Key 的两条消息 M1 和 M2，如果 M1 的发送时间早于 M2，那么 M1 就是过期消息。<br>Kafka 提供了专门的后台线程定期巡检待 Compact 的主题，该线程叫 Log Cleaner。如果生产环境中出现位移主题无限膨胀占用过多磁盘空间的问题，通常都是该线程挂掉后导致的，</p>
+<h2 id="Consumer-位移提交"><a href="#Consumer-位移提交" class="headerlink" title="Consumer 位移提交"></a>Consumer 位移提交</h2><p>Consumer 向 Kafka 汇报自己的位移数据的过程被称为位移提交（Committing Offsets）。Consumer 需要为分配给他的每个分区提交各自的位移数据。<br><strong>Consumer 的消费位移，记录了 Consumer 要消费的下一条消息的位移，不是目前最新消费消息的位移。</strong><br>位移提交的语义保障是由 Conusmer 应用程序负责的，Kafka 只会 “无脑” 接收提交的位移。</p>
+<ol>
+<li>用户的角度</li>
+</ol>
+<ul>
+<li>自动提交</li>
+<li>手动提交</li>
+</ul>
+<ol start="2">
+<li>Consumer 角度</li>
+</ol>
+<ul>
+<li>同步提交</li>
+<li>异步提交</li>
+</ul>
+<h3 id="设置自动提交位移的方法"><a href="#设置自动提交位移的方法" class="headerlink" title="设置自动提交位移的方法"></a>设置自动提交位移的方法</h3><p>自动提交位移的问题在于：可能会重复消费，只能通过减少 auto.commit.interval.ms 的值提高提交评率，但只能缩小重复消费的窗口，不可能完全消除它</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">Properties</span> <span class="variable">props</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Properties</span>();</span><br><span class="line">props.put(<span class="string">&quot;bootstrap.servers&quot;</span>, <span class="string">&quot;localhost:9092&quot;</span>);</span><br><span class="line">props.put(<span class="string">&quot;group.id&quot;</span>, <span class="string">&quot;test&quot;</span>);</span><br><span class="line"><span class="comment">// 开启自动提交位移，默认值是 true </span></span><br><span class="line">props.put(<span class="string">&quot;enable.auto.commit&quot;</span>, <span class="string">&quot;true&quot;</span>);</span><br><span class="line"><span class="comment">// 每两秒提交一次位移，默认值是 5 秒</span></span><br><span class="line">props.put(<span class="string">&quot;auto.commit.interval.ms&quot;</span>, <span class="string">&quot;2000&quot;</span>);</span><br><span class="line">props.put(<span class="string">&quot;key.deserializer&quot;</span>, <span class="string">&quot;org.apache.kafka.common.serialization.StringDeserializer&quot;</span>);</span><br><span class="line">props.put(<span class="string">&quot;value.deserializer&quot;</span>, <span class="string">&quot;org.apache.kafka.common.serialization.StringDeserializer&quot;</span>);</span><br><span class="line">KafkaConsumer&lt;String, String&gt; consumer = <span class="keyword">new</span> <span class="title class_">KafkaConsumer</span>&lt;&gt;(props);</span><br><span class="line">consumer.subscribe(Arrays.asList(<span class="string">&quot;foo&quot;</span>, <span class="string">&quot;bar&quot;</span>));</span><br><span class="line"><span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">	ConsumerRecords&lt;String, String&gt; records = consumer.poll(<span class="number">100</span>);</span><br><span class="line">	<span class="keyword">for</span> (ConsumerRecord&lt;String, String&gt; record : records)</span><br><span class="line">		System.out.printf(<span class="string">&quot;offset = %d, key = %s, value = %s%n&quot;</span>, record.offset(), record.key(), record.value());</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="手动提交位移的方法"><a href="#手动提交位移的方法" class="headerlink" title="手动提交位移的方法"></a>手动提交位移的方法</h3><h4 id="同步"><a href="#同步" class="headerlink" title="同步"></a>同步</h4><p>同步提交的问题在于：调用 commitSync 时，Conusmer 程序处于阻塞状态，直到 Broker 返回提交结果，才会结束。会影响整个系统的 TPS。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">	ConsumerRecords&lt;String, String&gt; records =consumer.poll(Duration.ofSeconds(<span class="number">1</span>));</span><br><span class="line">	process(records); <span class="comment">// 处理消息</span></span><br><span class="line">	<span class="keyword">try</span> &#123;</span><br><span class="line">		consumer.commitSync();</span><br><span class="line">	&#125; <span class="keyword">catch</span> (CommitFailedException e) &#123;</span><br><span class="line">		handle(e); <span class="comment">// 处理提交失败异常</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="异步"><a href="#异步" class="headerlink" title="异步"></a>异步</h4><p>异步提交的问题在于：出现问题时不会自动重试。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">	ConsumerRecords&lt;String, String&gt; records = consumer.poll(Duration.ofSeconds(<span class="number">1</span>));</span><br><span class="line">	process(records); <span class="comment">// 处理消息</span></span><br><span class="line">	consumer.commitAsync((offsets, exception) -&gt; &#123;</span><br><span class="line">		<span class="keyword">if</span> (exception != <span class="literal">null</span>)</span><br><span class="line">			handle(exception);</span><br><span class="line">	&#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="组合使用"><a href="#组合使用" class="headerlink" title="组合使用"></a>组合使用</h4><p>组合使用可以达到最理想的效果，原因：</p>
+<ol>
+<li>可以利用 commitSync 的自动重试规避瞬时错误，例如：网络的瞬时抖动、Broker 端 GC。</li>
+<li>不希望程序总处于阻塞状态，影响 TPS<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">	<span class="keyword">while</span>(<span class="literal">true</span>) &#123;</span><br><span class="line">		ConsumerRecords&lt;String, String&gt; records = consumer.poll(Duration.ofSeconds(<span class="number">1</span>));</span><br><span class="line">		process(records); <span class="comment">// 处理消息</span></span><br><span class="line">		commitAysnc(); <span class="comment">// 使用异步提交规避阻塞</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125; <span class="keyword">catch</span>(Exception e) &#123;</span><br><span class="line">	handle(e); <span class="comment">// 处理异常</span></span><br><span class="line">&#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">	<span class="keyword">try</span> &#123;</span><br><span class="line">	consumer.commitSync(); <span class="comment">// 最后一次提交使用同步阻塞式提交</span></span><br><span class="line">	&#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">	consumer.close();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<ul>
+<li>常规性、阶段性的手动提交，通过 commitAsync 避免程序阻塞</li>
+<li>在 Consumer 关闭前，通过commitSync 执行同步阻塞式的位移提交，确保 Consumer 关闭前能够保存正确的位移数据</li>
+</ul>
+<h3 id="更精细化的位移提交"><a href="#更精细化的位移提交" class="headerlink" title="更精细化的位移提交"></a>更精细化的位移提交</h3><p>通过 commitSync(Map&lt;TopicPartition, OffsetAndMetadata&gt;) 和 commitAsync(Map&lt;TopicPartition, OffsetAndMetadata&gt; 在消费的中间进行位移提交。Map 对象的键是消费的分区，值对象中主要是位移数据。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">private</span> Map&lt;TopicPartition, OffsetAndMetadata&gt; offsets = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line"><span class="type">int</span> <span class="variable">count</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line"><span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">	ConsumerRecords&lt;String, String&gt; records = </span><br><span class="line">	consumer.poll(Duration.ofSeconds(<span class="number">1</span>));</span><br><span class="line">	<span class="keyword">for</span> (ConsumerRecord&lt;String, String&gt; record: records) &#123;</span><br><span class="line">		process(record);<span class="comment">// 处理消息</span></span><br><span class="line">		offsets.put(<span class="keyword">new</span> <span class="title class_">TopicPartition</span>(record.topic(), record.partition()), <span class="keyword">new</span> <span class="title class_">OffsetAndMetadata</span>(record.offset() + <span class="number">1</span>)； <span class="comment">// 提交下一条消息的位移</span></span><br><span class="line">		<span class="keyword">if</span>（count % <span class="number">100</span> == <span class="number">0</span>）</span><br><span class="line">			consumer.commitAsync(offsets, <span class="literal">null</span>); <span class="comment">// 回调处理逻辑是null</span></span><br><span class="line">			count++;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="削峰填谷"><a href="#削峰填谷" class="headerlink" title="削峰填谷"></a>削峰填谷</h2><blockquote>
+<p>Q：为什么系统 A 不能直接发送消息给系统 B，还需要隔一个消息引擎<br>A：<br>1.削峰填谷 -&gt; 指缓冲上下游瞬时突发流量，使其更平滑，如果没有消息引擎的保护，下游系统可能会直接被压垮导致全链路服务雪崩<br>2.发送方和接收方的解耦，一定程度上简化了应用的开发</p>
+<p>Q：如何使用 Kafka 解决实时相应问题<br>A：使用 Kafka Streams，是为 read-process-write 场景服务的</p>
+<p>Q：MQ 和 RPC 调用的区别<br>A：常见的数据流有三种：</p>
+<pre><code>    1. 通过数据库
+    2. 通过服务调用（REST / RPC）
+    3. 通过异步消息传递（消息引擎）
+</code></pre>
+<p>不同之处在于：<br>1.MQ 有自己的 buffer，能够对抗过载和不可用场景<br>2.MQ 支持重试<br>3.允许发布 &#x2F; 订阅模式<br>RPC 是介于通过数据库和通过 MQ 之间的数据流模式</p>
+<p>Q：什么时候用 Kafka，什么时候用其他消息引擎<br>A：传统消息中间件支持的消息传输协议：AMQP、STOMP、MQTT，都支持比较复杂的消息路由（如 RabbitMQ），Kafka 并不具备<br>如果应用要支持这些协议或者是用于 SOA 中的应用互联，适合使用传统消息中间件，RocketMQ 擅长主打金融业务领域<br>如果应用场景是大数据方面的，可以考虑使用 Kakfa，它有较好的容错性、高伸缩性以及存储特性</p>
+<p>Q：如何避免 Rebalance<br>A：使用 standalone consumer 可以完全避免，大多数主流大数据框架（Spark、Flink）就是这么做的</p>
+<p>Q：Kafka 为什么不像 MySQL 那样允许 Follower 副本对外提供读服务<br>A：<br>1.因为 Kafka 的分区已经考虑了负载均衡<br>2.Leader 副本和 Follower 副本之间是有延迟的，如果 Follower 对外提供服务，需要进行同步，延迟更大<br>3.即便满足了《2》点的同步，Follower 提供读服务时，可能会导致不均衡的现象，因为 Leader 副本本身就尽量分摊到不同的 Broker 上</p>
+<p>Q：Kafka 是按照什么规则将消息划分到各个分区的<br>A：<br>1.如果 Producer 指定了要发送的目标分区，消息则发送到指定的分区；否则按照 Producer 端参数 partitioner.class 指定的分区策略决定<br>2.如果没有指定过 partitioner.class，默认的规则是：消息如果包含 Key，则计算 Key 的murmur2 哈希值 % topic 分区数；不包含 Key，则按照轮询的方式确定分区</p>
+<p>Q：Kafka 如何保证全局的消息顺序<br>A：目前 Kafka 的设计中多个分区无法保证全局的消息顺序，如果一定要实现，只能使用单分区</p>
+</blockquote>
+<h2 id="ISR"><a href="#ISR" class="headerlink" title="ISR"></a>ISR</h2><p>同步复制：只有所有的 follower 把数据拿过去后才commit，一致性好，可用性不高。<br>异步复制：只要 leader 拿到数据立即 commit，等 follower 慢慢去复制，可用性高，立即返回，一致性差一些。<br>Commit：是指 leader 告诉客户端，这条数据写成功了。kafka尽量保证 commit 后立即 leader 挂掉，其他 flower 都有该条数据。<br>kafka不是完全同步，也不是完全异步，是一种ISR机制：</p>
+<ol>
+<li>leader会维护一个与其基本保持同步的 Replica 列表，该列表称为 ISR(in-sync Replica)，每个 Partition 都会有一个 ISR，而且是由leader 动态维护</li>
+<li>如果一个 flower 比一个 leader 落后太多，或者超过一定时间未发起数据复制请求，则 leader 将其重 ISR 中移除</li>
+<li>当 ISR 中所有 Replica 都向 Leader 发送 ACK 时，leader 才 commit</li>
+</ol>
+<h2 id="消息经常堆积，不能消费"><a href="#消息经常堆积，不能消费" class="headerlink" title="消息经常堆积，不能消费"></a>消息经常堆积，不能消费</h2><p>产生的原因可能如下：</p>
+<ol>
+<li>生产速度大于消费速度，可以适当增加分区，增加 Consumer 输血量，提升消费 TPS</li>
+<li>Consumer 消费性能偏低，排查是否有很重的消费逻辑，是否可以优化 Consumer 的 TPS</li>
+<li>确保 Conusumer 没有因为异常而导致消费 Hang 住</li>
+<li>如果使用的是消费者组，确保没有频繁发生 rebalance</li>
+</ol>
+<h2 id="针对消息去重"><a href="#针对消息去重" class="headerlink" title="针对消息去重"></a>针对消息去重</h2><p>Redis 缓存 Topic + Partition + Group 的偏移量，使精度提升到每一条消息。</p>
 ]]></content>
       <categories>
-        <category>Linux</category>
+        <category>中间件</category>
       </categories>
       <tags>
-        <tag>shell 正则</tag>
+        <tag>kafka</tag>
       </tags>
   </entry>
   <entry>
@@ -2389,6 +2333,62 @@
       </categories>
       <tags>
         <tag>设计</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>常用指令</title>
+    <url>/MiracleDx/2024/03/12/%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4/</url>
+    <content><![CDATA[<h1 id="正则"><a href="#正则" class="headerlink" title="正则"></a>正则</h1><h2 id="删代码注释的正则"><a href="#删代码注释的正则" class="headerlink" title="删代码注释的正则"></a>删代码注释的正则</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">(/\*([^*]|[\r\n]|(\*+([^*/]|[\r\n])))*\*+/|[ \t]*<span class="comment">//.*)</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="匹配中文的正则"><a href="#匹配中文的正则" class="headerlink" title="匹配中文的正则"></a>匹配中文的正则</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 匹配单字节</span><br><span class="line">[\u4e00-\u9fa5]</span><br><span class="line"># 匹配双字节</span><br><span class="line">[^\x00-\xff]</span><br></pre></td></tr></table></figure>
+
+<h1 id="Linux"><a href="#Linux" class="headerlink" title="Linux"></a>Linux</h1><h2 id="查看是否为-Linux-OOM-Killer-杀掉的进程"><a href="#查看是否为-Linux-OOM-Killer-杀掉的进程" class="headerlink" title="查看是否为 Linux OOM Killer 杀掉的进程"></a>查看是否为 Linux OOM Killer 杀掉的进程</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo egrep -i -r &#x27;Out Of&#x27; /var/log</span><br></pre></td></tr></table></figure>
+
+<h2 id="查看进程直接杀掉"><a href="#查看进程直接杀掉" class="headerlink" title="查看进程直接杀掉"></a>查看进程直接杀掉</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">ps -ef | grep filebeat-sfzt-s.yml | awk -F &quot;[ ]+&quot; &#x27;NR==1&#123;print $2&#125;&#x27; | xargs kill -9</span><br></pre></td></tr></table></figure>
+
+<h2 id="文件大小排序"><a href="#文件大小排序" class="headerlink" title="文件大小排序"></a>文件大小排序</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">du -hsx * | sort -rh | head -6</span><br><span class="line">du – 估计文件的空间使用情况</span><br><span class="line">-hsx – （-h）更易读的格式，（-s）汇总输出，（-x）跳过其他文件系统的文件</span><br><span class="line">sort – 对文本文件按行排序</span><br><span class="line">-rf – （-r）将比较的结果逆序输出，（-f）忽略大小写</span><br><span class="line">head – 输出文件的头几行</span><br></pre></td></tr></table></figure>
+
+<h2 id="查看每个文件的行数"><a href="#查看每个文件的行数" class="headerlink" title="查看每个文件的行数"></a>查看每个文件的行数</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">find ./ -type f -name cilogPlatform*.log|awk &#x27;&#123;print &quot;echo \&quot;&quot;$1&quot;\&quot;;cat &quot;$1&quot;|wc -l&quot;&#125;&#x27;|sh &gt; cilogPlatform_info.txt</span><br></pre></td></tr></table></figure>
+
+<h1 id="Git"><a href="#Git" class="headerlink" title="Git"></a>Git</h1><h2 id="Rebase-历史丢失"><a href="#Rebase-历史丢失" class="headerlink" title="Rebase 历史丢失"></a>Rebase 历史丢失</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">查找变更记录</span></span><br><span class="line">git reflog</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">找到rebase前的<span class="built_in">hash</span> 创建一个备份分支</span></span><br><span class="line">git checkout -b branch-bak d1ccec7</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">一顿操作。能不能恢复看自己发挥了</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="查看每个人提交的行数"><a href="#查看每个人提交的行数" class="headerlink" title="查看每个人提交的行数"></a>查看每个人提交的行数</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git log --format=&#x27;%aN&#x27; | sort -u | while read name; do echo -en &quot;$name\t&quot;; git log --author=&quot;$name&quot; --pretty=tformat: --numstat | awk &#x27;&#123; add += $1; subs += $2; loc += $1 - $2 &#125; END &#123; printf &quot;added lines: %s, removed lines: %s, total lines: %s\n&quot;, add, subs, loc &#125;&#x27; -; done</span><br></pre></td></tr></table></figure>
+
+<h2 id="统计代码总行数"><a href="#统计代码总行数" class="headerlink" title="统计代码总行数"></a>统计代码总行数</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git ls-files | xargs cat | wc -l</span><br></pre></td></tr></table></figure>
+
+<h1 id="K8s"><a href="#K8s" class="headerlink" title="K8s"></a>K8s</h1><h2 id="查询所有运行时的容器"><a href="#查询所有运行时的容器" class="headerlink" title="查询所有运行时的容器"></a>查询所有运行时的容器</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">kubectl get nodes -o wide</span><br></pre></td></tr></table></figure>
+
+<h2 id="查看所有-pods-的命名空间"><a href="#查看所有-pods-的命名空间" class="headerlink" title="查看所有 pods 的命名空间"></a>查看所有 pods 的命名空间</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">kubectl get pods --all-namespaces</span><br></pre></td></tr></table></figure>
+
+<h2 id="创建命名空间"><a href="#创建命名空间" class="headerlink" title="创建命名空间"></a>创建命名空间</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">kubectl create namespace xxx</span><br></pre></td></tr></table></figure>
+
+<h2 id="实时查看-Deployment-对象的状态变化"><a href="#实时查看-Deployment-对象的状态变化" class="headerlink" title="实时查看 Deployment 对象的状态变化"></a>实时查看 Deployment 对象的状态变化</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">kubectl rollout status</span><br></pre></td></tr></table></figure>
+
+<h2 id="回滚-Deployment"><a href="#回滚-Deployment" class="headerlink" title="回滚 Deployment"></a>回滚 Deployment</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">回滚到上一次</span></span><br><span class="line">kubectl rollout undo deployment_name</span><br></pre></td></tr></table></figure>
+
+<h2 id="查看每次-Deployment-变更对应版本"><a href="#查看每次-Deployment-变更对应版本" class="headerlink" title="查看每次 Deployment 变更对应版本"></a>查看每次 Deployment 变更对应版本</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">查看全部版本</span></span><br><span class="line">kubectl rollout history deployment_name</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">查看每个版本的细节</span></span><br><span class="line">kubectl rollout history deployment_name --revision=version_number</span><br></pre></td></tr></table></figure>
+
+<h2 id="回滚-Deployment-到指定版本"><a href="#回滚-Deployment-到指定版本" class="headerlink" title="回滚 Deployment 到指定版本"></a>回滚 Deployment 到指定版本</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">kubuctl rollout undo deployment_nmame --to-revision=version_number</span><br></pre></td></tr></table></figure>
+
+<h2 id="防止每次更新-Deployment，生成多个-ReplicaSet-对象"><a href="#防止每次更新-Deployment，生成多个-ReplicaSet-对象" class="headerlink" title="防止每次更新 Deployment，生成多个 ReplicaSet 对象"></a>防止每次更新 Deployment，生成多个 ReplicaSet 对象</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">kubectl rollout pause deployment_name</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">update deployment</span></span><br><span class="line">kubectl rollout resume deployment_name</span><br></pre></td></tr></table></figure>
+
+<h2 id="Dns-测试"><a href="#Dns-测试" class="headerlink" title="Dns 测试"></a>Dns 测试</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">kubectl run -i --tty --image busybox:1.28.4 dns-test --restart=Never --rm /bin/sh </span><br></pre></td></tr></table></figure>
+
+<h1 id="MySQL"><a href="#MySQL" class="headerlink" title="MySQL"></a>MySQL</h1><h2 id="MySQL-增加-on-update-语句"><a href="#MySQL-增加-on-update-语句" class="headerlink" title="MySQL 增加 on update 语句"></a>MySQL 增加 on update 语句</h2><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> sys_summary CHANGE update_time update_time <span class="type">TIMESTAMP</span> <span class="keyword">NOT</span> <span class="keyword">NULL</span> <span class="keyword">DEFAULT</span> <span class="built_in">CURRENT_TIMESTAMP</span> <span class="keyword">on</span> <span class="keyword">update</span> <span class="built_in">CURRENT_TIMESTAMP</span> comment <span class="string">&#x27;更新时间&#x27;</span>;</span><br><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> sys_summary CHANGE update_time update_time <span class="type">TIMESTAMP</span> <span class="keyword">NOT</span> <span class="keyword">NULL</span> <span class="keyword">DEFAULT</span> <span class="built_in">CURRENT_TIMESTAMP</span> comment <span class="string">&#x27;更新时间&#x27;</span>;</span><br></pre></td></tr></table></figure>
+
+<h2 id="去除回车和空行"><a href="#去除回车和空行" class="headerlink" title="去除回车和空行"></a>去除回车和空行</h2><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">UPDATE</span> tableName <span class="keyword">SET</span> field <span class="operator">=</span> REPLACE(REPLACE(field, <span class="type">CHAR</span>(<span class="number">10</span>), <span class="string">&#x27;&#x27;</span>), <span class="type">CHAR</span>(<span class="number">13</span>), <span class="string">&#x27;&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+<h2 id="按照-1-1-1-2-版本号进行排序"><a href="#按照-1-1-1-2-版本号进行排序" class="headerlink" title="按照 1.1 1.2 版本号进行排序"></a>按照 1.1 1.2 版本号进行排序</h2><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 当每一层值可以控制在0-9时，可直接使用如下方法  序号转成小数的形式即可实现排序</span></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> 表名 <span class="keyword">ORDER</span> <span class="keyword">BY</span> <span class="built_in">cast</span>(concat(<span class="keyword">left</span>(字段名,INSTR(字段名,<span class="string">&#x27;.&#x27;</span>)), replace(<span class="built_in">subString</span>(字段名,instr(字段名,<span class="string">&#x27;.&#x27;</span>)<span class="operator">+</span><span class="number">1</span>), <span class="string">&#x27;.&#x27;</span>, <span class="string">&#x27;&#x27;</span>)) <span class="keyword">as</span> <span class="type">DECIMAL</span>(<span class="number">4</span>,<span class="number">2</span>));</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 当序号层数可以控制时，每一项值不可控时，可使用</span></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> 表名 <span class="keyword">order</span> <span class="keyword">by</span> SUBSTRING_INDEX(SUBSTRING_INDEX(CONCAT(字段名, <span class="string">&#x27;.&#x27;</span>), <span class="string">&#x27;.&#x27;</span>, <span class="number">1</span>), <span class="string">&#x27;.&#x27;</span>, <span class="number">-1</span>)<span class="operator">+</span><span class="number">0</span>,SUBSTRING_INDEX(SUBSTRING_INDEX(CONCAT(字段名, <span class="string">&#x27;.&#x27;</span>), <span class="string">&#x27;.&#x27;</span>, <span class="number">2</span>), <span class="string">&#x27;.&#x27;</span>, <span class="number">-1</span>)<span class="operator">+</span><span class="number">0</span>,SUBSTRING_INDEX(SUBSTRING_INDEX(CONCAT(字段名, <span class="string">&#x27;.&#x27;</span>), <span class="string">&#x27;.&#x27;</span>, <span class="number">3</span>), <span class="string">&#x27;.&#x27;</span>, <span class="number">-1</span>)<span class="operator">+</span><span class="number">0</span>,SUBSTRING_INDEX(SUBSTRING_INDEX(CONCAT(字段名, <span class="string">&#x27;.&#x27;</span>), <span class="string">&#x27;.&#x27;</span>, <span class="number">4</span>), <span class="string">&#x27;.&#x27;</span>, <span class="number">-1</span>)<span class="operator">+</span><span class="number">0</span>,SUBSTRING_INDEX(SUBSTRING_INDEX(CONCAT(字段名, <span class="string">&#x27;.&#x27;</span>), <span class="string">&#x27;.&#x27;</span>, <span class="number">5</span>), <span class="string">&#x27;.&#x27;</span>, <span class="number">-1</span>)<span class="operator">+</span><span class="number">0</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="清除有外键的表数据"><a href="#清除有外键的表数据" class="headerlink" title="清除有外键的表数据"></a>清除有外键的表数据</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">SET FOREIGN_KEY_CHECKS = 0; </span><br><span class="line">TRUNCATE TABLE TABLE_NAME;</span><br><span class="line">SET FOREIGN_KEY_CHECKS = 1;</span><br></pre></td></tr></table></figure>
+
+<h1 id="Maven"><a href="#Maven" class="headerlink" title="Maven"></a>Maven</h1><h2 id="Maven-下载源文件和-document"><a href="#Maven-下载源文件和-document" class="headerlink" title="Maven 下载源文件和 document"></a>Maven 下载源文件和 document</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">mvn dependency:resolve -Dclassifier=sources</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>shell 正则</tag>
       </tags>
   </entry>
   <entry>
@@ -3059,6 +3059,30 @@
       </tags>
   </entry>
   <entry>
+    <title>三数之和</title>
+    <url>/MiracleDx/2019/03/27/Array/15.%E4%B8%89%E6%95%B0%E4%B9%8B%E5%92%8C/</url>
+    <content><![CDATA[<h1 id="15-三数之和"><a href="#15-三数之和" class="headerlink" title="15.三数之和"></a>15.三数之和</h1><p><strong>难度：中等</strong></p>
+<h3 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">给你一个包含 n 个整数的数组 nums，判断 nums 中是否存在三个元素 a，b，c ，使得 a + b + c = 0 ？请你找出所有满足条件且不重复的三元组。</span><br><span class="line">注意：答案中不可以包含重复的三元组。</span><br></pre></td></tr></table></figure>
+<p>示例：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">给定数组 nums = [-1, 0, 1, 2, -1, -4]，</span><br><span class="line">满足要求的三元组集合为：</span><br><span class="line">[</span><br><span class="line">  [-1, 0, 1],</span><br><span class="line">  [-1, -1, 2]</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<p><strong>注意：</strong>答案中不可以包含重复的三元组。</p>
+<h3 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h3><h4 id="方法一：-暴力破解法-三重循环"><a href="#方法一：-暴力破解法-三重循环" class="headerlink" title="方法一： 暴力破解法-三重循环"></a>方法一： 暴力破解法-三重循环</h4><h5 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h5><p>​	通过三重循环，取出所有符合条件的答案</p>
+<h5 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">```</span><br><span class="line">##### 复杂度分析</span><br><span class="line"><span class="number">1.</span> 时间复杂度：O(n^<span class="number">3</span>)</span><br><span class="line"><span class="number">2.</span> 空间复杂度：O(<span class="number">1</span>)</span><br><span class="line">#### 方法二：双指针遍历</span><br><span class="line">##### 思路</span><br><span class="line"> 	<span class="number">1.</span> 先将数组进行排序</span><br><span class="line"> 	<span class="number">2.</span> 将最小数固定指针，分别使用快慢指针从数组起始位置 + <span class="number">1</span>和终点位置向中进行遍历</span><br><span class="line"> 	<span class="number">3.</span> 寻找满足 nums[k] + nums[i] + nums[j] = <span class="number">0</span> 的组合</span><br><span class="line">##### 代码</span><br><span class="line">```java</span><br></pre></td></tr></table></figure>
+<p>简化后</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
+<h5 id="复杂度分析"><a href="#复杂度分析" class="headerlink" title="复杂度分析"></a>复杂度分析</h5><ol>
+<li>时间复杂度：</li>
+<li>空间复杂度：</li>
+</ol>
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>数组</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>盛水最多的容器</title>
     <url>/MiracleDx/2019/03/19/Array/11.%E7%9B%9B%E6%B0%B4%E6%9C%80%E5%A4%9A%E7%9A%84%E5%AE%B9%E5%99%A8/</url>
     <content><![CDATA[<h1 id="11-盛水最多的容器"><a href="#11-盛水最多的容器" class="headerlink" title="11.盛水最多的容器"></a>11.盛水最多的容器</h1><p><strong>难度：中等</strong></p>
@@ -3095,20 +3119,25 @@
       </tags>
   </entry>
   <entry>
-    <title>三数之和</title>
-    <url>/MiracleDx/2019/03/27/Array/15.%E4%B8%89%E6%95%B0%E4%B9%8B%E5%92%8C/</url>
-    <content><![CDATA[<h1 id="15-三数之和"><a href="#15-三数之和" class="headerlink" title="15.三数之和"></a>15.三数之和</h1><p><strong>难度：中等</strong></p>
-<h3 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">给你一个包含 n 个整数的数组 nums，判断 nums 中是否存在三个元素 a，b，c ，使得 a + b + c = 0 ？请你找出所有满足条件且不重复的三元组。</span><br><span class="line">注意：答案中不可以包含重复的三元组。</span><br></pre></td></tr></table></figure>
-<p>示例：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">给定数组 nums = [-1, 0, 1, 2, -1, -4]，</span><br><span class="line">满足要求的三元组集合为：</span><br><span class="line">[</span><br><span class="line">  [-1, 0, 1],</span><br><span class="line">  [-1, -1, 2]</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
-<p><strong>注意：</strong>答案中不可以包含重复的三元组。</p>
-<h3 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h3><h4 id="方法一：-暴力破解法-三重循环"><a href="#方法一：-暴力破解法-三重循环" class="headerlink" title="方法一： 暴力破解法-三重循环"></a>方法一： 暴力破解法-三重循环</h4><h5 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h5><p>​	通过三重循环，取出所有符合条件的答案</p>
-<h5 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">```</span><br><span class="line">##### 复杂度分析</span><br><span class="line"><span class="number">1.</span> 时间复杂度：O(n^<span class="number">3</span>)</span><br><span class="line"><span class="number">2.</span> 空间复杂度：O(<span class="number">1</span>)</span><br><span class="line">#### 方法二：双指针遍历</span><br><span class="line">##### 思路</span><br><span class="line"> 	<span class="number">1.</span> 先将数组进行排序</span><br><span class="line"> 	<span class="number">2.</span> 将最小数固定指针，分别使用快慢指针从数组起始位置 + <span class="number">1</span>和终点位置向中进行遍历</span><br><span class="line"> 	<span class="number">3.</span> 寻找满足 nums[k] + nums[i] + nums[j] = <span class="number">0</span> 的组合</span><br><span class="line">##### 代码</span><br><span class="line">```java</span><br></pre></td></tr></table></figure>
-<p>简化后</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
+    <title>删除排序数组中的重复项</title>
+    <url>/MiracleDx/2019/04/05/Array/26.%E5%88%A0%E9%99%A4%E6%8E%92%E5%BA%8F%E6%95%B0%E7%BB%84%E4%B8%AD%E7%9A%84%E9%87%8D%E5%A4%8D%E9%A1%B9/</url>
+    <content><![CDATA[<h1 id="26-删除排序数组中的重复项"><a href="#26-删除排序数组中的重复项" class="headerlink" title="26.删除排序数组中的重复项"></a>26.删除排序数组中的重复项</h1><p><strong>难度：简单</strong></p>
+<h3 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">给定一个排序数组，你需要在 原地 删除重复出现的元素，使得每个元素只出现一次，返回移除后数组的新长度。</span><br><span class="line">不要使用额外的数组空间，你必须在 原地 修改输入数组 并在使用 O(1) 额外空间的条件下完成。</span><br></pre></td></tr></table></figure>
+<p>示例1：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">给定数组 nums = [1,1,2], </span><br><span class="line">函数应该返回新的长度 2, 并且原数组 nums 的前两个元素被修改为 1, 2。 </span><br><span class="line">你不需要考虑数组中超出新长度后面的元素。</span><br></pre></td></tr></table></figure>
+<p>示例2：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">给定 nums = [0,0,1,1,1,2,2,3,3,4],</span><br><span class="line">函数应该返回新的长度 5, 并且原数组 nums 的前五个元素被修改为 0, 1, 2, 3, 4。</span><br><span class="line">你不需要考虑数组中超出新长度后面的元素。</span><br></pre></td></tr></table></figure>
+<p>说明:<br>为什么返回数值是整数，但输出的答案是数组呢?<br>请注意，输入数组是以「引用」方式传递的，这意味着在函数里修改输入数组对于调用者是可见的。<br>你可以想象内部操作如下:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">// nums 是以“引用”方式传递的。也就是说，不对实参做任何拷贝</span><br><span class="line">int len = removeDuplicates(nums);</span><br><span class="line">// 在函数里修改输入数组对于调用者是可见的。</span><br><span class="line">// 根据你的函数返回的长度, 它会打印出数组中该长度范围内的所有元素。</span><br><span class="line">for (int i = 0; i &lt; len; i++) &#123;</span><br><span class="line">    print(nums[i]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h3><h4 id="方法："><a href="#方法：" class="headerlink" title="方法："></a>方法：</h4><h5 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h5><ol>
+<li>定义 i 和 j 的快慢指针， i 为慢指针， j 为快指针</li>
+<li>当 nums[i] 和 nums[j] 相等时，慢指针不动，快指针继续前进</li>
+<li>当 nums[i] 和 nums[j] 不相等时，更新慢指针的下一个值</li>
+</ol>
+<h5 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">removeDuplicates</span><span class="params">(<span class="type">int</span>[] nums)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">1</span>; j &lt; nums.length; j++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (nums[i] != nums[j]) &#123;</span><br><span class="line">                nums[++i] = nums[j];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> i+<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h5 id="复杂度分析"><a href="#复杂度分析" class="headerlink" title="复杂度分析"></a>复杂度分析</h5><ol>
-<li>时间复杂度：</li>
-<li>空间复杂度：</li>
+<li>时间复杂度：O(n)</li>
+<li>空间复杂度：O(1)</li>
 </ol>
 ]]></content>
       <categories>
@@ -3149,35 +3178,6 @@
 </code></pre>
 <h5 id="代码-1"><a href="#代码-1" class="headerlink" title="代码"></a>代码</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">rotate</span><span class="params">(<span class="type">int</span>[] nums, <span class="type">int</span> k)</span> &#123;</span><br><span class="line">        k %= nums.length;</span><br><span class="line">        reverse(nums, <span class="number">0</span>, nums.length - <span class="number">1</span>);</span><br><span class="line">        reverse(nums, <span class="number">0</span>, k - <span class="number">1</span>);</span><br><span class="line">        reverse(nums, k, nums.length - <span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">reverse</span><span class="params">(<span class="type">int</span>[] nums, <span class="type">int</span> start, <span class="type">int</span> end)</span> &#123;</span><br><span class="line">        <span class="keyword">while</span> (start &lt; end) &#123;</span><br><span class="line">            <span class="type">int</span> <span class="variable">temp</span> <span class="operator">=</span> nums[start];</span><br><span class="line">            nums[start] = nums[end];</span><br><span class="line">            nums[end] = temp;</span><br><span class="line">            start++;</span><br><span class="line">            end--;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h5 id="复杂度分析-1"><a href="#复杂度分析-1" class="headerlink" title="复杂度分析"></a>复杂度分析</h5><ol>
-<li>时间复杂度：O(n)</li>
-<li>空间复杂度：O(1)</li>
-</ol>
-]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>数组</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>删除排序数组中的重复项</title>
-    <url>/MiracleDx/2019/04/05/Array/26.%E5%88%A0%E9%99%A4%E6%8E%92%E5%BA%8F%E6%95%B0%E7%BB%84%E4%B8%AD%E7%9A%84%E9%87%8D%E5%A4%8D%E9%A1%B9/</url>
-    <content><![CDATA[<h1 id="26-删除排序数组中的重复项"><a href="#26-删除排序数组中的重复项" class="headerlink" title="26.删除排序数组中的重复项"></a>26.删除排序数组中的重复项</h1><p><strong>难度：简单</strong></p>
-<h3 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">给定一个排序数组，你需要在 原地 删除重复出现的元素，使得每个元素只出现一次，返回移除后数组的新长度。</span><br><span class="line">不要使用额外的数组空间，你必须在 原地 修改输入数组 并在使用 O(1) 额外空间的条件下完成。</span><br></pre></td></tr></table></figure>
-<p>示例1：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">给定数组 nums = [1,1,2], </span><br><span class="line">函数应该返回新的长度 2, 并且原数组 nums 的前两个元素被修改为 1, 2。 </span><br><span class="line">你不需要考虑数组中超出新长度后面的元素。</span><br></pre></td></tr></table></figure>
-<p>示例2：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">给定 nums = [0,0,1,1,1,2,2,3,3,4],</span><br><span class="line">函数应该返回新的长度 5, 并且原数组 nums 的前五个元素被修改为 0, 1, 2, 3, 4。</span><br><span class="line">你不需要考虑数组中超出新长度后面的元素。</span><br></pre></td></tr></table></figure>
-<p>说明:<br>为什么返回数值是整数，但输出的答案是数组呢?<br>请注意，输入数组是以「引用」方式传递的，这意味着在函数里修改输入数组对于调用者是可见的。<br>你可以想象内部操作如下:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">// nums 是以“引用”方式传递的。也就是说，不对实参做任何拷贝</span><br><span class="line">int len = removeDuplicates(nums);</span><br><span class="line">// 在函数里修改输入数组对于调用者是可见的。</span><br><span class="line">// 根据你的函数返回的长度, 它会打印出数组中该长度范围内的所有元素。</span><br><span class="line">for (int i = 0; i &lt; len; i++) &#123;</span><br><span class="line">    print(nums[i]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h3><h4 id="方法："><a href="#方法：" class="headerlink" title="方法："></a>方法：</h4><h5 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h5><ol>
-<li>定义 i 和 j 的快慢指针， i 为慢指针， j 为快指针</li>
-<li>当 nums[i] 和 nums[j] 相等时，慢指针不动，快指针继续前进</li>
-<li>当 nums[i] 和 nums[j] 不相等时，更新慢指针的下一个值</li>
-</ol>
-<h5 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">removeDuplicates</span><span class="params">(<span class="type">int</span>[] nums)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">1</span>; j &lt; nums.length; j++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (nums[i] != nums[j]) &#123;</span><br><span class="line">                nums[++i] = nums[j];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> i+<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="复杂度分析"><a href="#复杂度分析" class="headerlink" title="复杂度分析"></a>复杂度分析</h5><ol>
 <li>时间复杂度：O(n)</li>
 <li>空间复杂度：O(1)</li>
 </ol>
@@ -3260,47 +3260,6 @@
       </tags>
   </entry>
   <entry>
-    <title>合并两个有序数组</title>
-    <url>/MiracleDx/2019/04/29/Array/88.%E5%90%88%E5%B9%B6%E4%B8%A4%E4%B8%AA%E6%9C%89%E5%BA%8F%E6%95%B0%E7%BB%84/</url>
-    <content><![CDATA[<h1 id="88-合并两个有序数组"><a href="#88-合并两个有序数组" class="headerlink" title="88.合并两个有序数组"></a>88.合并两个有序数组</h1><p><strong>难度：简单</strong></p>
-<h3 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">给你两个有序整数数组 nums1 和 nums2，请你将 nums2 合并到 nums1 中，使 nums1 成为一个有序数组。</span><br><span class="line">说明:</span><br><span class="line">初始化 nums1 和 nums2 的元素数量分别为 m 和 n 。</span><br><span class="line">你可以假设 nums1 有足够的空间（空间大小大于或等于 m + n）来保存 nums2 中的元素。</span><br></pre></td></tr></table></figure>
-<p>示例：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入:</span><br><span class="line">nums1 = [1,2,3,0,0,0], m = 3</span><br><span class="line">nums2 = [2,5,6],       n = 3</span><br><span class="line">输出: [1,2,2,3,5,6]</span><br></pre></td></tr></table></figure>
-<h3 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h3><h4 id="方法一：-利用库函数"><a href="#方法一：-利用库函数" class="headerlink" title="方法一： 利用库函数"></a>方法一： 利用库函数</h4><h5 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h5><ol>
-<li>先将两个数组合并</li>
-<li>利用库函数进行排序</li>
-</ol>
-<h5 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">merge</span><span class="params">(<span class="type">int</span>[] nums1, <span class="type">int</span> m, <span class="type">int</span>[] nums2, <span class="type">int</span> n)</span> &#123;</span><br><span class="line">		System.arraycopy(nums2, <span class="number">0</span>, nums1, m, n);</span><br><span class="line">    	Arrays.sort(nums1);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="复杂度分析"><a href="#复杂度分析" class="headerlink" title="复杂度分析"></a>复杂度分析</h5><ol>
-<li>时间复杂度：O(n)</li>
-<li>空间复杂度：O(1)</li>
-</ol>
-<h4 id="方法二：双指针"><a href="#方法二：双指针" class="headerlink" title="方法二：双指针"></a>方法二：双指针</h4><h5 id="思路-1"><a href="#思路-1" class="headerlink" title="思路"></a>思路</h5><ol>
-<li>两个指针 i 和 j 分别逆序遍历 nums1 和 nums2 数组，从大到小依次逆序插入到 nums1 中</li>
-<li>l 用于记录 nums1 插入数值的位置</li>
-<li>当 nums2 遍历完成时，说明已经将 nums2 的元素全部插入到 nums1 中</li>
-<li>插入哪个 nums 数组的数据就将对应 nums 数组的指针相应 -1， 同时 l 也相应 -1</li>
-</ol>
-<h5 id="代码-1"><a href="#代码-1" class="headerlink" title="代码"></a>代码</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">merge</span><span class="params">(<span class="type">int</span>[] nums1, <span class="type">int</span> m, <span class="type">int</span>[] nums2, <span class="type">int</span> n)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> m - <span class="number">1</span>;</span><br><span class="line">        <span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> n - <span class="number">1</span>;</span><br><span class="line">        <span class="type">int</span> <span class="variable">l</span> <span class="operator">=</span> m + n - <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span> (j &gt;= <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (i &gt;= <span class="number">0</span> &amp;&amp; nums1[i] &gt;= nums2[j]) &#123;</span><br><span class="line">                nums1[l] = nums1[i];</span><br><span class="line">                i--;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                nums1[l] = nums2[j];</span><br><span class="line">                j--;</span><br><span class="line">            &#125;</span><br><span class="line">            l--;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>简化后</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">merge</span><span class="params">(<span class="type">int</span>[] nums1, <span class="type">int</span> m, <span class="type">int</span>[] nums2, <span class="type">int</span> n)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> m - <span class="number">1</span>;</span><br><span class="line">        <span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> n - <span class="number">1</span>;</span><br><span class="line">        <span class="type">int</span> <span class="variable">l</span> <span class="operator">=</span> m + n - <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span> (j &gt;= <span class="number">0</span>) &#123;</span><br><span class="line">            nums1[l--] = i &gt;= <span class="number">0</span>  &amp;&amp; nums1[i] &gt;= nums2[j] ? nums1[i--] : nums2[j--];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>进一步简化：将 i 和 j 的值 由 m 和 n 代替</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">merge</span><span class="params">(<span class="type">int</span>[] nums1, <span class="type">int</span> m, <span class="type">int</span>[] nums2, <span class="type">int</span> n)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">l</span> <span class="operator">=</span> m-- + n-- - <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span> (n &gt;= <span class="number">0</span>) &#123;</span><br><span class="line">            nums1[l--] = (m &gt;= <span class="number">0</span>  &amp;&amp; nums1[m] &gt;= nums2[n]) ? nums1[m--] : nums2[n--];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>终极版：n– - 1 的实际效果 等于 –n</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">merge</span><span class="params">(<span class="type">int</span>[] nums1, <span class="type">int</span> m, <span class="type">int</span>[] nums2, <span class="type">int</span> n)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">l</span> <span class="operator">=</span> m-- + --n;</span><br><span class="line">        <span class="keyword">while</span> (n &gt;= <span class="number">0</span>) &#123;</span><br><span class="line">            nums1[l--] = (m &gt;= <span class="number">0</span>  &amp;&amp; nums1[m] &gt;= nums2[n]) ? nums1[m--] : nums2[n--];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="复杂度分析-1"><a href="#复杂度分析-1" class="headerlink" title="复杂度分析"></a>复杂度分析</h5><ol>
-<li>时间复杂度：O(n)</li>
-<li>空间复杂度：O(1)</li>
-</ol>
-]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>数组</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>爬楼梯</title>
     <url>/MiracleDx/2019/04/21/Array/70.%E7%88%AC%E6%A5%BC%E6%A2%AF/</url>
     <content><![CDATA[<h1 id="70-爬楼梯"><a href="#70-爬楼梯" class="headerlink" title="70.爬楼梯"></a>70.爬楼梯</h1><p><strong>难度：简单</strong></p>
@@ -3337,6 +3296,47 @@
 <h4 id="方法四：迭代"><a href="#方法四：迭代" class="headerlink" title="方法四：迭代"></a>方法四：迭代</h4><h5 id="思路-3"><a href="#思路-3" class="headerlink" title="思路"></a>思路</h5><p>​	使用迭代的方式，滚动赋值给前一阶和前两阶的数值</p>
 <h5 id="代码-3"><a href="#代码-3" class="headerlink" title="代码"></a>代码</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">climbStairs</span><span class="params">(<span class="type">int</span> n)</span> &#123;</span><br><span class="line">       <span class="keyword">if</span> (n == <span class="number">1</span> || n == <span class="number">2</span>) &#123;</span><br><span class="line">           <span class="keyword">return</span> n;</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="type">int</span> <span class="variable">l1</span> <span class="operator">=</span> <span class="number">1</span>;</span><br><span class="line">       <span class="type">int</span> <span class="variable">l2</span> <span class="operator">=</span> <span class="number">2</span>;</span><br><span class="line">       <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">3</span>; i &lt;= n; i++) &#123;</span><br><span class="line">           <span class="type">int</span> <span class="variable">result</span> <span class="operator">=</span> l1 + l2;</span><br><span class="line">           l1 = l2;</span><br><span class="line">           l2 = result;</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">return</span> l2;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h5 id="复杂度分析-3"><a href="#复杂度分析-3" class="headerlink" title="复杂度分析"></a>复杂度分析</h5><ol>
+<li>时间复杂度：O(n)</li>
+<li>空间复杂度：O(1)</li>
+</ol>
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>数组</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>合并两个有序数组</title>
+    <url>/MiracleDx/2019/04/29/Array/88.%E5%90%88%E5%B9%B6%E4%B8%A4%E4%B8%AA%E6%9C%89%E5%BA%8F%E6%95%B0%E7%BB%84/</url>
+    <content><![CDATA[<h1 id="88-合并两个有序数组"><a href="#88-合并两个有序数组" class="headerlink" title="88.合并两个有序数组"></a>88.合并两个有序数组</h1><p><strong>难度：简单</strong></p>
+<h3 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">给你两个有序整数数组 nums1 和 nums2，请你将 nums2 合并到 nums1 中，使 nums1 成为一个有序数组。</span><br><span class="line">说明:</span><br><span class="line">初始化 nums1 和 nums2 的元素数量分别为 m 和 n 。</span><br><span class="line">你可以假设 nums1 有足够的空间（空间大小大于或等于 m + n）来保存 nums2 中的元素。</span><br></pre></td></tr></table></figure>
+<p>示例：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入:</span><br><span class="line">nums1 = [1,2,3,0,0,0], m = 3</span><br><span class="line">nums2 = [2,5,6],       n = 3</span><br><span class="line">输出: [1,2,2,3,5,6]</span><br></pre></td></tr></table></figure>
+<h3 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h3><h4 id="方法一：-利用库函数"><a href="#方法一：-利用库函数" class="headerlink" title="方法一： 利用库函数"></a>方法一： 利用库函数</h4><h5 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h5><ol>
+<li>先将两个数组合并</li>
+<li>利用库函数进行排序</li>
+</ol>
+<h5 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">merge</span><span class="params">(<span class="type">int</span>[] nums1, <span class="type">int</span> m, <span class="type">int</span>[] nums2, <span class="type">int</span> n)</span> &#123;</span><br><span class="line">		System.arraycopy(nums2, <span class="number">0</span>, nums1, m, n);</span><br><span class="line">    	Arrays.sort(nums1);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="复杂度分析"><a href="#复杂度分析" class="headerlink" title="复杂度分析"></a>复杂度分析</h5><ol>
+<li>时间复杂度：O(n)</li>
+<li>空间复杂度：O(1)</li>
+</ol>
+<h4 id="方法二：双指针"><a href="#方法二：双指针" class="headerlink" title="方法二：双指针"></a>方法二：双指针</h4><h5 id="思路-1"><a href="#思路-1" class="headerlink" title="思路"></a>思路</h5><ol>
+<li>两个指针 i 和 j 分别逆序遍历 nums1 和 nums2 数组，从大到小依次逆序插入到 nums1 中</li>
+<li>l 用于记录 nums1 插入数值的位置</li>
+<li>当 nums2 遍历完成时，说明已经将 nums2 的元素全部插入到 nums1 中</li>
+<li>插入哪个 nums 数组的数据就将对应 nums 数组的指针相应 -1， 同时 l 也相应 -1</li>
+</ol>
+<h5 id="代码-1"><a href="#代码-1" class="headerlink" title="代码"></a>代码</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">merge</span><span class="params">(<span class="type">int</span>[] nums1, <span class="type">int</span> m, <span class="type">int</span>[] nums2, <span class="type">int</span> n)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> m - <span class="number">1</span>;</span><br><span class="line">        <span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> n - <span class="number">1</span>;</span><br><span class="line">        <span class="type">int</span> <span class="variable">l</span> <span class="operator">=</span> m + n - <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span> (j &gt;= <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (i &gt;= <span class="number">0</span> &amp;&amp; nums1[i] &gt;= nums2[j]) &#123;</span><br><span class="line">                nums1[l] = nums1[i];</span><br><span class="line">                i--;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                nums1[l] = nums2[j];</span><br><span class="line">                j--;</span><br><span class="line">            &#125;</span><br><span class="line">            l--;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>简化后</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">merge</span><span class="params">(<span class="type">int</span>[] nums1, <span class="type">int</span> m, <span class="type">int</span>[] nums2, <span class="type">int</span> n)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> m - <span class="number">1</span>;</span><br><span class="line">        <span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> n - <span class="number">1</span>;</span><br><span class="line">        <span class="type">int</span> <span class="variable">l</span> <span class="operator">=</span> m + n - <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span> (j &gt;= <span class="number">0</span>) &#123;</span><br><span class="line">            nums1[l--] = i &gt;= <span class="number">0</span>  &amp;&amp; nums1[i] &gt;= nums2[j] ? nums1[i--] : nums2[j--];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>进一步简化：将 i 和 j 的值 由 m 和 n 代替</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">merge</span><span class="params">(<span class="type">int</span>[] nums1, <span class="type">int</span> m, <span class="type">int</span>[] nums2, <span class="type">int</span> n)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">l</span> <span class="operator">=</span> m-- + n-- - <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span> (n &gt;= <span class="number">0</span>) &#123;</span><br><span class="line">            nums1[l--] = (m &gt;= <span class="number">0</span>  &amp;&amp; nums1[m] &gt;= nums2[n]) ? nums1[m--] : nums2[n--];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>终极版：n– - 1 的实际效果 等于 –n</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">merge</span><span class="params">(<span class="type">int</span>[] nums1, <span class="type">int</span> m, <span class="type">int</span>[] nums2, <span class="type">int</span> n)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">l</span> <span class="operator">=</span> m-- + --n;</span><br><span class="line">        <span class="keyword">while</span> (n &gt;= <span class="number">0</span>) &#123;</span><br><span class="line">            nums1[l--] = (m &gt;= <span class="number">0</span>  &amp;&amp; nums1[m] &gt;= nums2[n]) ? nums1[m--] : nums2[n--];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="复杂度分析-1"><a href="#复杂度分析-1" class="headerlink" title="复杂度分析"></a>复杂度分析</h5><ol>
 <li>时间复杂度：O(n)</li>
 <li>空间复杂度：O(1)</li>
 </ol>
