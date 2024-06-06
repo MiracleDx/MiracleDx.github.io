@@ -160,6 +160,37 @@
       </tags>
   </entry>
   <entry>
+    <title>Java线程池</title>
+    <url>/MiracleDx/2020/01/07/Java%20%E7%BA%BF%E7%A8%8B%E6%B1%A0/</url>
+    <content><![CDATA[<h1 id="CPU-密集型"><a href="#CPU-密集型" class="headerlink" title="CPU 密集型"></a>CPU 密集型</h1><h2 id="最大线程数"><a href="#最大线程数" class="headerlink" title="最大线程数"></a>最大线程数</h2><p>最大线程数 &#x3D; CPU 核心数 + 1<br>额外的线程能确保 CPU 的时钟周期不会被浪费，从而保证 CPU 的利用率。</p>
+<h2 id="核心线程数"><a href="#核心线程数" class="headerlink" title="核心线程数"></a>核心线程数</h2><p>核心线程数 &#x3D; CPU 核心数 或 CPU 核心数 + 1</p>
+<h1 id="IO-密集型"><a href="#IO-密集型" class="headerlink" title="IO 密集型"></a>IO 密集型</h1><ol>
+<li>《Java 虚拟机并发编程》中推荐的计算方法<br> CPU 中可以满负荷运行的最大线程数 &#x3D; CPU 核心数 &#x2F; （1 - 阻塞系数）<br> 阻塞系数 &#x3D; 调用 IO 时间 &#x2F; 请求时长<br> 阻塞系数一般认为在 0.8 ~ 0.9 之间</li>
+<li>《Java 并发编程实战》中推荐的计算方法<br> 线程数 &#x3D; CPU 核心数 * （1 + IO 耗时 &#x2F; CPU 耗时）</li>
+</ol>
+<h2 id="最大线程数-1"><a href="#最大线程数-1" class="headerlink" title="最大线程数"></a>最大线程数</h2><p>最大线程数 &#x3D; CPU 核心数 * 2</p>
+<h2 id="核心线程数-1"><a href="#核心线程数-1" class="headerlink" title="核心线程数"></a>核心线程数</h2><p>核心线程数 &#x3D; 最大线程数 * 20%</p>
+<h1 id="混合型"><a href="#混合型" class="headerlink" title="混合型"></a>混合型</h1><p>核心线程数 &#x3D; （线程等待时间 &#x2F; 线程 CPU时间 + 1） * CPU 核心数</p>
+<h1 id="如何根据实际情况规划线程数"><a href="#如何根据实际情况规划线程数" class="headerlink" title="如何根据实际情况规划线程数"></a>如何根据实际情况规划线程数</h1><ol>
+<li>分析当前主机上，有没有其他进程干扰</li>
+<li>分析当前 JVM 进程上，有没有其他运行中或可能运行的线程</li>
+<li>设定目标</li>
+<li>目标 CPU 利用率 - 最高能容忍的 CPU 使用率</li>
+<li>目标 GC 频率&#x2F;暂停时间 - 多线程执行后，GC 频率会增高，最大能容忍到什么频率，每次暂停时间多少？</li>
+<li>执行效率 - 比如批处理时，单位时间内要开多少线程才能及时处理完毕</li>
+<li>……</li>
+<li>梳理链路关键点，是否有卡脖子的点，因为如果线程数过多，链路上某些节点资源有限可能会导致大量的线程在等待资源（比如三方接口限流，连接池数量有限，中间件压力过大无法支撑等）</li>
+<li>不断的增加&#x2F;减少线程数来测试，按最高的要求去测试，最终获得一个“满足要求”的线程数</li>
+</ol>
+]]></content>
+      <categories>
+        <category>后端</category>
+      </categories>
+      <tags>
+        <tag>Java</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Java进阶训练营笔记</title>
     <url>/MiracleDx/2021/01/07/Java%20%E8%BF%9B%E9%98%B6%E8%AE%AD%E7%BB%83%E8%90%A5/</url>
     <content><![CDATA[<h1 id="JVM-核心技术-基础知识"><a href="#JVM-核心技术-基础知识" class="headerlink" title="JVM 核心技术-基础知识"></a>JVM 核心技术-基础知识</h1><h2 id="什么是字节码"><a href="#什么是字节码" class="headerlink" title="什么是字节码"></a>什么是字节码</h2><p><strong>Java bytecode</strong> 由单字节（byte）的指令组成，理论上最多支持 256 个操作吗，实际上 Java 只使用了 200 左右的操作码，一些操作码保留给调试操作<br>根据指令性质，分为 4 个大类</p>
@@ -554,37 +585,6 @@
 <li>所有类的静态子弹（static field）</li>
 <li>JNI 引用</li>
 </ul>
-]]></content>
-      <categories>
-        <category>后端</category>
-      </categories>
-      <tags>
-        <tag>Java</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Java线程池</title>
-    <url>/MiracleDx/2020/01/07/Java%20%E7%BA%BF%E7%A8%8B%E6%B1%A0/</url>
-    <content><![CDATA[<h1 id="CPU-密集型"><a href="#CPU-密集型" class="headerlink" title="CPU 密集型"></a>CPU 密集型</h1><h2 id="最大线程数"><a href="#最大线程数" class="headerlink" title="最大线程数"></a>最大线程数</h2><p>最大线程数 &#x3D; CPU 核心数 + 1<br>额外的线程能确保 CPU 的时钟周期不会被浪费，从而保证 CPU 的利用率。</p>
-<h2 id="核心线程数"><a href="#核心线程数" class="headerlink" title="核心线程数"></a>核心线程数</h2><p>核心线程数 &#x3D; CPU 核心数 或 CPU 核心数 + 1</p>
-<h1 id="IO-密集型"><a href="#IO-密集型" class="headerlink" title="IO 密集型"></a>IO 密集型</h1><ol>
-<li>《Java 虚拟机并发编程》中推荐的计算方法<br> CPU 中可以满负荷运行的最大线程数 &#x3D; CPU 核心数 &#x2F; （1 - 阻塞系数）<br> 阻塞系数 &#x3D; 调用 IO 时间 &#x2F; 请求时长<br> 阻塞系数一般认为在 0.8 ~ 0.9 之间</li>
-<li>《Java 并发编程实战》中推荐的计算方法<br> 线程数 &#x3D; CPU 核心数 * （1 + IO 耗时 &#x2F; CPU 耗时）</li>
-</ol>
-<h2 id="最大线程数-1"><a href="#最大线程数-1" class="headerlink" title="最大线程数"></a>最大线程数</h2><p>最大线程数 &#x3D; CPU 核心数 * 2</p>
-<h2 id="核心线程数-1"><a href="#核心线程数-1" class="headerlink" title="核心线程数"></a>核心线程数</h2><p>核心线程数 &#x3D; 最大线程数 * 20%</p>
-<h1 id="混合型"><a href="#混合型" class="headerlink" title="混合型"></a>混合型</h1><p>核心线程数 &#x3D; （线程等待时间 &#x2F; 线程 CPU时间 + 1） * CPU 核心数</p>
-<h1 id="如何根据实际情况规划线程数"><a href="#如何根据实际情况规划线程数" class="headerlink" title="如何根据实际情况规划线程数"></a>如何根据实际情况规划线程数</h1><ol>
-<li>分析当前主机上，有没有其他进程干扰</li>
-<li>分析当前 JVM 进程上，有没有其他运行中或可能运行的线程</li>
-<li>设定目标</li>
-<li>目标 CPU 利用率 - 最高能容忍的 CPU 使用率</li>
-<li>目标 GC 频率&#x2F;暂停时间 - 多线程执行后，GC 频率会增高，最大能容忍到什么频率，每次暂停时间多少？</li>
-<li>执行效率 - 比如批处理时，单位时间内要开多少线程才能及时处理完毕</li>
-<li>……</li>
-<li>梳理链路关键点，是否有卡脖子的点，因为如果线程数过多，链路上某些节点资源有限可能会导致大量的线程在等待资源（比如三方接口限流，连接池数量有限，中间件压力过大无法支撑等）</li>
-<li>不断的增加&#x2F;减少线程数来测试，按最高的要求去测试，最终获得一个“满足要求”的线程数</li>
-</ol>
 ]]></content>
       <categories>
         <category>后端</category>
@@ -1228,6 +1228,21 @@
       </tags>
   </entry>
   <entry>
+    <title>Llama2 部署</title>
+    <url>/MiracleDx/2023/10/18/Llama2%20%E9%83%A8%E7%BD%B2/</url>
+    <content><![CDATA[<h1 id="Llama-模型"><a href="#Llama-模型" class="headerlink" title="Llama 模型"></a>Llama 模型</h1><p><a href="https://github.com/FlagAlpha/Llama2-Chinese">FlagAlpha&#x2F;Llama2-Chinese: Llama中文社区，最好的中文Llama大模型，完全开源可商用</a><br><a href="https://github.com/ymcui/Chinese-LLaMA-Alpaca">ymcui&#x2F;Chinese-LLaMA-Alpaca: 中文LLaMA&amp;Alpaca大语言模型+本地CPU&#x2F;GPU训练部署 (Chinese LLaMA &amp; Alpaca LLMs)</a></p>
+<h1 id="llama-cpp-部署"><a href="#llama-cpp-部署" class="headerlink" title="llama.cpp 部署"></a>llama.cpp 部署</h1><p>参考文档部署即可<br><a href="https://github.com/ymcui/Chinese-LLaMA-Alpaca">ymcui&#x2F;Chinese-LLaMA-Alpaca: 中文LLaMA&amp;Alpaca大语言模型+本地CPU&#x2F;GPU训练部署 (Chinese LLaMA &amp; Alpaca LLMs)</a><br><strong>模型使用需要进行量化</strong></p>
+<h1 id="编程语言实现"><a href="#编程语言实现" class="headerlink" title="编程语言实现"></a>编程语言实现</h1><h2 id="Java"><a href="#Java" class="headerlink" title="Java"></a>Java</h2><p><a href="https://github.com/kherud/java-llama.cpp">kherud&#x2F;java-llama.cpp: Java Bindings for llama.cpp - A Port of Facebook’s LLaMA model in C&#x2F;C++</a><br>如果部署了 llama.cpp 可以直接通过 java api 进行调用</p>
+<h2 id="Python"><a href="#Python" class="headerlink" title="Python"></a>Python</h2><p><a href="https://github.com/abetlen/llama-cpp-python">abetlen&#x2F;llama-cpp-python: Python bindings for llama.cpp</a><br>可以通过 llama-cpp-python[server] 启动 open api 的兼容接口</p>
+]]></content>
+      <categories>
+        <category>AIGC</category>
+      </categories>
+      <tags>
+        <tag>Llama</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>M1 Pro 环境配置</title>
     <url>/MiracleDx/2021/11/18/M1%20Pro%20%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/</url>
     <content><![CDATA[<h1 id="一、软件安装"><a href="#一、软件安装" class="headerlink" title="一、软件安装"></a>一、软件安装</h1><table>
@@ -1816,21 +1831,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Llama2 部署</title>
-    <url>/MiracleDx/2023/10/18/Llama2%20%E9%83%A8%E7%BD%B2/</url>
-    <content><![CDATA[<h1 id="Llama-模型"><a href="#Llama-模型" class="headerlink" title="Llama 模型"></a>Llama 模型</h1><p><a href="https://github.com/FlagAlpha/Llama2-Chinese">FlagAlpha&#x2F;Llama2-Chinese: Llama中文社区，最好的中文Llama大模型，完全开源可商用</a><br><a href="https://github.com/ymcui/Chinese-LLaMA-Alpaca">ymcui&#x2F;Chinese-LLaMA-Alpaca: 中文LLaMA&amp;Alpaca大语言模型+本地CPU&#x2F;GPU训练部署 (Chinese LLaMA &amp; Alpaca LLMs)</a></p>
-<h1 id="llama-cpp-部署"><a href="#llama-cpp-部署" class="headerlink" title="llama.cpp 部署"></a>llama.cpp 部署</h1><p>参考文档部署即可<br><a href="https://github.com/ymcui/Chinese-LLaMA-Alpaca">ymcui&#x2F;Chinese-LLaMA-Alpaca: 中文LLaMA&amp;Alpaca大语言模型+本地CPU&#x2F;GPU训练部署 (Chinese LLaMA &amp; Alpaca LLMs)</a><br><strong>模型使用需要进行量化</strong></p>
-<h1 id="编程语言实现"><a href="#编程语言实现" class="headerlink" title="编程语言实现"></a>编程语言实现</h1><h2 id="Java"><a href="#Java" class="headerlink" title="Java"></a>Java</h2><p><a href="https://github.com/kherud/java-llama.cpp">kherud&#x2F;java-llama.cpp: Java Bindings for llama.cpp - A Port of Facebook’s LLaMA model in C&#x2F;C++</a><br>如果部署了 llama.cpp 可以直接通过 java api 进行调用</p>
-<h2 id="Python"><a href="#Python" class="headerlink" title="Python"></a>Python</h2><p><a href="https://github.com/abetlen/llama-cpp-python">abetlen&#x2F;llama-cpp-python: Python bindings for llama.cpp</a><br>可以通过 llama-cpp-python[server] 启动 open api 的兼容接口</p>
-]]></content>
-      <categories>
-        <category>AIGC</category>
-      </categories>
-      <tags>
-        <tag>Llama</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Maven</title>
     <url>/MiracleDx/2020/05/18/Maven/</url>
     <content><![CDATA[<h1 id="scope-provided-和-optional-true-的区别"><a href="#scope-provided-和-optional-true-的区别" class="headerlink" title="scope provided 和 optional &#x3D; true 的区别"></a>scope provided 和 optional &#x3D; true 的区别</h1><h3 id="相同点"><a href="#相同点" class="headerlink" title="相同点"></a>相同点</h3><p>两者都不会将依赖直接打入包中</p>
@@ -1900,62 +1900,6 @@
       </categories>
       <tags>
         <tag>RockerMQ 容器</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>常用指令</title>
-    <url>/MiracleDx/2024/03/12/%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4/</url>
-    <content><![CDATA[<h1 id="正则"><a href="#正则" class="headerlink" title="正则"></a>正则</h1><h2 id="删代码注释的正则"><a href="#删代码注释的正则" class="headerlink" title="删代码注释的正则"></a>删代码注释的正则</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">(/\*([^*]|[\r\n]|(\*+([^*/]|[\r\n])))*\*+/|[ \t]*<span class="comment">//.*)</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="匹配中文的正则"><a href="#匹配中文的正则" class="headerlink" title="匹配中文的正则"></a>匹配中文的正则</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 匹配单字节</span><br><span class="line">[\u4e00-\u9fa5]</span><br><span class="line"># 匹配双字节</span><br><span class="line">[^\x00-\xff]</span><br></pre></td></tr></table></figure>
-
-<h1 id="Linux"><a href="#Linux" class="headerlink" title="Linux"></a>Linux</h1><h2 id="查看是否为-Linux-OOM-Killer-杀掉的进程"><a href="#查看是否为-Linux-OOM-Killer-杀掉的进程" class="headerlink" title="查看是否为 Linux OOM Killer 杀掉的进程"></a>查看是否为 Linux OOM Killer 杀掉的进程</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo egrep -i -r &#x27;Out Of&#x27; /var/log</span><br></pre></td></tr></table></figure>
-
-<h2 id="查看进程直接杀掉"><a href="#查看进程直接杀掉" class="headerlink" title="查看进程直接杀掉"></a>查看进程直接杀掉</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">ps -ef | grep filebeat-sfzt-s.yml | awk -F &quot;[ ]+&quot; &#x27;NR==1&#123;print $2&#125;&#x27; | xargs kill -9</span><br></pre></td></tr></table></figure>
-
-<h2 id="文件大小排序"><a href="#文件大小排序" class="headerlink" title="文件大小排序"></a>文件大小排序</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">du -hsx * | sort -rh | head -6</span><br><span class="line">du – 估计文件的空间使用情况</span><br><span class="line">-hsx – （-h）更易读的格式，（-s）汇总输出，（-x）跳过其他文件系统的文件</span><br><span class="line">sort – 对文本文件按行排序</span><br><span class="line">-rf – （-r）将比较的结果逆序输出，（-f）忽略大小写</span><br><span class="line">head – 输出文件的头几行</span><br></pre></td></tr></table></figure>
-
-<h2 id="查看每个文件的行数"><a href="#查看每个文件的行数" class="headerlink" title="查看每个文件的行数"></a>查看每个文件的行数</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">find ./ -type f -name cilogPlatform*.log|awk &#x27;&#123;print &quot;echo \&quot;&quot;$1&quot;\&quot;;cat &quot;$1&quot;|wc -l&quot;&#125;&#x27;|sh &gt; cilogPlatform_info.txt</span><br></pre></td></tr></table></figure>
-
-<h1 id="Git"><a href="#Git" class="headerlink" title="Git"></a>Git</h1><h2 id="Rebase-历史丢失"><a href="#Rebase-历史丢失" class="headerlink" title="Rebase 历史丢失"></a>Rebase 历史丢失</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">查找变更记录</span></span><br><span class="line">git reflog</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">找到rebase前的<span class="built_in">hash</span> 创建一个备份分支</span></span><br><span class="line">git checkout -b branch-bak d1ccec7</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">一顿操作。能不能恢复看自己发挥了</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="查看每个人提交的行数"><a href="#查看每个人提交的行数" class="headerlink" title="查看每个人提交的行数"></a>查看每个人提交的行数</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git log --format=&#x27;%aN&#x27; | sort -u | while read name; do echo -en &quot;$name\t&quot;; git log --author=&quot;$name&quot; --pretty=tformat: --numstat | awk &#x27;&#123; add += $1; subs += $2; loc += $1 - $2 &#125; END &#123; printf &quot;added lines: %s, removed lines: %s, total lines: %s\n&quot;, add, subs, loc &#125;&#x27; -; done</span><br></pre></td></tr></table></figure>
-
-<h2 id="统计代码总行数"><a href="#统计代码总行数" class="headerlink" title="统计代码总行数"></a>统计代码总行数</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git ls-files | xargs cat | wc -l</span><br></pre></td></tr></table></figure>
-
-<h1 id="K8s"><a href="#K8s" class="headerlink" title="K8s"></a>K8s</h1><h2 id="查询所有运行时的容器"><a href="#查询所有运行时的容器" class="headerlink" title="查询所有运行时的容器"></a>查询所有运行时的容器</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">kubectl get nodes -o wide</span><br></pre></td></tr></table></figure>
-
-<h2 id="查看所有-pods-的命名空间"><a href="#查看所有-pods-的命名空间" class="headerlink" title="查看所有 pods 的命名空间"></a>查看所有 pods 的命名空间</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">kubectl get pods --all-namespaces</span><br></pre></td></tr></table></figure>
-
-<h2 id="创建命名空间"><a href="#创建命名空间" class="headerlink" title="创建命名空间"></a>创建命名空间</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">kubectl create namespace xxx</span><br></pre></td></tr></table></figure>
-
-<h2 id="实时查看-Deployment-对象的状态变化"><a href="#实时查看-Deployment-对象的状态变化" class="headerlink" title="实时查看 Deployment 对象的状态变化"></a>实时查看 Deployment 对象的状态变化</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">kubectl rollout status</span><br></pre></td></tr></table></figure>
-
-<h2 id="回滚-Deployment"><a href="#回滚-Deployment" class="headerlink" title="回滚 Deployment"></a>回滚 Deployment</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">回滚到上一次</span></span><br><span class="line">kubectl rollout undo deployment_name</span><br></pre></td></tr></table></figure>
-
-<h2 id="查看每次-Deployment-变更对应版本"><a href="#查看每次-Deployment-变更对应版本" class="headerlink" title="查看每次 Deployment 变更对应版本"></a>查看每次 Deployment 变更对应版本</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">查看全部版本</span></span><br><span class="line">kubectl rollout history deployment_name</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">查看每个版本的细节</span></span><br><span class="line">kubectl rollout history deployment_name --revision=version_number</span><br></pre></td></tr></table></figure>
-
-<h2 id="回滚-Deployment-到指定版本"><a href="#回滚-Deployment-到指定版本" class="headerlink" title="回滚 Deployment 到指定版本"></a>回滚 Deployment 到指定版本</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">kubuctl rollout undo deployment_nmame --to-revision=version_number</span><br></pre></td></tr></table></figure>
-
-<h2 id="防止每次更新-Deployment，生成多个-ReplicaSet-对象"><a href="#防止每次更新-Deployment，生成多个-ReplicaSet-对象" class="headerlink" title="防止每次更新 Deployment，生成多个 ReplicaSet 对象"></a>防止每次更新 Deployment，生成多个 ReplicaSet 对象</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">kubectl rollout pause deployment_name</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">update deployment</span></span><br><span class="line">kubectl rollout resume deployment_name</span><br></pre></td></tr></table></figure>
-
-<h2 id="Dns-测试"><a href="#Dns-测试" class="headerlink" title="Dns 测试"></a>Dns 测试</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">kubectl run -i --tty --image busybox:1.28.4 dns-test --restart=Never --rm /bin/sh </span><br></pre></td></tr></table></figure>
-
-<h1 id="MySQL"><a href="#MySQL" class="headerlink" title="MySQL"></a>MySQL</h1><h2 id="MySQL-增加-on-update-语句"><a href="#MySQL-增加-on-update-语句" class="headerlink" title="MySQL 增加 on update 语句"></a>MySQL 增加 on update 语句</h2><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> sys_summary CHANGE update_time update_time <span class="type">TIMESTAMP</span> <span class="keyword">NOT</span> <span class="keyword">NULL</span> <span class="keyword">DEFAULT</span> <span class="built_in">CURRENT_TIMESTAMP</span> <span class="keyword">on</span> <span class="keyword">update</span> <span class="built_in">CURRENT_TIMESTAMP</span> comment <span class="string">&#x27;更新时间&#x27;</span>;</span><br><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> sys_summary CHANGE update_time update_time <span class="type">TIMESTAMP</span> <span class="keyword">NOT</span> <span class="keyword">NULL</span> <span class="keyword">DEFAULT</span> <span class="built_in">CURRENT_TIMESTAMP</span> comment <span class="string">&#x27;更新时间&#x27;</span>;</span><br></pre></td></tr></table></figure>
-
-<h2 id="去除回车和空行"><a href="#去除回车和空行" class="headerlink" title="去除回车和空行"></a>去除回车和空行</h2><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">UPDATE</span> tableName <span class="keyword">SET</span> field <span class="operator">=</span> REPLACE(REPLACE(field, <span class="type">CHAR</span>(<span class="number">10</span>), <span class="string">&#x27;&#x27;</span>), <span class="type">CHAR</span>(<span class="number">13</span>), <span class="string">&#x27;&#x27;</span>);</span><br></pre></td></tr></table></figure>
-
-<h2 id="按照-1-1-1-2-版本号进行排序"><a href="#按照-1-1-1-2-版本号进行排序" class="headerlink" title="按照 1.1 1.2 版本号进行排序"></a>按照 1.1 1.2 版本号进行排序</h2><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 当每一层值可以控制在0-9时，可直接使用如下方法  序号转成小数的形式即可实现排序</span></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> 表名 <span class="keyword">ORDER</span> <span class="keyword">BY</span> <span class="built_in">cast</span>(concat(<span class="keyword">left</span>(字段名,INSTR(字段名,<span class="string">&#x27;.&#x27;</span>)), replace(<span class="built_in">subString</span>(字段名,instr(字段名,<span class="string">&#x27;.&#x27;</span>)<span class="operator">+</span><span class="number">1</span>), <span class="string">&#x27;.&#x27;</span>, <span class="string">&#x27;&#x27;</span>)) <span class="keyword">as</span> <span class="type">DECIMAL</span>(<span class="number">4</span>,<span class="number">2</span>));</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 当序号层数可以控制时，每一项值不可控时，可使用</span></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> 表名 <span class="keyword">order</span> <span class="keyword">by</span> SUBSTRING_INDEX(SUBSTRING_INDEX(CONCAT(字段名, <span class="string">&#x27;.&#x27;</span>), <span class="string">&#x27;.&#x27;</span>, <span class="number">1</span>), <span class="string">&#x27;.&#x27;</span>, <span class="number">-1</span>)<span class="operator">+</span><span class="number">0</span>,SUBSTRING_INDEX(SUBSTRING_INDEX(CONCAT(字段名, <span class="string">&#x27;.&#x27;</span>), <span class="string">&#x27;.&#x27;</span>, <span class="number">2</span>), <span class="string">&#x27;.&#x27;</span>, <span class="number">-1</span>)<span class="operator">+</span><span class="number">0</span>,SUBSTRING_INDEX(SUBSTRING_INDEX(CONCAT(字段名, <span class="string">&#x27;.&#x27;</span>), <span class="string">&#x27;.&#x27;</span>, <span class="number">3</span>), <span class="string">&#x27;.&#x27;</span>, <span class="number">-1</span>)<span class="operator">+</span><span class="number">0</span>,SUBSTRING_INDEX(SUBSTRING_INDEX(CONCAT(字段名, <span class="string">&#x27;.&#x27;</span>), <span class="string">&#x27;.&#x27;</span>, <span class="number">4</span>), <span class="string">&#x27;.&#x27;</span>, <span class="number">-1</span>)<span class="operator">+</span><span class="number">0</span>,SUBSTRING_INDEX(SUBSTRING_INDEX(CONCAT(字段名, <span class="string">&#x27;.&#x27;</span>), <span class="string">&#x27;.&#x27;</span>, <span class="number">5</span>), <span class="string">&#x27;.&#x27;</span>, <span class="number">-1</span>)<span class="operator">+</span><span class="number">0</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="清除有外键的表数据"><a href="#清除有外键的表数据" class="headerlink" title="清除有外键的表数据"></a>清除有外键的表数据</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">SET FOREIGN_KEY_CHECKS = 0; </span><br><span class="line">TRUNCATE TABLE TABLE_NAME;</span><br><span class="line">SET FOREIGN_KEY_CHECKS = 1;</span><br></pre></td></tr></table></figure>
-
-<h1 id="Maven"><a href="#Maven" class="headerlink" title="Maven"></a>Maven</h1><h2 id="Maven-下载源文件和-document"><a href="#Maven-下载源文件和-document" class="headerlink" title="Maven 下载源文件和 document"></a>Maven 下载源文件和 document</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">mvn dependency:resolve -Dclassifier=sources</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
-      <tags>
-        <tag>shell 正则</tag>
       </tags>
   </entry>
   <entry>
@@ -2089,6 +2033,62 @@
       </categories>
       <tags>
         <tag>Spring</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>常用指令</title>
+    <url>/MiracleDx/2024/03/12/%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4/</url>
+    <content><![CDATA[<h1 id="正则"><a href="#正则" class="headerlink" title="正则"></a>正则</h1><h2 id="删代码注释的正则"><a href="#删代码注释的正则" class="headerlink" title="删代码注释的正则"></a>删代码注释的正则</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">(/\*([^*]|[\r\n]|(\*+([^*/]|[\r\n])))*\*+/|[ \t]*<span class="comment">//.*)</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="匹配中文的正则"><a href="#匹配中文的正则" class="headerlink" title="匹配中文的正则"></a>匹配中文的正则</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 匹配单字节</span><br><span class="line">[\u4e00-\u9fa5]</span><br><span class="line"># 匹配双字节</span><br><span class="line">[^\x00-\xff]</span><br></pre></td></tr></table></figure>
+
+<h1 id="Linux"><a href="#Linux" class="headerlink" title="Linux"></a>Linux</h1><h2 id="查看是否为-Linux-OOM-Killer-杀掉的进程"><a href="#查看是否为-Linux-OOM-Killer-杀掉的进程" class="headerlink" title="查看是否为 Linux OOM Killer 杀掉的进程"></a>查看是否为 Linux OOM Killer 杀掉的进程</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo egrep -i -r &#x27;Out Of&#x27; /var/log</span><br></pre></td></tr></table></figure>
+
+<h2 id="查看进程直接杀掉"><a href="#查看进程直接杀掉" class="headerlink" title="查看进程直接杀掉"></a>查看进程直接杀掉</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">ps -ef | grep filebeat-sfzt-s.yml | awk -F &quot;[ ]+&quot; &#x27;NR==1&#123;print $2&#125;&#x27; | xargs kill -9</span><br></pre></td></tr></table></figure>
+
+<h2 id="文件大小排序"><a href="#文件大小排序" class="headerlink" title="文件大小排序"></a>文件大小排序</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">du -hsx * | sort -rh | head -6</span><br><span class="line">du – 估计文件的空间使用情况</span><br><span class="line">-hsx – （-h）更易读的格式，（-s）汇总输出，（-x）跳过其他文件系统的文件</span><br><span class="line">sort – 对文本文件按行排序</span><br><span class="line">-rf – （-r）将比较的结果逆序输出，（-f）忽略大小写</span><br><span class="line">head – 输出文件的头几行</span><br></pre></td></tr></table></figure>
+
+<h2 id="查看每个文件的行数"><a href="#查看每个文件的行数" class="headerlink" title="查看每个文件的行数"></a>查看每个文件的行数</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">find ./ -type f -name cilogPlatform*.log|awk &#x27;&#123;print &quot;echo \&quot;&quot;$1&quot;\&quot;;cat &quot;$1&quot;|wc -l&quot;&#125;&#x27;|sh &gt; cilogPlatform_info.txt</span><br></pre></td></tr></table></figure>
+
+<h1 id="Git"><a href="#Git" class="headerlink" title="Git"></a>Git</h1><h2 id="Rebase-历史丢失"><a href="#Rebase-历史丢失" class="headerlink" title="Rebase 历史丢失"></a>Rebase 历史丢失</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">查找变更记录</span></span><br><span class="line">git reflog</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">找到rebase前的<span class="built_in">hash</span> 创建一个备份分支</span></span><br><span class="line">git checkout -b branch-bak d1ccec7</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">一顿操作。能不能恢复看自己发挥了</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="查看每个人提交的行数"><a href="#查看每个人提交的行数" class="headerlink" title="查看每个人提交的行数"></a>查看每个人提交的行数</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git log --format=&#x27;%aN&#x27; | sort -u | while read name; do echo -en &quot;$name\t&quot;; git log --author=&quot;$name&quot; --pretty=tformat: --numstat | awk &#x27;&#123; add += $1; subs += $2; loc += $1 - $2 &#125; END &#123; printf &quot;added lines: %s, removed lines: %s, total lines: %s\n&quot;, add, subs, loc &#125;&#x27; -; done</span><br></pre></td></tr></table></figure>
+
+<h2 id="统计代码总行数"><a href="#统计代码总行数" class="headerlink" title="统计代码总行数"></a>统计代码总行数</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git ls-files | xargs cat | wc -l</span><br></pre></td></tr></table></figure>
+
+<h1 id="K8s"><a href="#K8s" class="headerlink" title="K8s"></a>K8s</h1><h2 id="查询所有运行时的容器"><a href="#查询所有运行时的容器" class="headerlink" title="查询所有运行时的容器"></a>查询所有运行时的容器</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">kubectl get nodes -o wide</span><br></pre></td></tr></table></figure>
+
+<h2 id="查看所有-pods-的命名空间"><a href="#查看所有-pods-的命名空间" class="headerlink" title="查看所有 pods 的命名空间"></a>查看所有 pods 的命名空间</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">kubectl get pods --all-namespaces</span><br></pre></td></tr></table></figure>
+
+<h2 id="创建命名空间"><a href="#创建命名空间" class="headerlink" title="创建命名空间"></a>创建命名空间</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">kubectl create namespace xxx</span><br></pre></td></tr></table></figure>
+
+<h2 id="实时查看-Deployment-对象的状态变化"><a href="#实时查看-Deployment-对象的状态变化" class="headerlink" title="实时查看 Deployment 对象的状态变化"></a>实时查看 Deployment 对象的状态变化</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">kubectl rollout status</span><br></pre></td></tr></table></figure>
+
+<h2 id="回滚-Deployment"><a href="#回滚-Deployment" class="headerlink" title="回滚 Deployment"></a>回滚 Deployment</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">回滚到上一次</span></span><br><span class="line">kubectl rollout undo deployment_name</span><br></pre></td></tr></table></figure>
+
+<h2 id="查看每次-Deployment-变更对应版本"><a href="#查看每次-Deployment-变更对应版本" class="headerlink" title="查看每次 Deployment 变更对应版本"></a>查看每次 Deployment 变更对应版本</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">查看全部版本</span></span><br><span class="line">kubectl rollout history deployment_name</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">查看每个版本的细节</span></span><br><span class="line">kubectl rollout history deployment_name --revision=version_number</span><br></pre></td></tr></table></figure>
+
+<h2 id="回滚-Deployment-到指定版本"><a href="#回滚-Deployment-到指定版本" class="headerlink" title="回滚 Deployment 到指定版本"></a>回滚 Deployment 到指定版本</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">kubuctl rollout undo deployment_nmame --to-revision=version_number</span><br></pre></td></tr></table></figure>
+
+<h2 id="防止每次更新-Deployment，生成多个-ReplicaSet-对象"><a href="#防止每次更新-Deployment，生成多个-ReplicaSet-对象" class="headerlink" title="防止每次更新 Deployment，生成多个 ReplicaSet 对象"></a>防止每次更新 Deployment，生成多个 ReplicaSet 对象</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">kubectl rollout pause deployment_name</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">update deployment</span></span><br><span class="line">kubectl rollout resume deployment_name</span><br></pre></td></tr></table></figure>
+
+<h2 id="Dns-测试"><a href="#Dns-测试" class="headerlink" title="Dns 测试"></a>Dns 测试</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">kubectl run -i --tty --image busybox:1.28.4 dns-test --restart=Never --rm /bin/sh </span><br></pre></td></tr></table></figure>
+
+<h1 id="MySQL"><a href="#MySQL" class="headerlink" title="MySQL"></a>MySQL</h1><h2 id="MySQL-增加-on-update-语句"><a href="#MySQL-增加-on-update-语句" class="headerlink" title="MySQL 增加 on update 语句"></a>MySQL 增加 on update 语句</h2><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> sys_summary CHANGE update_time update_time <span class="type">TIMESTAMP</span> <span class="keyword">NOT</span> <span class="keyword">NULL</span> <span class="keyword">DEFAULT</span> <span class="built_in">CURRENT_TIMESTAMP</span> <span class="keyword">on</span> <span class="keyword">update</span> <span class="built_in">CURRENT_TIMESTAMP</span> comment <span class="string">&#x27;更新时间&#x27;</span>;</span><br><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> sys_summary CHANGE update_time update_time <span class="type">TIMESTAMP</span> <span class="keyword">NOT</span> <span class="keyword">NULL</span> <span class="keyword">DEFAULT</span> <span class="built_in">CURRENT_TIMESTAMP</span> comment <span class="string">&#x27;更新时间&#x27;</span>;</span><br></pre></td></tr></table></figure>
+
+<h2 id="去除回车和空行"><a href="#去除回车和空行" class="headerlink" title="去除回车和空行"></a>去除回车和空行</h2><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">UPDATE</span> tableName <span class="keyword">SET</span> field <span class="operator">=</span> REPLACE(REPLACE(field, <span class="type">CHAR</span>(<span class="number">10</span>), <span class="string">&#x27;&#x27;</span>), <span class="type">CHAR</span>(<span class="number">13</span>), <span class="string">&#x27;&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+<h2 id="按照-1-1-1-2-版本号进行排序"><a href="#按照-1-1-1-2-版本号进行排序" class="headerlink" title="按照 1.1 1.2 版本号进行排序"></a>按照 1.1 1.2 版本号进行排序</h2><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 当每一层值可以控制在0-9时，可直接使用如下方法  序号转成小数的形式即可实现排序</span></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> 表名 <span class="keyword">ORDER</span> <span class="keyword">BY</span> <span class="built_in">cast</span>(concat(<span class="keyword">left</span>(字段名,INSTR(字段名,<span class="string">&#x27;.&#x27;</span>)), replace(<span class="built_in">subString</span>(字段名,instr(字段名,<span class="string">&#x27;.&#x27;</span>)<span class="operator">+</span><span class="number">1</span>), <span class="string">&#x27;.&#x27;</span>, <span class="string">&#x27;&#x27;</span>)) <span class="keyword">as</span> <span class="type">DECIMAL</span>(<span class="number">4</span>,<span class="number">2</span>));</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 当序号层数可以控制时，每一项值不可控时，可使用</span></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> 表名 <span class="keyword">order</span> <span class="keyword">by</span> SUBSTRING_INDEX(SUBSTRING_INDEX(CONCAT(字段名, <span class="string">&#x27;.&#x27;</span>), <span class="string">&#x27;.&#x27;</span>, <span class="number">1</span>), <span class="string">&#x27;.&#x27;</span>, <span class="number">-1</span>)<span class="operator">+</span><span class="number">0</span>,SUBSTRING_INDEX(SUBSTRING_INDEX(CONCAT(字段名, <span class="string">&#x27;.&#x27;</span>), <span class="string">&#x27;.&#x27;</span>, <span class="number">2</span>), <span class="string">&#x27;.&#x27;</span>, <span class="number">-1</span>)<span class="operator">+</span><span class="number">0</span>,SUBSTRING_INDEX(SUBSTRING_INDEX(CONCAT(字段名, <span class="string">&#x27;.&#x27;</span>), <span class="string">&#x27;.&#x27;</span>, <span class="number">3</span>), <span class="string">&#x27;.&#x27;</span>, <span class="number">-1</span>)<span class="operator">+</span><span class="number">0</span>,SUBSTRING_INDEX(SUBSTRING_INDEX(CONCAT(字段名, <span class="string">&#x27;.&#x27;</span>), <span class="string">&#x27;.&#x27;</span>, <span class="number">4</span>), <span class="string">&#x27;.&#x27;</span>, <span class="number">-1</span>)<span class="operator">+</span><span class="number">0</span>,SUBSTRING_INDEX(SUBSTRING_INDEX(CONCAT(字段名, <span class="string">&#x27;.&#x27;</span>), <span class="string">&#x27;.&#x27;</span>, <span class="number">5</span>), <span class="string">&#x27;.&#x27;</span>, <span class="number">-1</span>)<span class="operator">+</span><span class="number">0</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="清除有外键的表数据"><a href="#清除有外键的表数据" class="headerlink" title="清除有外键的表数据"></a>清除有外键的表数据</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">SET FOREIGN_KEY_CHECKS = 0; </span><br><span class="line">TRUNCATE TABLE TABLE_NAME;</span><br><span class="line">SET FOREIGN_KEY_CHECKS = 1;</span><br></pre></td></tr></table></figure>
+
+<h1 id="Maven"><a href="#Maven" class="headerlink" title="Maven"></a>Maven</h1><h2 id="Maven-下载源文件和-document"><a href="#Maven-下载源文件和-document" class="headerlink" title="Maven 下载源文件和 document"></a>Maven 下载源文件和 document</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">mvn dependency:resolve -Dclassifier=sources</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>shell 正则</tag>
       </tags>
   </entry>
   <entry>
@@ -2389,263 +2389,6 @@
       </categories>
       <tags>
         <tag>设计</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>环形链表 - 1</title>
-    <url>/MiracleDx/2019/08/19/Linked%20List/141.%E7%8E%AF%E5%BD%A2%E9%93%BE%E8%A1%A8/</url>
-    <content><![CDATA[<h1 id="141-环形链表"><a href="#141-环形链表" class="headerlink" title="141.环形链表"></a>141.环形链表</h1><p><strong>难度：简单</strong></p>
-<h3 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">给定一个链表，判断链表中是否有环。</span><br><span class="line">为了表示给定链表中的环，我们使用整数 pos 来表示链表尾连接到链表中的位置（索引从 0 开始）。 如果 pos 是 -1，则在该链表中没有环</span><br></pre></td></tr></table></figure>
-<p>示例1：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入：head = [3,2,0,-4], pos = 1</span><br><span class="line">输出：true</span><br><span class="line">解释：链表中有一个环，其尾部连接到第二个节点。</span><br></pre></td></tr></table></figure>
-<p>示例2：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入：head = [1,2], pos = 0</span><br><span class="line">输出：true</span><br><span class="line">解释：链表中有一个环，其尾部连接到第一个节点。</span><br></pre></td></tr></table></figure>
-<p>示例3：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入：head = [1], pos = -1</span><br><span class="line">输出：false</span><br><span class="line">解释：链表中没有环。</span><br></pre></td></tr></table></figure>
-<p>进阶：<br>你能用 *O(1)*（即，常量）内存解决此问题吗？</p>
-<h3 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h3><h4 id="方法一：哈希表"><a href="#方法一：哈希表" class="headerlink" title="方法一：哈希表"></a>方法一：哈希表</h4><h5 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h5><ol>
-<li>定义Set哈希表，存储所有经过的节点</li>
-<li>如果哈希表中存在这个节点，则说明有环</li>
-</ol>
-<h5 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">hasCycle</span><span class="params">(ListNode head)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (head == <span class="literal">null</span> || head.next == <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        Set&lt;ListNode&gt; set = <span class="keyword">new</span> <span class="title class_">HashSet</span>&lt;&gt;();</span><br><span class="line">        <span class="keyword">while</span> (head != <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (set.contains(head)) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            set.add(head);</span><br><span class="line">            head = head.next;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="复杂度分析"><a href="#复杂度分析" class="headerlink" title="复杂度分析"></a>复杂度分析</h5><ol>
-<li>时间复杂度：O(n)</li>
-<li>空间复杂度：O(1)</li>
-</ol>
-<h4 id="方法二：-双指针"><a href="#方法二：-双指针" class="headerlink" title="方法二： 双指针"></a>方法二： 双指针</h4><h5 id="思路-1"><a href="#思路-1" class="headerlink" title="思路"></a>思路</h5><ol>
-<li>定义快慢指针，快指针每次进 1，慢指针每次进 2</li>
-<li>当快慢指针的值相等时，说明有环</li>
-</ol>
-<h5 id="代码-1"><a href="#代码-1" class="headerlink" title="代码"></a>代码</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">hasCycle</span><span class="params">(ListNode head)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (head == <span class="literal">null</span> || head.next == <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="type">ListNode</span> <span class="variable">slow</span> <span class="operator">=</span> head;</span><br><span class="line">        <span class="type">ListNode</span> <span class="variable">fast</span> <span class="operator">=</span> head;</span><br><span class="line">        <span class="keyword">while</span> (fast != <span class="literal">null</span> &amp;&amp; fast.next != <span class="literal">null</span>) &#123;</span><br><span class="line">            slow = slow.next;</span><br><span class="line">            fast = fast.next.next;</span><br><span class="line">            <span class="keyword">if</span> (slow == fast) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="复杂度分析-1"><a href="#复杂度分析-1" class="headerlink" title="复杂度分析"></a>复杂度分析</h5><ol>
-<li>时间复杂度：O(n)</li>
-<li>空间复杂度：O(1)</li>
-</ol>
-]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>链表</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>环形链表 - 2</title>
-    <url>/MiracleDx/2019/08/20/Linked%20List/142.%E7%8E%AF%E5%BD%A2%E9%93%BE%E8%A1%A8/</url>
-    <content><![CDATA[<h1 id="141-环形链表"><a href="#141-环形链表" class="headerlink" title="141.环形链表"></a>141.环形链表</h1><p><strong>难度：中等</strong></p>
-<h3 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">给定一个链表，返回链表开始入环的第一个节点。 如果链表无环，则返回 null。</span><br><span class="line">为了表示给定链表中的环，我们使用整数 pos 来表示链表尾连接到链表中的位置（索引从 0 开始）。 如果 pos 是 -1，则在该链表中没有环。</span><br><span class="line">说明：不允许修改给定的链表。</span><br></pre></td></tr></table></figure>
-<p>示例1：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入：head = [3,2,0,-4], pos = 1</span><br><span class="line">输出：tail connects to node index 1</span><br><span class="line">解释：链表中有一个环，其尾部连接到第二个节点。</span><br></pre></td></tr></table></figure>
-<p>示例 2：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入：head = [1,2], pos = 0</span><br><span class="line">输出：tail connects to node index 0</span><br><span class="line">解释：链表中有一个环，其尾部连接到第一个节点。</span><br></pre></td></tr></table></figure>
-<p>示例 3：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入：head = [1], pos = -1</span><br><span class="line">输出：no cycle</span><br><span class="line">解释：链表中没有环。</span><br></pre></td></tr></table></figure>
-<p>进阶：<br>你是否可以不用额外空间解决此题？</p>
-<h3 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h3><h4 id="方法一：-哈希表"><a href="#方法一：-哈希表" class="headerlink" title="方法一： 哈希表"></a>方法一： 哈希表</h4><h5 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h5><ol>
-<li>定义Set哈希表，存储所有经过的节点</li>
-<li>如果哈希表中存在这个节点，则说明有环，返回该节点</li>
-</ol>
-<h5 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> ListNode <span class="title function_">detectCycle</span><span class="params">(ListNode head)</span> &#123;</span><br><span class="line">       Set&lt;ListNode&gt; set = <span class="keyword">new</span> <span class="title class_">HashSet</span>&lt;&gt;();</span><br><span class="line">       <span class="keyword">while</span> (head != <span class="literal">null</span>) &#123;</span><br><span class="line">           <span class="keyword">if</span> (set.contains(head)) &#123;</span><br><span class="line">               <span class="keyword">return</span> head;</span><br><span class="line">           &#125;</span><br><span class="line">           set.add(head);</span><br><span class="line">           head = head.next;</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="复杂度分析"><a href="#复杂度分析" class="headerlink" title="复杂度分析"></a>复杂度分析</h5><ol>
-<li>时间复杂度：O(n)</li>
-<li>空间复杂度：O(1)</li>
-</ol>
-<h4 id="方法二：双指针"><a href="#方法二：双指针" class="headerlink" title="方法二：双指针"></a>方法二：双指针</h4><h5 id="思路-1"><a href="#思路-1" class="headerlink" title="思路"></a>思路</h5><ol>
-<li>定义快慢指针，快指针每次进 1，慢指针每次进 2</li>
-<li>当快慢指针的值相等时，说明有环</li>
-<li>当出现环时，快慢指针可能不是在环点，所以将慢指针移回 head，使快慢指针步长一致</li>
-<li>当快慢指针再次相遇时，即为环点</li>
-</ol>
-<h5 id="代码-1"><a href="#代码-1" class="headerlink" title="代码"></a>代码</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> ListNode <span class="title function_">detectCycle</span><span class="params">(ListNode head)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (head == <span class="literal">null</span> || head.next == <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="type">ListNode</span> <span class="variable">slow</span> <span class="operator">=</span> head;</span><br><span class="line">        <span class="type">ListNode</span> <span class="variable">fast</span> <span class="operator">=</span> head;</span><br><span class="line">        <span class="keyword">while</span> (fast != <span class="literal">null</span> &amp;&amp; fast.next != <span class="literal">null</span>) &#123;</span><br><span class="line">            slow = slow.next;</span><br><span class="line">            fast = fast.next.next;</span><br><span class="line">            <span class="keyword">if</span> (slow == fast) &#123;</span><br><span class="line">                slow = head;</span><br><span class="line">                <span class="keyword">while</span> (slow != fast) &#123;</span><br><span class="line">                    slow = slow.next;</span><br><span class="line">                    fast = fast.next;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">return</span> slow;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="复杂度分析-1"><a href="#复杂度分析-1" class="headerlink" title="复杂度分析"></a>复杂度分析</h5><ol>
-<li>时间复杂度：O(n)</li>
-<li>空间复杂度：O(1)</li>
-</ol>
-]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>链表</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>合并两个有序链表</title>
-    <url>/MiracleDx/2019/07/02/Linked%20List/21.%E5%90%88%E5%B9%B6%E4%B8%A4%E4%B8%AA%E6%9C%89%E5%BA%8F%E9%93%BE%E8%A1%A8/</url>
-    <content><![CDATA[<h1 id="21-合并两个有序链表"><a href="#21-合并两个有序链表" class="headerlink" title="21.合并两个有序链表"></a>21.合并两个有序链表</h1><p><strong>难度：简单</strong></p>
-<h3 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">将两个升序链表合并为一个新的 升序 链表并返回。新链表是通过拼接给定的两个链表的所有节点组成的。 </span><br></pre></td></tr></table></figure>
-<p>示例：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入：1-&gt;2-&gt;4, 1-&gt;3-&gt;4</span><br><span class="line">输出：1-&gt;1-&gt;2-&gt;3-&gt;4-&gt;4</span><br></pre></td></tr></table></figure>
-<h3 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h3><h4 id="方法一：-迭代"><a href="#方法一：-迭代" class="headerlink" title="方法一： 迭代"></a>方法一： 迭代</h4><h5 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h5><ol>
-<li>定义 prev 做为新链表头，定义 res 做为结果链表</li>
-<li>判断 l1 和 l2 的值，将 prev.next 的指针指向数值小的值</li>
-<li>跳出循环后，说明 l1 或者 l2 中有一个链表为空，则将 prev.next 指向剩下不为空的链表</li>
-</ol>
-<h5 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> ListNode <span class="title function_">mergeTwoLists</span><span class="params">(ListNode l1, ListNode l2)</span> &#123;</span><br><span class="line">        <span class="type">ListNode</span> <span class="variable">prev</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ListNode</span>(-<span class="number">1</span>);</span><br><span class="line">        <span class="type">ListNode</span> <span class="variable">res</span> <span class="operator">=</span> prev;</span><br><span class="line">        <span class="keyword">while</span> (l1 != <span class="literal">null</span> &amp;&amp; l2 != <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (l1.val &lt;= l2.val) &#123;</span><br><span class="line">                prev.next = l1;</span><br><span class="line">                l1 = l1.next;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                prev.next = l2;</span><br><span class="line">                l2 = l2.next;</span><br><span class="line">            &#125;</span><br><span class="line">            prev = prev.next;</span><br><span class="line">        &#125;</span><br><span class="line">        prev.next = l1 == <span class="literal">null</span> ? l2 : l1;</span><br><span class="line">        <span class="keyword">return</span> res.next;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="复杂度分析"><a href="#复杂度分析" class="headerlink" title="复杂度分析"></a>复杂度分析</h5><ol>
-<li>时间复杂度：O(m + n)，m 和 n 分别为 l1 和 l2 的长度</li>
-<li>空间复杂度：O(1)</li>
-</ol>
-<h4 id="方法二：递归"><a href="#方法二：递归" class="headerlink" title="方法二：递归"></a>方法二：递归</h4><h5 id="思路-1"><a href="#思路-1" class="headerlink" title="思路"></a>思路</h5><p>​	将两个链表中较小节点的数进行 merge</p>
-<h5 id="代码-1"><a href="#代码-1" class="headerlink" title="代码"></a>代码</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> ListNode <span class="title function_">mergeTwoLists</span><span class="params">(ListNode l1, ListNode l2)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (l1 == <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> l2;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (l2 == <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> l1;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (l1.val &lt;= l2.val) &#123;</span><br><span class="line">            l1.next = mergeTwoLists(l1.next, l2);</span><br><span class="line">            <span class="keyword">return</span> l1;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            l2.next = mergeTwoLists(l1, l2.next);</span><br><span class="line">            <span class="keyword">return</span> l2;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-<h5 id="复杂度分析-1"><a href="#复杂度分析-1" class="headerlink" title="复杂度分析"></a>复杂度分析</h5><ol>
-<li>时间复杂度：O(m + n)，m 和 n 分别为 l1 和 l2 的长度</li>
-<li>空间复杂度：O(m + n)</li>
-</ol>
-]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>链表</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>两两交换链表中的节点</title>
-    <url>/MiracleDx/2019/08/11/Linked%20List/24.%E4%B8%A4%E4%B8%A4%E4%BA%A4%E6%8D%A2%E9%93%BE%E8%A1%A8%E4%B8%AD%E7%9A%84%E8%8A%82%E7%82%B9/</url>
-    <content><![CDATA[<h1 id="24-两两交换链表中的节点"><a href="#24-两两交换链表中的节点" class="headerlink" title="24. 两两交换链表中的节点"></a>24. 两两交换链表中的节点</h1><p><strong>难度：中等</strong></p>
-<h3 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">给定一个链表，两两交换其中相邻的节点，并返回交换后的链表。</span><br><span class="line">你不能只是单纯的改变节点内部的值，而是需要实际的进行节点交换。</span><br></pre></td></tr></table></figure>
-<p>示例：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">给定 1-&gt;2-&gt;3-&gt;4, 你应该返回 2-&gt;1-&gt;4-&gt;3.</span><br></pre></td></tr></table></figure>
-<h3 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h3><h4 id="方法一：-迭代"><a href="#方法一：-迭代" class="headerlink" title="方法一： 迭代"></a>方法一： 迭代</h4><h5 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h5><ol>
-<li>定义一个 prev 做为反转后的链表， 定义 res 用于记录最后的结果</li>
-<li>将 prev 的下一个节点指向头节点的下一个节点</li>
-<li>将 head 的下一个节点指向下下个节点</li>
-<li>再讲 prev 的下下个节点指向头节点</li>
-<li>以上完成前两个元素的交换</li>
-<li>将 prev 指针移动到交换后的第二个元素位置</li>
-<li>将 head 指针移动到下一个元素位置</li>
-<li>开始下一轮交换</li>
-</ol>
-<h5 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> ListNode <span class="title function_">swapPairs</span><span class="params">(ListNode head)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (head == <span class="literal">null</span> || head.next == <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> head;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="type">ListNode</span> <span class="variable">prev</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ListNode</span>(-<span class="number">1</span>);</span><br><span class="line">        <span class="type">ListNode</span> <span class="variable">res</span> <span class="operator">=</span> prev;</span><br><span class="line">        <span class="keyword">while</span> (head != <span class="literal">null</span> &amp;&amp; head.next != <span class="literal">null</span>) &#123;</span><br><span class="line">            prev.next = head.next;</span><br><span class="line">            head.next = head.next.next;</span><br><span class="line">            prev.next.next = head;</span><br><span class="line">            prev = prev.next.next;</span><br><span class="line">            head = head.next;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res.next;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="复杂度分析"><a href="#复杂度分析" class="headerlink" title="复杂度分析"></a>复杂度分析</h5><ol>
-<li>时间复杂度：O(n)</li>
-<li>空间复杂度：O(1)</li>
-</ol>
-<h4 id="方法二：递归"><a href="#方法二：递归" class="headerlink" title="方法二：递归"></a>方法二：递归</h4><h5 id="思路-1"><a href="#思路-1" class="headerlink" title="思路"></a>思路</h5><ol>
-<li>将第一， 第二的指针互调</li>
-<li>递归第三个节点的指针</li>
-</ol>
-<h5 id="代码-1"><a href="#代码-1" class="headerlink" title="代码"></a>代码</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"> */</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> ListNode <span class="title function_">swapPairs</span><span class="params">(ListNode head)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (head == <span class="literal">null</span> || head.next == <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> head;</span><br><span class="line">        &#125;</span><br><span class="line">       <span class="type">ListNode</span> <span class="variable">first</span> <span class="operator">=</span> head;</span><br><span class="line">       <span class="type">ListNode</span> <span class="variable">second</span> <span class="operator">=</span> head.next;</span><br><span class="line">       first.next = swapPairs(head.next.next);</span><br><span class="line">       second.next = first;</span><br><span class="line">       <span class="keyword">return</span> second;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="复杂度分析-1"><a href="#复杂度分析-1" class="headerlink" title="复杂度分析"></a>复杂度分析</h5><ol>
-<li>时间复杂度：O(n)</li>
-<li>空间复杂度：O(1)</li>
-</ol>
-]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>链表</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>K个一组翻转链表</title>
-    <url>/MiracleDx/2019/08/11/Linked%20List/25.K%E4%B8%AA%E4%B8%80%E7%BB%84%E7%BF%BB%E8%BD%AC%E9%93%BE%E8%A1%A8/</url>
-    <content><![CDATA[<h1 id="Leetcode"><a href="#Leetcode" class="headerlink" title="Leetcode"></a>Leetcode</h1><p><strong>难度：困难</strong></p>
-<h3 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">给你一个链表，每k个节点一组进行翻转，请你返回翻转后的链表。</span><br><span class="line">k是一个正整数，它的值小于或等于链表的长度。</span><br><span class="line">如果节点总数不是k的整数倍，那么请将最后剩余的节点保持原有顺序。</span><br></pre></td></tr></table></figure>
-<p>示例：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">给你这个链表：1-&gt;2-&gt;3-&gt;4-&gt;5</span><br><span class="line">当k= 2 时，应当返回: 2-&gt;1-&gt;4-&gt;3-&gt;5</span><br><span class="line">当k= 3 时，应当返回: 3-&gt;2-&gt;1-&gt;4-&gt;5</span><br></pre></td></tr></table></figure>
-<p>说明：</p>
-<ol>
-<li>你的算法只能使用常数的额外空间。</li>
-<li><strong>你不能只是单纯的改变节点内部的值</strong>，而是需要实际进行节点交换。</li>
-</ol>
-<h3 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h3><h4 id="方法："><a href="#方法：" class="headerlink" title="方法："></a>方法：</h4><h5 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h5><ol>
-<li>声明一个 tail 链表 用于记录需要翻转的 k 个元素</li>
-<li>当 tail &#x3D;&#x3D; null 时说明不够 k 个元素，直接返回其余元素</li>
-<li>翻转 head 到 tail 之间的元素</li>
-<li>递归寻找下一组元素，将翻转后的链表指向下一组元素，下一组元素的头部即是 tail 链表</li>
-</ol>
-<h5 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> ListNode <span class="title function_">reverseKGroup</span><span class="params">(ListNode head, <span class="type">int</span> k)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (head == <span class="literal">null</span> || head.next == <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> head;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="type">ListNode</span> <span class="variable">tail</span> <span class="operator">=</span> head;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; k; i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (tail == <span class="literal">null</span>) &#123;</span><br><span class="line">                <span class="keyword">return</span> head;</span><br><span class="line">            &#125;</span><br><span class="line">            tail = tail.next;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="type">ListNode</span> <span class="variable">a</span> <span class="operator">=</span> revese(head, tail);</span><br><span class="line">        head.next = reverseKGroup(tail, k);</span><br><span class="line">        <span class="keyword">return</span> a;</span><br><span class="line">    &#125;</span><br><span class="line">    ListNode <span class="title function_">revese</span><span class="params">(ListNode cur, ListNode tail)</span> &#123;</span><br><span class="line">        <span class="type">ListNode</span> <span class="variable">prev</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">        <span class="keyword">while</span> (cur != tail) &#123;</span><br><span class="line">            <span class="type">ListNode</span> <span class="variable">temp</span> <span class="operator">=</span> cur.next;</span><br><span class="line">            cur.next = prev;</span><br><span class="line">            prev = cur;</span><br><span class="line">            cur = temp;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> prev;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="复杂度分析"><a href="#复杂度分析" class="headerlink" title="复杂度分析"></a>复杂度分析</h5><ol>
-<li>时间复杂度：O(n)</li>
-<li>空间复杂度：O(1)</li>
-</ol>
-]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>链表</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>两数之和</title>
-    <url>/MiracleDx/2019/03/12/Array/1.%E4%B8%A4%E6%95%B0%E4%B9%8B%E5%92%8C/</url>
-    <content><![CDATA[<h1 id="1-两数之和"><a href="#1-两数之和" class="headerlink" title="1.两数之和"></a>1.两数之和</h1><p>**难度：简单 **</p>
-<h3 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">给定一个整数数组 nums 和一个目标值 target，请你在该数组中找出和为目标值的那 两个 整数，并返回他们的数组下标。</span><br><span class="line">你可以假设每种输入只会对应一个答案。但是，数组中同一个元素不能使用两遍。</span><br></pre></td></tr></table></figure>
-<p>示例：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">给定 nums = [2, 7, 11, 15], target = 9</span><br><span class="line">因为 nums[0] + nums[1] = 2 + 7 = 9</span><br><span class="line">所以返回 [0, 1]</span><br></pre></td></tr></table></figure>
-<h3 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h3><h4 id="方法一：-暴力破解-双重循环"><a href="#方法一：-暴力破解-双重循环" class="headerlink" title="方法一： 暴力破解-双重循环"></a>方法一： 暴力破解-双重循环</h4><h5 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h5><pre><code>通过双重循环取得满足 nums[i] + nums[j] = target 的下标
-</code></pre>
-<h5 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span>[] twoSum(<span class="type">int</span>[] nums, <span class="type">int</span> target) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; nums.length - <span class="number">1</span>; i++) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> i + <span class="number">1</span>; j &lt; nums.length; j++) &#123;</span><br><span class="line">                <span class="keyword">if</span> (nums[i] + nums[j] == target) &#123;</span><br><span class="line">                    <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;i, j&#125;;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;&#125;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="复杂度分析"><a href="#复杂度分析" class="headerlink" title="复杂度分析"></a>复杂度分析</h5><ol>
-<li>时间复杂度：O(n^2)</li>
-<li>空间复杂度：O(1)</li>
-</ol>
-<h4 id="方法二：哈希表-双重循环"><a href="#方法二：哈希表-双重循环" class="headerlink" title="方法二：哈希表-双重循环"></a>方法二：哈希表-双重循环</h4><h5 id="思路-1"><a href="#思路-1" class="headerlink" title="思路"></a>思路</h5><ol>
-<li>先循环一次将所有数值存入哈希表中，key 为值，value 为所在数组下标</li>
-<li>再循环一次，查看符合条件的数值是否存在哈希表中，存在即可返回</li>
-</ol>
-<h5 id="代码-1"><a href="#代码-1" class="headerlink" title="代码"></a>代码</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span>[] twoSum(<span class="type">int</span>[] nums, <span class="type">int</span> target) &#123;</span><br><span class="line">        Map&lt;Integer, Integer&gt; map = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; nums.length; i++) &#123;</span><br><span class="line">            map.put(nums[i], i);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; nums.length; i++) &#123;</span><br><span class="line">            <span class="type">int</span> <span class="variable">result</span> <span class="operator">=</span> target - nums[i];</span><br><span class="line">            <span class="keyword">if</span> (map.get(result) != <span class="literal">null</span> &amp;&amp; map.get(result) != i) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;i, map.get(result)&#125;;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;&#125;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="复杂度分析-1"><a href="#复杂度分析-1" class="headerlink" title="复杂度分析"></a>复杂度分析</h5><ol>
-<li>时间复杂度：O(n)</li>
-<li>空间复杂度：O(1)</li>
-</ol>
-<h4 id="方法二：哈希表-单循环"><a href="#方法二：哈希表-单循环" class="headerlink" title="方法二：哈希表-单循环"></a>方法二：哈希表-单循环</h4><h5 id="思路-2"><a href="#思路-2" class="headerlink" title="思路"></a>思路</h5><ol>
-<li>循环的同时将数值存入哈希表中，key 为值，value 为所在数组下标</li>
-<li>同时判断符合条件的数值是否存在哈希表中，存在即可返回</li>
-<li>由于先符合的数值的下标存储在哈希表中，所以返回时先返回哈希表中存储的数值</li>
-</ol>
-<h5 id="代码-2"><a href="#代码-2" class="headerlink" title="代码"></a>代码</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span>[] twoSum(<span class="type">int</span>[] nums, <span class="type">int</span> target) &#123;</span><br><span class="line">        Map&lt;Integer, Integer&gt; map = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; nums.length; i++) &#123;</span><br><span class="line">            <span class="type">int</span> <span class="variable">result</span> <span class="operator">=</span> target - nums[i];</span><br><span class="line">            <span class="keyword">if</span> (map.get(result) != <span class="literal">null</span>) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;map.get(result), i&#125;;</span><br><span class="line">            &#125;</span><br><span class="line">            map.put(nums[i], i);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;&#125;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="复杂度分析-2"><a href="#复杂度分析-2" class="headerlink" title="复杂度分析"></a>复杂度分析</h5><ol>
-<li>时间复杂度：O(n)</li>
-<li>空间复杂度：O(1)</li>
-</ol>
-]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>数组</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>反转链表</title>
-    <url>/MiracleDx/2019/08/31/Linked%20List/206.%E5%8F%8D%E8%BD%AC%E9%93%BE%E8%A1%A8/</url>
-    <content><![CDATA[<h1 id="206-反转链表"><a href="#206-反转链表" class="headerlink" title="206.反转链表"></a>206.反转链表</h1><p><strong>难度：简单</strong></p>
-<h3 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">反转一个单链表。</span><br></pre></td></tr></table></figure>
-<p>示例：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入: 1-&gt;2-&gt;3-&gt;4-&gt;5-&gt;NULL</span><br><span class="line">输出: 5-&gt;4-&gt;3-&gt;2-&gt;1-&gt;NULL</span><br></pre></td></tr></table></figure>
-<h3 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h3><h4 id="方法一：-迭代"><a href="#方法一：-迭代" class="headerlink" title="方法一： 迭代"></a>方法一： 迭代</h4><h5 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h5><ol>
-<li>通过新构建一个链表完成反转</li>
-<li>初始化一个空的 Linked List 头 prev</li>
-<li>将当前节点的下一个节点指向 prev</li>
-<li>将 prev 的指针指向新的翻转过的节点</li>
-<li>将当前节点指向下一个要进行反转的节点</li>
-</ol>
-<h5 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> ListNode <span class="title function_">reverseList</span><span class="params">(ListNode head)</span> &#123;</span><br><span class="line">        <span class="type">ListNode</span> <span class="variable">prev</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">        <span class="keyword">while</span> (head != <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="type">ListNode</span> <span class="variable">temp</span> <span class="operator">=</span> head.next;</span><br><span class="line">            head.next = prev;</span><br><span class="line">            prev = head;</span><br><span class="line">            head = temp;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> prev;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="复杂度分析"><a href="#复杂度分析" class="headerlink" title="复杂度分析"></a>复杂度分析</h5><ol>
-<li>时间复杂度：O(n)</li>
-<li>空间复杂度：O(1)</li>
-</ol>
-<h4 id="方法二：递归"><a href="#方法二：递归" class="headerlink" title="方法二：递归"></a>方法二：递归</h4><h5 id="思路-1"><a href="#思路-1" class="headerlink" title="思路"></a>思路</h5><ol>
-<li>通过新构建一个链表完成反转</li>
-<li>初始化一个空的 Linked List 头 prev</li>
-<li>依次将 next 节点指向 prev</li>
-</ol>
-<h5 id="代码-1"><a href="#代码-1" class="headerlink" title="代码"></a>代码</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> ListNode <span class="title function_">reverseList</span><span class="params">(ListNode head)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> reverse(<span class="literal">null</span>, head);</span><br><span class="line">    &#125;</span><br><span class="line">    ListNode <span class="title function_">reverse</span><span class="params">(ListNode prev, ListNode cur)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (cur == <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> prev;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="type">ListNode</span> <span class="variable">next</span> <span class="operator">=</span> cur.next;</span><br><span class="line">        cur.next = prev;</span><br><span class="line">        <span class="keyword">return</span> reverse(cur, next);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="复杂度分析-1"><a href="#复杂度分析-1" class="headerlink" title="复杂度分析"></a>复杂度分析</h5><ol>
-<li>时间复杂度：O(n)</li>
-<li>空间复杂度：O(1)</li>
-</ol>
-]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>链表</tag>
       </tags>
   </entry>
   <entry>
@@ -3059,6 +2802,263 @@
       </tags>
   </entry>
   <entry>
+    <title>环形链表 - 2</title>
+    <url>/MiracleDx/2019/08/20/Linked%20List/142.%E7%8E%AF%E5%BD%A2%E9%93%BE%E8%A1%A8/</url>
+    <content><![CDATA[<h1 id="141-环形链表"><a href="#141-环形链表" class="headerlink" title="141.环形链表"></a>141.环形链表</h1><p><strong>难度：中等</strong></p>
+<h3 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">给定一个链表，返回链表开始入环的第一个节点。 如果链表无环，则返回 null。</span><br><span class="line">为了表示给定链表中的环，我们使用整数 pos 来表示链表尾连接到链表中的位置（索引从 0 开始）。 如果 pos 是 -1，则在该链表中没有环。</span><br><span class="line">说明：不允许修改给定的链表。</span><br></pre></td></tr></table></figure>
+<p>示例1：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入：head = [3,2,0,-4], pos = 1</span><br><span class="line">输出：tail connects to node index 1</span><br><span class="line">解释：链表中有一个环，其尾部连接到第二个节点。</span><br></pre></td></tr></table></figure>
+<p>示例 2：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入：head = [1,2], pos = 0</span><br><span class="line">输出：tail connects to node index 0</span><br><span class="line">解释：链表中有一个环，其尾部连接到第一个节点。</span><br></pre></td></tr></table></figure>
+<p>示例 3：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入：head = [1], pos = -1</span><br><span class="line">输出：no cycle</span><br><span class="line">解释：链表中没有环。</span><br></pre></td></tr></table></figure>
+<p>进阶：<br>你是否可以不用额外空间解决此题？</p>
+<h3 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h3><h4 id="方法一：-哈希表"><a href="#方法一：-哈希表" class="headerlink" title="方法一： 哈希表"></a>方法一： 哈希表</h4><h5 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h5><ol>
+<li>定义Set哈希表，存储所有经过的节点</li>
+<li>如果哈希表中存在这个节点，则说明有环，返回该节点</li>
+</ol>
+<h5 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> ListNode <span class="title function_">detectCycle</span><span class="params">(ListNode head)</span> &#123;</span><br><span class="line">       Set&lt;ListNode&gt; set = <span class="keyword">new</span> <span class="title class_">HashSet</span>&lt;&gt;();</span><br><span class="line">       <span class="keyword">while</span> (head != <span class="literal">null</span>) &#123;</span><br><span class="line">           <span class="keyword">if</span> (set.contains(head)) &#123;</span><br><span class="line">               <span class="keyword">return</span> head;</span><br><span class="line">           &#125;</span><br><span class="line">           set.add(head);</span><br><span class="line">           head = head.next;</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="复杂度分析"><a href="#复杂度分析" class="headerlink" title="复杂度分析"></a>复杂度分析</h5><ol>
+<li>时间复杂度：O(n)</li>
+<li>空间复杂度：O(1)</li>
+</ol>
+<h4 id="方法二：双指针"><a href="#方法二：双指针" class="headerlink" title="方法二：双指针"></a>方法二：双指针</h4><h5 id="思路-1"><a href="#思路-1" class="headerlink" title="思路"></a>思路</h5><ol>
+<li>定义快慢指针，快指针每次进 1，慢指针每次进 2</li>
+<li>当快慢指针的值相等时，说明有环</li>
+<li>当出现环时，快慢指针可能不是在环点，所以将慢指针移回 head，使快慢指针步长一致</li>
+<li>当快慢指针再次相遇时，即为环点</li>
+</ol>
+<h5 id="代码-1"><a href="#代码-1" class="headerlink" title="代码"></a>代码</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> ListNode <span class="title function_">detectCycle</span><span class="params">(ListNode head)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (head == <span class="literal">null</span> || head.next == <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="type">ListNode</span> <span class="variable">slow</span> <span class="operator">=</span> head;</span><br><span class="line">        <span class="type">ListNode</span> <span class="variable">fast</span> <span class="operator">=</span> head;</span><br><span class="line">        <span class="keyword">while</span> (fast != <span class="literal">null</span> &amp;&amp; fast.next != <span class="literal">null</span>) &#123;</span><br><span class="line">            slow = slow.next;</span><br><span class="line">            fast = fast.next.next;</span><br><span class="line">            <span class="keyword">if</span> (slow == fast) &#123;</span><br><span class="line">                slow = head;</span><br><span class="line">                <span class="keyword">while</span> (slow != fast) &#123;</span><br><span class="line">                    slow = slow.next;</span><br><span class="line">                    fast = fast.next;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">return</span> slow;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="复杂度分析-1"><a href="#复杂度分析-1" class="headerlink" title="复杂度分析"></a>复杂度分析</h5><ol>
+<li>时间复杂度：O(n)</li>
+<li>空间复杂度：O(1)</li>
+</ol>
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>链表</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>反转链表</title>
+    <url>/MiracleDx/2019/08/31/Linked%20List/206.%E5%8F%8D%E8%BD%AC%E9%93%BE%E8%A1%A8/</url>
+    <content><![CDATA[<h1 id="206-反转链表"><a href="#206-反转链表" class="headerlink" title="206.反转链表"></a>206.反转链表</h1><p><strong>难度：简单</strong></p>
+<h3 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">反转一个单链表。</span><br></pre></td></tr></table></figure>
+<p>示例：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入: 1-&gt;2-&gt;3-&gt;4-&gt;5-&gt;NULL</span><br><span class="line">输出: 5-&gt;4-&gt;3-&gt;2-&gt;1-&gt;NULL</span><br></pre></td></tr></table></figure>
+<h3 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h3><h4 id="方法一：-迭代"><a href="#方法一：-迭代" class="headerlink" title="方法一： 迭代"></a>方法一： 迭代</h4><h5 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h5><ol>
+<li>通过新构建一个链表完成反转</li>
+<li>初始化一个空的 Linked List 头 prev</li>
+<li>将当前节点的下一个节点指向 prev</li>
+<li>将 prev 的指针指向新的翻转过的节点</li>
+<li>将当前节点指向下一个要进行反转的节点</li>
+</ol>
+<h5 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> ListNode <span class="title function_">reverseList</span><span class="params">(ListNode head)</span> &#123;</span><br><span class="line">        <span class="type">ListNode</span> <span class="variable">prev</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">        <span class="keyword">while</span> (head != <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="type">ListNode</span> <span class="variable">temp</span> <span class="operator">=</span> head.next;</span><br><span class="line">            head.next = prev;</span><br><span class="line">            prev = head;</span><br><span class="line">            head = temp;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> prev;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="复杂度分析"><a href="#复杂度分析" class="headerlink" title="复杂度分析"></a>复杂度分析</h5><ol>
+<li>时间复杂度：O(n)</li>
+<li>空间复杂度：O(1)</li>
+</ol>
+<h4 id="方法二：递归"><a href="#方法二：递归" class="headerlink" title="方法二：递归"></a>方法二：递归</h4><h5 id="思路-1"><a href="#思路-1" class="headerlink" title="思路"></a>思路</h5><ol>
+<li>通过新构建一个链表完成反转</li>
+<li>初始化一个空的 Linked List 头 prev</li>
+<li>依次将 next 节点指向 prev</li>
+</ol>
+<h5 id="代码-1"><a href="#代码-1" class="headerlink" title="代码"></a>代码</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> ListNode <span class="title function_">reverseList</span><span class="params">(ListNode head)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> reverse(<span class="literal">null</span>, head);</span><br><span class="line">    &#125;</span><br><span class="line">    ListNode <span class="title function_">reverse</span><span class="params">(ListNode prev, ListNode cur)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (cur == <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> prev;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="type">ListNode</span> <span class="variable">next</span> <span class="operator">=</span> cur.next;</span><br><span class="line">        cur.next = prev;</span><br><span class="line">        <span class="keyword">return</span> reverse(cur, next);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="复杂度分析-1"><a href="#复杂度分析-1" class="headerlink" title="复杂度分析"></a>复杂度分析</h5><ol>
+<li>时间复杂度：O(n)</li>
+<li>空间复杂度：O(1)</li>
+</ol>
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>链表</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>环形链表 - 1</title>
+    <url>/MiracleDx/2019/08/19/Linked%20List/141.%E7%8E%AF%E5%BD%A2%E9%93%BE%E8%A1%A8/</url>
+    <content><![CDATA[<h1 id="141-环形链表"><a href="#141-环形链表" class="headerlink" title="141.环形链表"></a>141.环形链表</h1><p><strong>难度：简单</strong></p>
+<h3 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">给定一个链表，判断链表中是否有环。</span><br><span class="line">为了表示给定链表中的环，我们使用整数 pos 来表示链表尾连接到链表中的位置（索引从 0 开始）。 如果 pos 是 -1，则在该链表中没有环</span><br></pre></td></tr></table></figure>
+<p>示例1：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入：head = [3,2,0,-4], pos = 1</span><br><span class="line">输出：true</span><br><span class="line">解释：链表中有一个环，其尾部连接到第二个节点。</span><br></pre></td></tr></table></figure>
+<p>示例2：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入：head = [1,2], pos = 0</span><br><span class="line">输出：true</span><br><span class="line">解释：链表中有一个环，其尾部连接到第一个节点。</span><br></pre></td></tr></table></figure>
+<p>示例3：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入：head = [1], pos = -1</span><br><span class="line">输出：false</span><br><span class="line">解释：链表中没有环。</span><br></pre></td></tr></table></figure>
+<p>进阶：<br>你能用 *O(1)*（即，常量）内存解决此问题吗？</p>
+<h3 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h3><h4 id="方法一：哈希表"><a href="#方法一：哈希表" class="headerlink" title="方法一：哈希表"></a>方法一：哈希表</h4><h5 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h5><ol>
+<li>定义Set哈希表，存储所有经过的节点</li>
+<li>如果哈希表中存在这个节点，则说明有环</li>
+</ol>
+<h5 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">hasCycle</span><span class="params">(ListNode head)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (head == <span class="literal">null</span> || head.next == <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        Set&lt;ListNode&gt; set = <span class="keyword">new</span> <span class="title class_">HashSet</span>&lt;&gt;();</span><br><span class="line">        <span class="keyword">while</span> (head != <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (set.contains(head)) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            set.add(head);</span><br><span class="line">            head = head.next;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="复杂度分析"><a href="#复杂度分析" class="headerlink" title="复杂度分析"></a>复杂度分析</h5><ol>
+<li>时间复杂度：O(n)</li>
+<li>空间复杂度：O(1)</li>
+</ol>
+<h4 id="方法二：-双指针"><a href="#方法二：-双指针" class="headerlink" title="方法二： 双指针"></a>方法二： 双指针</h4><h5 id="思路-1"><a href="#思路-1" class="headerlink" title="思路"></a>思路</h5><ol>
+<li>定义快慢指针，快指针每次进 1，慢指针每次进 2</li>
+<li>当快慢指针的值相等时，说明有环</li>
+</ol>
+<h5 id="代码-1"><a href="#代码-1" class="headerlink" title="代码"></a>代码</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">hasCycle</span><span class="params">(ListNode head)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (head == <span class="literal">null</span> || head.next == <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="type">ListNode</span> <span class="variable">slow</span> <span class="operator">=</span> head;</span><br><span class="line">        <span class="type">ListNode</span> <span class="variable">fast</span> <span class="operator">=</span> head;</span><br><span class="line">        <span class="keyword">while</span> (fast != <span class="literal">null</span> &amp;&amp; fast.next != <span class="literal">null</span>) &#123;</span><br><span class="line">            slow = slow.next;</span><br><span class="line">            fast = fast.next.next;</span><br><span class="line">            <span class="keyword">if</span> (slow == fast) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="复杂度分析-1"><a href="#复杂度分析-1" class="headerlink" title="复杂度分析"></a>复杂度分析</h5><ol>
+<li>时间复杂度：O(n)</li>
+<li>空间复杂度：O(1)</li>
+</ol>
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>链表</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>合并两个有序链表</title>
+    <url>/MiracleDx/2019/07/02/Linked%20List/21.%E5%90%88%E5%B9%B6%E4%B8%A4%E4%B8%AA%E6%9C%89%E5%BA%8F%E9%93%BE%E8%A1%A8/</url>
+    <content><![CDATA[<h1 id="21-合并两个有序链表"><a href="#21-合并两个有序链表" class="headerlink" title="21.合并两个有序链表"></a>21.合并两个有序链表</h1><p><strong>难度：简单</strong></p>
+<h3 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">将两个升序链表合并为一个新的 升序 链表并返回。新链表是通过拼接给定的两个链表的所有节点组成的。 </span><br></pre></td></tr></table></figure>
+<p>示例：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入：1-&gt;2-&gt;4, 1-&gt;3-&gt;4</span><br><span class="line">输出：1-&gt;1-&gt;2-&gt;3-&gt;4-&gt;4</span><br></pre></td></tr></table></figure>
+<h3 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h3><h4 id="方法一：-迭代"><a href="#方法一：-迭代" class="headerlink" title="方法一： 迭代"></a>方法一： 迭代</h4><h5 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h5><ol>
+<li>定义 prev 做为新链表头，定义 res 做为结果链表</li>
+<li>判断 l1 和 l2 的值，将 prev.next 的指针指向数值小的值</li>
+<li>跳出循环后，说明 l1 或者 l2 中有一个链表为空，则将 prev.next 指向剩下不为空的链表</li>
+</ol>
+<h5 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> ListNode <span class="title function_">mergeTwoLists</span><span class="params">(ListNode l1, ListNode l2)</span> &#123;</span><br><span class="line">        <span class="type">ListNode</span> <span class="variable">prev</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ListNode</span>(-<span class="number">1</span>);</span><br><span class="line">        <span class="type">ListNode</span> <span class="variable">res</span> <span class="operator">=</span> prev;</span><br><span class="line">        <span class="keyword">while</span> (l1 != <span class="literal">null</span> &amp;&amp; l2 != <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (l1.val &lt;= l2.val) &#123;</span><br><span class="line">                prev.next = l1;</span><br><span class="line">                l1 = l1.next;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                prev.next = l2;</span><br><span class="line">                l2 = l2.next;</span><br><span class="line">            &#125;</span><br><span class="line">            prev = prev.next;</span><br><span class="line">        &#125;</span><br><span class="line">        prev.next = l1 == <span class="literal">null</span> ? l2 : l1;</span><br><span class="line">        <span class="keyword">return</span> res.next;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="复杂度分析"><a href="#复杂度分析" class="headerlink" title="复杂度分析"></a>复杂度分析</h5><ol>
+<li>时间复杂度：O(m + n)，m 和 n 分别为 l1 和 l2 的长度</li>
+<li>空间复杂度：O(1)</li>
+</ol>
+<h4 id="方法二：递归"><a href="#方法二：递归" class="headerlink" title="方法二：递归"></a>方法二：递归</h4><h5 id="思路-1"><a href="#思路-1" class="headerlink" title="思路"></a>思路</h5><p>​	将两个链表中较小节点的数进行 merge</p>
+<h5 id="代码-1"><a href="#代码-1" class="headerlink" title="代码"></a>代码</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> ListNode <span class="title function_">mergeTwoLists</span><span class="params">(ListNode l1, ListNode l2)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (l1 == <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> l2;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (l2 == <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> l1;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (l1.val &lt;= l2.val) &#123;</span><br><span class="line">            l1.next = mergeTwoLists(l1.next, l2);</span><br><span class="line">            <span class="keyword">return</span> l1;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            l2.next = mergeTwoLists(l1, l2.next);</span><br><span class="line">            <span class="keyword">return</span> l2;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h5 id="复杂度分析-1"><a href="#复杂度分析-1" class="headerlink" title="复杂度分析"></a>复杂度分析</h5><ol>
+<li>时间复杂度：O(m + n)，m 和 n 分别为 l1 和 l2 的长度</li>
+<li>空间复杂度：O(m + n)</li>
+</ol>
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>链表</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>两两交换链表中的节点</title>
+    <url>/MiracleDx/2019/08/11/Linked%20List/24.%E4%B8%A4%E4%B8%A4%E4%BA%A4%E6%8D%A2%E9%93%BE%E8%A1%A8%E4%B8%AD%E7%9A%84%E8%8A%82%E7%82%B9/</url>
+    <content><![CDATA[<h1 id="24-两两交换链表中的节点"><a href="#24-两两交换链表中的节点" class="headerlink" title="24. 两两交换链表中的节点"></a>24. 两两交换链表中的节点</h1><p><strong>难度：中等</strong></p>
+<h3 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">给定一个链表，两两交换其中相邻的节点，并返回交换后的链表。</span><br><span class="line">你不能只是单纯的改变节点内部的值，而是需要实际的进行节点交换。</span><br></pre></td></tr></table></figure>
+<p>示例：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">给定 1-&gt;2-&gt;3-&gt;4, 你应该返回 2-&gt;1-&gt;4-&gt;3.</span><br></pre></td></tr></table></figure>
+<h3 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h3><h4 id="方法一：-迭代"><a href="#方法一：-迭代" class="headerlink" title="方法一： 迭代"></a>方法一： 迭代</h4><h5 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h5><ol>
+<li>定义一个 prev 做为反转后的链表， 定义 res 用于记录最后的结果</li>
+<li>将 prev 的下一个节点指向头节点的下一个节点</li>
+<li>将 head 的下一个节点指向下下个节点</li>
+<li>再讲 prev 的下下个节点指向头节点</li>
+<li>以上完成前两个元素的交换</li>
+<li>将 prev 指针移动到交换后的第二个元素位置</li>
+<li>将 head 指针移动到下一个元素位置</li>
+<li>开始下一轮交换</li>
+</ol>
+<h5 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> ListNode <span class="title function_">swapPairs</span><span class="params">(ListNode head)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (head == <span class="literal">null</span> || head.next == <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> head;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="type">ListNode</span> <span class="variable">prev</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ListNode</span>(-<span class="number">1</span>);</span><br><span class="line">        <span class="type">ListNode</span> <span class="variable">res</span> <span class="operator">=</span> prev;</span><br><span class="line">        <span class="keyword">while</span> (head != <span class="literal">null</span> &amp;&amp; head.next != <span class="literal">null</span>) &#123;</span><br><span class="line">            prev.next = head.next;</span><br><span class="line">            head.next = head.next.next;</span><br><span class="line">            prev.next.next = head;</span><br><span class="line">            prev = prev.next.next;</span><br><span class="line">            head = head.next;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res.next;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="复杂度分析"><a href="#复杂度分析" class="headerlink" title="复杂度分析"></a>复杂度分析</h5><ol>
+<li>时间复杂度：O(n)</li>
+<li>空间复杂度：O(1)</li>
+</ol>
+<h4 id="方法二：递归"><a href="#方法二：递归" class="headerlink" title="方法二：递归"></a>方法二：递归</h4><h5 id="思路-1"><a href="#思路-1" class="headerlink" title="思路"></a>思路</h5><ol>
+<li>将第一， 第二的指针互调</li>
+<li>递归第三个节点的指针</li>
+</ol>
+<h5 id="代码-1"><a href="#代码-1" class="headerlink" title="代码"></a>代码</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"> */</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> ListNode <span class="title function_">swapPairs</span><span class="params">(ListNode head)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (head == <span class="literal">null</span> || head.next == <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> head;</span><br><span class="line">        &#125;</span><br><span class="line">       <span class="type">ListNode</span> <span class="variable">first</span> <span class="operator">=</span> head;</span><br><span class="line">       <span class="type">ListNode</span> <span class="variable">second</span> <span class="operator">=</span> head.next;</span><br><span class="line">       first.next = swapPairs(head.next.next);</span><br><span class="line">       second.next = first;</span><br><span class="line">       <span class="keyword">return</span> second;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="复杂度分析-1"><a href="#复杂度分析-1" class="headerlink" title="复杂度分析"></a>复杂度分析</h5><ol>
+<li>时间复杂度：O(n)</li>
+<li>空间复杂度：O(1)</li>
+</ol>
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>链表</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>K个一组翻转链表</title>
+    <url>/MiracleDx/2019/08/11/Linked%20List/25.K%E4%B8%AA%E4%B8%80%E7%BB%84%E7%BF%BB%E8%BD%AC%E9%93%BE%E8%A1%A8/</url>
+    <content><![CDATA[<h1 id="Leetcode"><a href="#Leetcode" class="headerlink" title="Leetcode"></a>Leetcode</h1><p><strong>难度：困难</strong></p>
+<h3 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">给你一个链表，每k个节点一组进行翻转，请你返回翻转后的链表。</span><br><span class="line">k是一个正整数，它的值小于或等于链表的长度。</span><br><span class="line">如果节点总数不是k的整数倍，那么请将最后剩余的节点保持原有顺序。</span><br></pre></td></tr></table></figure>
+<p>示例：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">给你这个链表：1-&gt;2-&gt;3-&gt;4-&gt;5</span><br><span class="line">当k= 2 时，应当返回: 2-&gt;1-&gt;4-&gt;3-&gt;5</span><br><span class="line">当k= 3 时，应当返回: 3-&gt;2-&gt;1-&gt;4-&gt;5</span><br></pre></td></tr></table></figure>
+<p>说明：</p>
+<ol>
+<li>你的算法只能使用常数的额外空间。</li>
+<li><strong>你不能只是单纯的改变节点内部的值</strong>，而是需要实际进行节点交换。</li>
+</ol>
+<h3 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h3><h4 id="方法："><a href="#方法：" class="headerlink" title="方法："></a>方法：</h4><h5 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h5><ol>
+<li>声明一个 tail 链表 用于记录需要翻转的 k 个元素</li>
+<li>当 tail &#x3D;&#x3D; null 时说明不够 k 个元素，直接返回其余元素</li>
+<li>翻转 head 到 tail 之间的元素</li>
+<li>递归寻找下一组元素，将翻转后的链表指向下一组元素，下一组元素的头部即是 tail 链表</li>
+</ol>
+<h5 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> ListNode <span class="title function_">reverseKGroup</span><span class="params">(ListNode head, <span class="type">int</span> k)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (head == <span class="literal">null</span> || head.next == <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> head;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="type">ListNode</span> <span class="variable">tail</span> <span class="operator">=</span> head;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; k; i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (tail == <span class="literal">null</span>) &#123;</span><br><span class="line">                <span class="keyword">return</span> head;</span><br><span class="line">            &#125;</span><br><span class="line">            tail = tail.next;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="type">ListNode</span> <span class="variable">a</span> <span class="operator">=</span> revese(head, tail);</span><br><span class="line">        head.next = reverseKGroup(tail, k);</span><br><span class="line">        <span class="keyword">return</span> a;</span><br><span class="line">    &#125;</span><br><span class="line">    ListNode <span class="title function_">revese</span><span class="params">(ListNode cur, ListNode tail)</span> &#123;</span><br><span class="line">        <span class="type">ListNode</span> <span class="variable">prev</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">        <span class="keyword">while</span> (cur != tail) &#123;</span><br><span class="line">            <span class="type">ListNode</span> <span class="variable">temp</span> <span class="operator">=</span> cur.next;</span><br><span class="line">            cur.next = prev;</span><br><span class="line">            prev = cur;</span><br><span class="line">            cur = temp;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> prev;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="复杂度分析"><a href="#复杂度分析" class="headerlink" title="复杂度分析"></a>复杂度分析</h5><ol>
+<li>时间复杂度：O(n)</li>
+<li>空间复杂度：O(1)</li>
+</ol>
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>链表</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>两数之和</title>
+    <url>/MiracleDx/2019/03/12/Array/1.%E4%B8%A4%E6%95%B0%E4%B9%8B%E5%92%8C/</url>
+    <content><![CDATA[<h1 id="1-两数之和"><a href="#1-两数之和" class="headerlink" title="1.两数之和"></a>1.两数之和</h1><p>**难度：简单 **</p>
+<h3 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">给定一个整数数组 nums 和一个目标值 target，请你在该数组中找出和为目标值的那 两个 整数，并返回他们的数组下标。</span><br><span class="line">你可以假设每种输入只会对应一个答案。但是，数组中同一个元素不能使用两遍。</span><br></pre></td></tr></table></figure>
+<p>示例：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">给定 nums = [2, 7, 11, 15], target = 9</span><br><span class="line">因为 nums[0] + nums[1] = 2 + 7 = 9</span><br><span class="line">所以返回 [0, 1]</span><br></pre></td></tr></table></figure>
+<h3 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h3><h4 id="方法一：-暴力破解-双重循环"><a href="#方法一：-暴力破解-双重循环" class="headerlink" title="方法一： 暴力破解-双重循环"></a>方法一： 暴力破解-双重循环</h4><h5 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h5><pre><code>通过双重循环取得满足 nums[i] + nums[j] = target 的下标
+</code></pre>
+<h5 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span>[] twoSum(<span class="type">int</span>[] nums, <span class="type">int</span> target) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; nums.length - <span class="number">1</span>; i++) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> i + <span class="number">1</span>; j &lt; nums.length; j++) &#123;</span><br><span class="line">                <span class="keyword">if</span> (nums[i] + nums[j] == target) &#123;</span><br><span class="line">                    <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;i, j&#125;;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;&#125;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="复杂度分析"><a href="#复杂度分析" class="headerlink" title="复杂度分析"></a>复杂度分析</h5><ol>
+<li>时间复杂度：O(n^2)</li>
+<li>空间复杂度：O(1)</li>
+</ol>
+<h4 id="方法二：哈希表-双重循环"><a href="#方法二：哈希表-双重循环" class="headerlink" title="方法二：哈希表-双重循环"></a>方法二：哈希表-双重循环</h4><h5 id="思路-1"><a href="#思路-1" class="headerlink" title="思路"></a>思路</h5><ol>
+<li>先循环一次将所有数值存入哈希表中，key 为值，value 为所在数组下标</li>
+<li>再循环一次，查看符合条件的数值是否存在哈希表中，存在即可返回</li>
+</ol>
+<h5 id="代码-1"><a href="#代码-1" class="headerlink" title="代码"></a>代码</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span>[] twoSum(<span class="type">int</span>[] nums, <span class="type">int</span> target) &#123;</span><br><span class="line">        Map&lt;Integer, Integer&gt; map = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; nums.length; i++) &#123;</span><br><span class="line">            map.put(nums[i], i);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; nums.length; i++) &#123;</span><br><span class="line">            <span class="type">int</span> <span class="variable">result</span> <span class="operator">=</span> target - nums[i];</span><br><span class="line">            <span class="keyword">if</span> (map.get(result) != <span class="literal">null</span> &amp;&amp; map.get(result) != i) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;i, map.get(result)&#125;;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;&#125;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="复杂度分析-1"><a href="#复杂度分析-1" class="headerlink" title="复杂度分析"></a>复杂度分析</h5><ol>
+<li>时间复杂度：O(n)</li>
+<li>空间复杂度：O(1)</li>
+</ol>
+<h4 id="方法二：哈希表-单循环"><a href="#方法二：哈希表-单循环" class="headerlink" title="方法二：哈希表-单循环"></a>方法二：哈希表-单循环</h4><h5 id="思路-2"><a href="#思路-2" class="headerlink" title="思路"></a>思路</h5><ol>
+<li>循环的同时将数值存入哈希表中，key 为值，value 为所在数组下标</li>
+<li>同时判断符合条件的数值是否存在哈希表中，存在即可返回</li>
+<li>由于先符合的数值的下标存储在哈希表中，所以返回时先返回哈希表中存储的数值</li>
+</ol>
+<h5 id="代码-2"><a href="#代码-2" class="headerlink" title="代码"></a>代码</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span>[] twoSum(<span class="type">int</span>[] nums, <span class="type">int</span> target) &#123;</span><br><span class="line">        Map&lt;Integer, Integer&gt; map = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; nums.length; i++) &#123;</span><br><span class="line">            <span class="type">int</span> <span class="variable">result</span> <span class="operator">=</span> target - nums[i];</span><br><span class="line">            <span class="keyword">if</span> (map.get(result) != <span class="literal">null</span>) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;map.get(result), i&#125;;</span><br><span class="line">            &#125;</span><br><span class="line">            map.put(nums[i], i);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;&#125;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="复杂度分析-2"><a href="#复杂度分析-2" class="headerlink" title="复杂度分析"></a>复杂度分析</h5><ol>
+<li>时间复杂度：O(n)</li>
+<li>空间复杂度：O(1)</li>
+</ol>
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>数组</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>盛水最多的容器</title>
     <url>/MiracleDx/2019/03/19/Array/11.%E7%9B%9B%E6%B0%B4%E6%9C%80%E5%A4%9A%E7%9A%84%E5%AE%B9%E5%99%A8/</url>
     <content><![CDATA[<h1 id="11-盛水最多的容器"><a href="#11-盛水最多的容器" class="headerlink" title="11.盛水最多的容器"></a>11.盛水最多的容器</h1><p><strong>难度：中等</strong></p>
@@ -3161,6 +3161,35 @@
       </tags>
   </entry>
   <entry>
+    <title>删除排序数组中的重复项</title>
+    <url>/MiracleDx/2019/04/05/Array/26.%E5%88%A0%E9%99%A4%E6%8E%92%E5%BA%8F%E6%95%B0%E7%BB%84%E4%B8%AD%E7%9A%84%E9%87%8D%E5%A4%8D%E9%A1%B9/</url>
+    <content><![CDATA[<h1 id="26-删除排序数组中的重复项"><a href="#26-删除排序数组中的重复项" class="headerlink" title="26.删除排序数组中的重复项"></a>26.删除排序数组中的重复项</h1><p><strong>难度：简单</strong></p>
+<h3 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">给定一个排序数组，你需要在 原地 删除重复出现的元素，使得每个元素只出现一次，返回移除后数组的新长度。</span><br><span class="line">不要使用额外的数组空间，你必须在 原地 修改输入数组 并在使用 O(1) 额外空间的条件下完成。</span><br></pre></td></tr></table></figure>
+<p>示例1：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">给定数组 nums = [1,1,2], </span><br><span class="line">函数应该返回新的长度 2, 并且原数组 nums 的前两个元素被修改为 1, 2。 </span><br><span class="line">你不需要考虑数组中超出新长度后面的元素。</span><br></pre></td></tr></table></figure>
+<p>示例2：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">给定 nums = [0,0,1,1,1,2,2,3,3,4],</span><br><span class="line">函数应该返回新的长度 5, 并且原数组 nums 的前五个元素被修改为 0, 1, 2, 3, 4。</span><br><span class="line">你不需要考虑数组中超出新长度后面的元素。</span><br></pre></td></tr></table></figure>
+<p>说明:<br>为什么返回数值是整数，但输出的答案是数组呢?<br>请注意，输入数组是以「引用」方式传递的，这意味着在函数里修改输入数组对于调用者是可见的。<br>你可以想象内部操作如下:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">// nums 是以“引用”方式传递的。也就是说，不对实参做任何拷贝</span><br><span class="line">int len = removeDuplicates(nums);</span><br><span class="line">// 在函数里修改输入数组对于调用者是可见的。</span><br><span class="line">// 根据你的函数返回的长度, 它会打印出数组中该长度范围内的所有元素。</span><br><span class="line">for (int i = 0; i &lt; len; i++) &#123;</span><br><span class="line">    print(nums[i]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h3><h4 id="方法："><a href="#方法：" class="headerlink" title="方法："></a>方法：</h4><h5 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h5><ol>
+<li>定义 i 和 j 的快慢指针， i 为慢指针， j 为快指针</li>
+<li>当 nums[i] 和 nums[j] 相等时，慢指针不动，快指针继续前进</li>
+<li>当 nums[i] 和 nums[j] 不相等时，更新慢指针的下一个值</li>
+</ol>
+<h5 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">removeDuplicates</span><span class="params">(<span class="type">int</span>[] nums)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">1</span>; j &lt; nums.length; j++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (nums[i] != nums[j]) &#123;</span><br><span class="line">                nums[++i] = nums[j];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> i+<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="复杂度分析"><a href="#复杂度分析" class="headerlink" title="复杂度分析"></a>复杂度分析</h5><ol>
+<li>时间复杂度：O(n)</li>
+<li>空间复杂度：O(1)</li>
+</ol>
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>数组</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>移动零</title>
     <url>/MiracleDx/2019/06/11/Array/283.%E7%A7%BB%E5%8A%A8%E9%9B%B6/</url>
     <content><![CDATA[<h1 id="283-移动零"><a href="#283-移动零" class="headerlink" title="283.移动零"></a>283.移动零</h1><p><strong>难度：简单</strong></p>
@@ -3201,22 +3230,23 @@
       </tags>
   </entry>
   <entry>
-    <title>删除排序数组中的重复项</title>
-    <url>/MiracleDx/2019/04/05/Array/26.%E5%88%A0%E9%99%A4%E6%8E%92%E5%BA%8F%E6%95%B0%E7%BB%84%E4%B8%AD%E7%9A%84%E9%87%8D%E5%A4%8D%E9%A1%B9/</url>
-    <content><![CDATA[<h1 id="26-删除排序数组中的重复项"><a href="#26-删除排序数组中的重复项" class="headerlink" title="26.删除排序数组中的重复项"></a>26.删除排序数组中的重复项</h1><p><strong>难度：简单</strong></p>
-<h3 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">给定一个排序数组，你需要在 原地 删除重复出现的元素，使得每个元素只出现一次，返回移除后数组的新长度。</span><br><span class="line">不要使用额外的数组空间，你必须在 原地 修改输入数组 并在使用 O(1) 额外空间的条件下完成。</span><br></pre></td></tr></table></figure>
+    <title>整数数组加一</title>
+    <url>/MiracleDx/2019/04/12/Array/66.%E5%8A%A0%E4%B8%80/</url>
+    <content><![CDATA[<h1 id="Leetcode"><a href="#Leetcode" class="headerlink" title="Leetcode"></a>Leetcode</h1><p><strong>难度：简单</strong></p>
+<h3 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">给定一个由整数组成的非空数组所表示的非负整数，在该数的基础上加一。</span><br><span class="line">最高位数字存放在数组的首位， 数组中每个元素只存储单个数字。</span><br><span class="line">你可以假设除了整数 0 之外，这个整数不会以零开头。</span><br></pre></td></tr></table></figure>
 <p>示例1：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">给定数组 nums = [1,1,2], </span><br><span class="line">函数应该返回新的长度 2, 并且原数组 nums 的前两个元素被修改为 1, 2。 </span><br><span class="line">你不需要考虑数组中超出新长度后面的元素。</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入: [1,2,3]</span><br><span class="line">输出: [1,2,4]</span><br><span class="line">解释: 输入数组表示数字 123。</span><br></pre></td></tr></table></figure>
 <p>示例2：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">给定 nums = [0,0,1,1,1,2,2,3,3,4],</span><br><span class="line">函数应该返回新的长度 5, 并且原数组 nums 的前五个元素被修改为 0, 1, 2, 3, 4。</span><br><span class="line">你不需要考虑数组中超出新长度后面的元素。</span><br></pre></td></tr></table></figure>
-<p>说明:<br>为什么返回数值是整数，但输出的答案是数组呢?<br>请注意，输入数组是以「引用」方式传递的，这意味着在函数里修改输入数组对于调用者是可见的。<br>你可以想象内部操作如下:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">// nums 是以“引用”方式传递的。也就是说，不对实参做任何拷贝</span><br><span class="line">int len = removeDuplicates(nums);</span><br><span class="line">// 在函数里修改输入数组对于调用者是可见的。</span><br><span class="line">// 根据你的函数返回的长度, 它会打印出数组中该长度范围内的所有元素。</span><br><span class="line">for (int i = 0; i &lt; len; i++) &#123;</span><br><span class="line">    print(nums[i]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入: [4,3,2,1]</span><br><span class="line">输出: [4,3,2,2]</span><br><span class="line">解释: 输入数组表示数字 4321。</span><br></pre></td></tr></table></figure>
 <h3 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h3><h4 id="方法："><a href="#方法：" class="headerlink" title="方法："></a>方法：</h4><h5 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h5><ol>
-<li>定义 i 和 j 的快慢指针， i 为慢指针， j 为快指针</li>
-<li>当 nums[i] 和 nums[j] 相等时，慢指针不动，快指针继续前进</li>
-<li>当 nums[i] 和 nums[j] 不相等时，更新慢指针的下一个值</li>
+<li>逆序遍历数组，数值 + 1 只有两种情况<ol>
+<li>大于 10 需要进 1 处理前一位的数值</li>
+<li>小于 10 ，可以直接返回</li>
 </ol>
-<h5 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">removeDuplicates</span><span class="params">(<span class="type">int</span>[] nums)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">1</span>; j &lt; nums.length; j++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (nums[i] != nums[j]) &#123;</span><br><span class="line">                nums[++i] = nums[j];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> i+<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li>当数组数值全部为 9 时，需要对数组进行扩容</li>
+</ol>
+<h5 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span>[] plusOne(<span class="type">int</span>[] digits) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> digits.length - <span class="number">1</span>; i &gt;= <span class="number">0</span>; i--) &#123;</span><br><span class="line">            digits[i]++;</span><br><span class="line">            digits[i] %= <span class="number">10</span>;</span><br><span class="line">            <span class="keyword">if</span> (digits[i] != <span class="number">0</span>) &#123;</span><br><span class="line">                <span class="keyword">return</span> digits;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        digits = <span class="keyword">new</span> <span class="title class_">int</span>[digits.length + <span class="number">1</span>];</span><br><span class="line">        digits[<span class="number">0</span>] = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">return</span> digits;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h5 id="复杂度分析"><a href="#复杂度分析" class="headerlink" title="复杂度分析"></a>复杂度分析</h5><ol>
 <li>时间复杂度：O(n)</li>
 <li>空间复杂度：O(1)</li>
@@ -3266,36 +3296,6 @@
 <h4 id="方法四：迭代"><a href="#方法四：迭代" class="headerlink" title="方法四：迭代"></a>方法四：迭代</h4><h5 id="思路-3"><a href="#思路-3" class="headerlink" title="思路"></a>思路</h5><p>​	使用迭代的方式，滚动赋值给前一阶和前两阶的数值</p>
 <h5 id="代码-3"><a href="#代码-3" class="headerlink" title="代码"></a>代码</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">climbStairs</span><span class="params">(<span class="type">int</span> n)</span> &#123;</span><br><span class="line">       <span class="keyword">if</span> (n == <span class="number">1</span> || n == <span class="number">2</span>) &#123;</span><br><span class="line">           <span class="keyword">return</span> n;</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="type">int</span> <span class="variable">l1</span> <span class="operator">=</span> <span class="number">1</span>;</span><br><span class="line">       <span class="type">int</span> <span class="variable">l2</span> <span class="operator">=</span> <span class="number">2</span>;</span><br><span class="line">       <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">3</span>; i &lt;= n; i++) &#123;</span><br><span class="line">           <span class="type">int</span> <span class="variable">result</span> <span class="operator">=</span> l1 + l2;</span><br><span class="line">           l1 = l2;</span><br><span class="line">           l2 = result;</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">return</span> l2;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h5 id="复杂度分析-3"><a href="#复杂度分析-3" class="headerlink" title="复杂度分析"></a>复杂度分析</h5><ol>
-<li>时间复杂度：O(n)</li>
-<li>空间复杂度：O(1)</li>
-</ol>
-]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>数组</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>整数数组加一</title>
-    <url>/MiracleDx/2019/04/12/Array/66.%E5%8A%A0%E4%B8%80/</url>
-    <content><![CDATA[<h1 id="Leetcode"><a href="#Leetcode" class="headerlink" title="Leetcode"></a>Leetcode</h1><p><strong>难度：简单</strong></p>
-<h3 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">给定一个由整数组成的非空数组所表示的非负整数，在该数的基础上加一。</span><br><span class="line">最高位数字存放在数组的首位， 数组中每个元素只存储单个数字。</span><br><span class="line">你可以假设除了整数 0 之外，这个整数不会以零开头。</span><br></pre></td></tr></table></figure>
-<p>示例1：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入: [1,2,3]</span><br><span class="line">输出: [1,2,4]</span><br><span class="line">解释: 输入数组表示数字 123。</span><br></pre></td></tr></table></figure>
-<p>示例2：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入: [4,3,2,1]</span><br><span class="line">输出: [4,3,2,2]</span><br><span class="line">解释: 输入数组表示数字 4321。</span><br></pre></td></tr></table></figure>
-<h3 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h3><h4 id="方法："><a href="#方法：" class="headerlink" title="方法："></a>方法：</h4><h5 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h5><ol>
-<li>逆序遍历数组，数值 + 1 只有两种情况<ol>
-<li>大于 10 需要进 1 处理前一位的数值</li>
-<li>小于 10 ，可以直接返回</li>
-</ol>
-</li>
-<li>当数组数值全部为 9 时，需要对数组进行扩容</li>
-</ol>
-<h5 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span>[] plusOne(<span class="type">int</span>[] digits) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> digits.length - <span class="number">1</span>; i &gt;= <span class="number">0</span>; i--) &#123;</span><br><span class="line">            digits[i]++;</span><br><span class="line">            digits[i] %= <span class="number">10</span>;</span><br><span class="line">            <span class="keyword">if</span> (digits[i] != <span class="number">0</span>) &#123;</span><br><span class="line">                <span class="keyword">return</span> digits;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        digits = <span class="keyword">new</span> <span class="title class_">int</span>[digits.length + <span class="number">1</span>];</span><br><span class="line">        digits[<span class="number">0</span>] = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">return</span> digits;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="复杂度分析"><a href="#复杂度分析" class="headerlink" title="复杂度分析"></a>复杂度分析</h5><ol>
 <li>时间复杂度：O(n)</li>
 <li>空间复杂度：O(1)</li>
 </ol>
