@@ -1,6 +1,196 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>常用Dockerfile</title>
+    <url>/2023/11/07/Docker/</url>
+    <content><![CDATA[<h1 id="镜像"><a href="#镜像" class="headerlink" title="镜像"></a>镜像</h1><h2 id="Elasticsearch"><a href="#Elasticsearch" class="headerlink" title="Elasticsearch"></a>Elasticsearch</h2><h3 id="6-8-23-m1"><a href="#6-8-23-m1" class="headerlink" title="6.8.23-m1"></a>6.8.23-m1</h3><figure class="highlight dockerfile"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Dockerfile-elastic.yml</span></span><br><span class="line"><span class="keyword">FROM</span> arm64v8/openjdk:<span class="number">8</span>-jdk-buster</span><br><span class="line"><span class="keyword">WORKDIR</span><span class="language-bash"> /usr</span></span><br><span class="line"><span class="comment"># add a non root user</span></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> useradd -m elasticuser</span></span><br><span class="line"><span class="comment"># Download extras</span></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> apt update</span></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> apt install -y curl nano</span></span><br><span class="line"><span class="comment"># Download elasticsearch</span></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> curl -L -O https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-6.8.23.tar.gz</span></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> tar -xvf elasticsearch-6.8.23.tar.gz</span></span><br><span class="line"><span class="comment"># Add config</span></span><br><span class="line"><span class="keyword">ADD</span><span class="language-bash"> elasticsearch.yml /usr/elasticsearch-6.8.23/config/elasticsearch.yml</span></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> <span class="built_in">chown</span> -R elasticuser: .</span></span><br><span class="line"><span class="keyword">USER</span> elasticuser</span><br><span class="line"><span class="keyword">ENV</span> JAVA_HOME=/usr/local/openjdk-<span class="number">18</span>/bin/java</span><br><span class="line"><span class="keyword">ENV</span> discovery.type=single-node</span><br><span class="line"><span class="keyword">ENV</span> xpack.security.enabled: false</span><br><span class="line"><span class="keyword">ENV</span> xpack.ml.enabled: false</span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> <span class="built_in">cd</span> elasticsearch-6.8.23/bin</span></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> <span class="built_in">chown</span> -R elasticuser: elasticsearch-6.8.23</span></span><br><span class="line"><span class="keyword">EXPOSE</span> <span class="number">9200</span> <span class="number">9300</span></span><br><span class="line"><span class="keyword">CMD</span><span class="language-bash"> <span class="built_in">cd</span> /usr/elasticsearch-6.8.23/bin/ &amp;&amp; ./elasticsearch</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="编译镜像"><a href="#编译镜像" class="headerlink" title="编译镜像"></a>编译镜像</h4><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cd ~/developer/container_repo/docker_repo/elastic</span><br><span class="line">docker build -f Dockerfile -t elastic:6.8.23 .</span><br></pre></td></tr></table></figure>
+
+<h4 id="启动命令"><a href="#启动命令" class="headerlink" title="启动命令"></a>启动命令</h4><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker run -d --name es -p 9200:9200 -p 9300:9300 -e &quot;discovery.type=single-node&quot; -e ES_JAVA_OPTS=&quot;-Xms512m -Xmx512m&quot; elasticsearch:8.3.1</span><br></pre></td></tr></table></figure>
+
+<h4 id="启动后进入容器修改配置文件"><a href="#启动后进入容器修改配置文件" class="headerlink" title="启动后进入容器修改配置文件"></a>启动后进入容器修改配置文件</h4><p>容器内没有 vi 命令的可以使用 docker cp 命令进行替换，修改后重启容器即可<br>以下配置文件不一定完全符合启动版本，某些版本中还会有 https 的配置，酌情开启或者关闭</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># elasticsearch.yml</span></span><br><span class="line"><span class="attr">xpack.security.enabled:</span> <span class="literal">false</span></span><br><span class="line"><span class="attr">xpack.ml.enabled:</span> <span class="literal">false</span></span><br><span class="line"><span class="attr">http.host:</span> <span class="number">0.0</span><span class="number">.0</span><span class="number">.0</span></span><br><span class="line"><span class="attr">transport.host:</span> <span class="number">0.0</span><span class="number">.0</span><span class="number">.0</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="8-8-0"><a href="#8-8-0" class="headerlink" title="8.8.0"></a>8.8.0</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker pull elasticsearch:8.8.0</span><br></pre></td></tr></table></figure>
+
+<h2 id="Postgresql"><a href="#Postgresql" class="headerlink" title="Postgresql"></a>Postgresql</h2><h3 id="启动命令-1"><a href="#启动命令-1" class="headerlink" title="启动命令"></a>启动命令</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker run --name postgres -d -p 5432:5432 -e POSTGRES_PASSWORD=123456 postgres:14.1</span><br></pre></td></tr></table></figure>
+
+<h2 id="Nacos-m1"><a href="#Nacos-m1" class="headerlink" title="Nacos-m1"></a>Nacos-m1</h2><h3 id="2-0-3"><a href="#2-0-3" class="headerlink" title="2.0.3"></a>2.0.3</h3><h4 id="官方镜像地址"><a href="#官方镜像地址" class="headerlink" title="官方镜像地址"></a>官方镜像地址</h4><p><a href="https://github.com/nacos-group/nacos-docker/blob/v2.0.3/README_ZH.md">https://github.com/nacos-group/nacos-docker/blob/v2.0.3/README_ZH.md</a></p>
+<figure class="highlight dockerfile"><table><tr><td class="code"><pre><span class="line"><span class="keyword">FROM</span> centos:<span class="number">8.3</span>.<span class="number">2011</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># set environment</span></span><br><span class="line"><span class="keyword">ENV</span> MODE=<span class="string">&quot;cluster&quot;</span> \</span><br><span class="line">   PREFER_HOST_MODE=<span class="string">&quot;ip&quot;</span>\</span><br><span class="line">   BASE_DIR=<span class="string">&quot;/home/nacos&quot;</span> \</span><br><span class="line">   CLASSPATH=<span class="string">&quot;.:/home/nacos/conf:$CLASSPATH&quot;</span> \</span><br><span class="line">   CLUSTER_CONF=<span class="string">&quot;/home/nacos/conf/cluster.conf&quot;</span> \</span><br><span class="line">   FUNCTION_MODE=<span class="string">&quot;all&quot;</span> \</span><br><span class="line">   JAVA_HOME=<span class="string">&quot;/usr/lib/jvm/java-1.8.0-openjdk&quot;</span> \</span><br><span class="line">   NACOS_USER=<span class="string">&quot;nacos&quot;</span> \</span><br><span class="line">   JAVA=<span class="string">&quot;/usr/lib/jvm/java-1.8.0-openjdk/bin/java&quot;</span> \</span><br><span class="line">   JVM_XMS=<span class="string">&quot;1g&quot;</span> \</span><br><span class="line">   JVM_XMX=<span class="string">&quot;1g&quot;</span> \</span><br><span class="line">   JVM_XMN=<span class="string">&quot;512m&quot;</span> \</span><br><span class="line">   JVM_MS=<span class="string">&quot;128m&quot;</span> \</span><br><span class="line">   JVM_MMS=<span class="string">&quot;320m&quot;</span> \</span><br><span class="line">   NACOS_DEBUG=<span class="string">&quot;n&quot;</span> \</span><br><span class="line">   TOMCAT_ACCESSLOG_ENABLED=<span class="string">&quot;false&quot;</span> \</span><br><span class="line">   TIME_ZONE=<span class="string">&quot;Asia/Shanghai&quot;</span></span><br><span class="line"><span class="keyword">ARG</span> NACOS_VERSION=<span class="number">2.0</span>.<span class="number">3</span></span><br><span class="line"><span class="keyword">ARG</span> HOT_FIX_FLAG=<span class="string">&quot;&quot;</span></span><br><span class="line"><span class="keyword">WORKDIR</span><span class="language-bash"> <span class="variable">$BASE_DIR</span></span></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> <span class="built_in">set</span> -x \</span></span><br><span class="line"><span class="language-bash">   &amp;&amp; sed -i <span class="string">&#x27;s/mirrorlist/#mirrorlist/g&#x27;</span> /etc/yum.repos.d/CentOS-* \</span></span><br><span class="line"><span class="language-bash">   &amp;&amp; sed -i <span class="string">&#x27;s|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g&#x27;</span> /etc/yum.repos.d/CentOS-* \</span></span><br><span class="line"><span class="language-bash">   &amp;&amp; yum update -y \</span></span><br><span class="line"><span class="language-bash">   &amp;&amp; yum install -y java-1.8.0-openjdk java-1.8.0-openjdk-devel wget iputils nc vim libcurl --allowerasing</span></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> wget https://github.com/alibaba/nacos/releases/download/<span class="variable">$&#123;NACOS_VERSION&#125;</span><span class="variable">$&#123;HOT_FIX_FLAG&#125;</span>/nacos-server-<span class="variable">$&#123;NACOS_VERSION&#125;</span>.tar.gz -P /home</span></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> tar -xzvf /home/nacos-server-<span class="variable">$&#123;NACOS_VERSION&#125;</span>.tar.gz -C /home \</span></span><br><span class="line"><span class="language-bash">   &amp;&amp; <span class="built_in">rm</span> -rf /home/nacos-server-<span class="variable">$&#123;NACOS_VERSION&#125;</span>.tar.gz /home/nacos/bin/* /home/nacos/conf/*.properties /home/nacos/conf/*.example /home/nacos/conf/nacos-mysql.sql</span></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> yum autoremove -y wget \</span></span><br><span class="line"><span class="language-bash">   &amp;&amp; <span class="built_in">ln</span> -snf /usr/share/zoneinfo/<span class="variable">$TIME_ZONE</span> /etc/localtime &amp;&amp; <span class="built_in">echo</span> <span class="variable">$TIME_ZONE</span> &gt; /etc/timezone \</span></span><br><span class="line"><span class="language-bash">   &amp;&amp; yum clean all</span></span><br><span class="line"><span class="keyword">ADD</span><span class="language-bash"> bin/docker-startup.sh bin/docker-startup.sh</span></span><br><span class="line"><span class="keyword">ADD</span><span class="language-bash"> conf/application.properties conf/application.properties</span></span><br><span class="line"><span class="comment"># set startup log dir</span></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> <span class="built_in">mkdir</span> -p logs \</span></span><br><span class="line"><span class="language-bash">	&amp;&amp; <span class="built_in">cd</span> logs \</span></span><br><span class="line"><span class="language-bash">	&amp;&amp; <span class="built_in">touch</span> start.out \</span></span><br><span class="line"><span class="language-bash">	&amp;&amp; <span class="built_in">ln</span> -sf /dev/stdout start.out \</span></span><br><span class="line"><span class="language-bash">	&amp;&amp; <span class="built_in">ln</span> -sf /dev/stderr start.out</span></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> <span class="built_in">chmod</span> +x bin/docker-startup.sh</span></span><br><span class="line"><span class="keyword">EXPOSE</span> <span class="number">8848</span></span><br><span class="line"><span class="keyword">ENTRYPOINT</span><span class="language-bash"> [<span class="string">&quot;bin/docker-startup.sh&quot;</span>]</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="编译镜像-1"><a href="#编译镜像-1" class="headerlink" title="编译镜像"></a>编译镜像</h4><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cd ~/developer/container_repo/docker_repo/nacos_2.0.3</span><br><span class="line">docker build -f Dockerfile -t nacos:2.0.3 .</span><br></pre></td></tr></table></figure>
+
+<h4 id="启动命令-2"><a href="#启动命令-2" class="headerlink" title="启动命令"></a>启动命令</h4><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker run --env MODE=standalone --name nacos -d -p 8848:8848 -p 9848:9848 -p 9849:9849 nacos:2.0.3</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-2-3"><a href="#2-2-3" class="headerlink" title="2.2.3"></a>2.2.3</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">FROM amd64/buildpack-deps:buster-curl as installer</span><br><span class="line"></span><br><span class="line">ARG NACOS_VERSION=2.2.3</span><br><span class="line">ARG HOT_FIX_FLAG=&quot;&quot;</span><br><span class="line"></span><br><span class="line">RUN set -x \</span><br><span class="line">    &amp;&amp; curl -SL --output /var/tmp/nacos-server.tar.gz https://github.com/alibaba/nacos/releases/download/$&#123;NACOS_VERSION&#125;$&#123;HOT_FIX_FLAG&#125;/nacos-server-$&#123;NACOS_VERSION&#125;.tar.gz \</span><br><span class="line">    &amp;&amp; tar -xzvf /var/tmp/nacos-server.tar.gz -C /home \</span><br><span class="line">    &amp;&amp; rm -rf /var/tmp/nacos-server.tar.gz /home/nacos/bin/* /home/nacos/conf/*.properties /home/nacos/conf/*.example /home/nacos/conf/nacos-mysql.sql</span><br><span class="line"></span><br><span class="line">FROM adoptopenjdk/openjdk8:jre8u372-b07</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash"><span class="built_in">set</span> environment</span></span><br><span class="line">ENV MODE=&quot;cluster&quot; \</span><br><span class="line">    PREFER_HOST_MODE=&quot;ip&quot;\</span><br><span class="line">    BASE_DIR=&quot;/home/nacos&quot; \</span><br><span class="line">    CLASSPATH=&quot;.:/home/nacos/conf:$CLASSPATH&quot; \</span><br><span class="line">    CLUSTER_CONF=&quot;/home/nacos/conf/cluster.conf&quot; \</span><br><span class="line">    FUNCTION_MODE=&quot;all&quot; \</span><br><span class="line">    NACOS_USER=&quot;nacos&quot; \</span><br><span class="line">    JAVA=&quot;/opt/java/openjdk/bin/java&quot; \</span><br><span class="line">    JVM_XMS=&quot;1g&quot; \</span><br><span class="line">    JVM_XMX=&quot;1g&quot; \</span><br><span class="line">    JVM_XMN=&quot;512m&quot; \</span><br><span class="line">    JVM_MS=&quot;128m&quot; \</span><br><span class="line">    JVM_MMS=&quot;320m&quot; \</span><br><span class="line">    NACOS_DEBUG=&quot;n&quot; \</span><br><span class="line">    TOMCAT_ACCESSLOG_ENABLED=&quot;false&quot; \</span><br><span class="line">    TZ=&quot;Asia/Shanghai&quot;</span><br><span class="line"></span><br><span class="line">WORKDIR $BASE_DIR</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">copy nacos bin</span></span><br><span class="line">COPY --from=installer [&quot;/home/nacos&quot;, &quot;/home/nacos&quot;]</span><br><span class="line"></span><br><span class="line">ADD bin/docker-startup.sh bin/docker-startup.sh</span><br><span class="line">ADD conf/application.properties conf/application.properties</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash"><span class="built_in">set</span> startup <span class="built_in">log</span> <span class="built_in">dir</span></span></span><br><span class="line">RUN mkdir -p logs \</span><br><span class="line">    &amp;&amp; cd logs \</span><br><span class="line">    &amp;&amp; touch start.out \</span><br><span class="line">    &amp;&amp; ln -sf /dev/stdout start.out \</span><br><span class="line">    &amp;&amp; ln -sf /dev/stderr start.out</span><br><span class="line">RUN chmod +x bin/docker-startup.sh</span><br><span class="line"></span><br><span class="line">EXPOSE 8848</span><br><span class="line">ENTRYPOINT [&quot;bin/docker-startup.sh&quot;]</span><br></pre></td></tr></table></figure>
+
+<h4 id="编译镜像-2"><a href="#编译镜像-2" class="headerlink" title="编译镜像"></a>编译镜像</h4><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cd ~/developer/container_repo/docker_repo/nacos_2.2.3</span><br><span class="line">docker build -f Dockerfile.Slim -t nacos:2.2.3 .</span><br></pre></td></tr></table></figure>
+
+<h4 id="启动命令-3"><a href="#启动命令-3" class="headerlink" title="启动命令"></a>启动命令</h4><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">key</span></span><br><span class="line">Secret_nacos-server_fabula_haha@</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">key <span class="built_in">base64</span></span></span><br><span class="line">U2VjcmV0X25hY29zLXNlcnZlcl9mYWJ1bGFfaGFoYUA=</span><br><span class="line"></span><br><span class="line">docker run --env MODE=standalone --env NACOS_AUTH_ENABLE=true --env NACOS_AUTH_TOKEN=U2VjcmV0X25hY29zLXNlcnZlcl9mYWJ1bGFfaGFoYUA= --env nacos.core.auth.server.identity.key=nacos --env nacos.core.auth.server.identity.value=nacos --name nacos -d -p 8848:8848 -p 9848:9848 -p 9849:9849 nacos:2.2.3</span><br></pre></td></tr></table></figure>
+
+<h2 id="ShenYu"><a href="#ShenYu" class="headerlink" title="ShenYu"></a>ShenYu</h2><h3 id="默认用户密码"><a href="#默认用户密码" class="headerlink" title="默认用户密码"></a>默认用户密码</h3><p>admin&#x2F;123456</p>
+<h3 id="拉取镜像"><a href="#拉取镜像" class="headerlink" title="拉取镜像"></a>拉取镜像</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker pull apache/shenyu-admin:vdocker pull apache/shenyu-admin:2.4.3</span><br></pre></td></tr></table></figure>
+
+<h3 id="h2-模式启动命令"><a href="#h2-模式启动命令" class="headerlink" title="h2 模式启动命令"></a>h2 模式启动命令</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker run --name shenyu-admin-h2 -d -p 9095:9095 apache/shenyu-admin:2.4.3</span><br><span class="line">docker run --name shenyu-admin-h2 -e &quot;shenyu.sync.nacos.url=localhost:8848&quot; -e &quot;shenyu.sync.nacos.namespace=shenyu-admin&quot; -d -p 9095:9095 apache/shenyu-admin:2.4.3</span><br></pre></td></tr></table></figure>
+
+<h3 id="PG-模式启动命令"><a href="#PG-模式启动命令" class="headerlink" title="PG 模式启动命令"></a>PG 模式启动命令</h3><p>初始化数据库脚本：<a href="https://github.com/apache/shenyu/tree/master/db/init/pg">https://github.com/apache/shenyu/tree/master/db/init/pg</a></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker run --name shenyu-admin -e &quot;SPRING_PROFILES_ACTIVE=pg&quot; -e &quot;spring.datasource.url=jdbc:postgresql://localhost:5432/shenyu?useUnicode=true&amp;characterEncoding=utf-8&amp;useSSL=false&quot; -e &quot;spring.datasource.username=postgres&quot; -e &quot;spring.datasource.password=123456&quot; -d -p 9095:9095 apache/shenyu-admin:2.4.3</span><br></pre></td></tr></table></figure>
+
+<h3 id="MySQL"><a href="#MySQL" class="headerlink" title="MySQL"></a>MySQL</h3><p>将 <a href="https://repo1.maven.org/maven2/mysql/mysql-connector-java/8.0.18/mysql-connector-java-8.0.18.jar">mysql-connector.jar</a> 拷贝到 <code>/$&#123;your_work_dir&#125;/ext-lib</code></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker run -v /$&#123;your_work_dir&#125;/ext-lib:/opt/shenyu-admin/ext-lib -e &quot;SPRING_PROFILES_ACTIVE=mysql&quot; -e &quot;spring.datasource.url=jdbc:mysql://$&#123;your_ip_port&#125;/shenyu?useUnicode=true&amp;characterEncoding=utf-8&amp;useSSL=false&quot; -e &quot;spring.datasource.username=$&#123;your_username&#125;&quot; -e &quot;spring.datasource.password=$&#123;your_password&#125;&quot; -d -p 9095:9095 --net shenyu apache/shenyu-admin:$&#123;current.version&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker run --name shenyu-admin -v /Users/dongx/developer/shenyu_ext-lib:/opt/shenyu-admin/ext-lib -e &quot;SPRING_PROFILES_ACTIVE=mysql&quot; -e &quot;spring.datasource.url=jdbc:mysql://host.docker.internal:3306/shenyu?useUnicode=true&amp;characterEncoding=utf-8&amp;useSSL=false&amp;allowPublicKeyRetrieval=true&quot; -e &quot;spring.datasource.username=root&quot; -e &quot;spring.datasource.password=123456&quot; -d -p 9095:9095 apache/shenyu-admin:2.4.3</span><br></pre></td></tr></table></figure>
+
+<h2 id="Mongo"><a href="#Mongo" class="headerlink" title="Mongo"></a>Mongo</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker pull mongo:6.0.6</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">--auth 需要密码访问</span></span><br><span class="line">docker run --name mongo -p 27017:27017 -it -d mongo:6.0.6 --auth</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">连接 mongo</span></span><br><span class="line">docker exec -it mongo mongosh admin</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">默认情况，MongoDB 不包含任何管理员账户或用户账户, 手动创建名为 admin，密码为 123456 的用户。</span></span><br><span class="line">db.createUser(&#123; user:&#x27;admin&#x27;,pwd:&#x27;123456&#x27;,roles:[ &#123; role:&#x27;userAdminAnyDatabase&#x27;, db: &#x27;admin&#x27;&#125;,&quot;readWriteAnyDatabase&quot;]&#125;);</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">使用创建的用户信息进行连接。</span></span><br><span class="line">db.auth(&#x27;admin&#x27;, &#x27;123456&#x27;);</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">查看所有角色</span></span><br><span class="line">show users;</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">删除角色</span></span><br><span class="line">db.dropUser(&#x27;chatterbot&#x27;)</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">通过 use 命令创建数据库</span></span><br><span class="line">use chatterbot;</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">给数据库创建连接用户</span></span><br><span class="line">db.createUser(&#123; user:&#x27;chatterbot&#x27;,pwd:&#x27;123456&#x27;,roles:[ &#123; role:&#x27;readWrite&#x27;, db: &#x27;chatterbot&#x27;&#125;]&#125;);</span><br></pre></td></tr></table></figure>
+
+<h2 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker pull redis:7.0.11</span><br><span class="line"></span><br><span class="line">docker run -d --name redis -p 6379:6379 redis:7.0.11</span><br></pre></td></tr></table></figure>
+
+<h2 id="Every-size-app"><a href="#Every-size-app" class="headerlink" title="Every size app"></a>Every size app</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker pull ghcr.io/kibalabs/everysize-app:latest</span><br><span class="line"></span><br><span class="line">docker run --name everysize-app -p 8888:80 -it -d ghcr.io/kibalabs/everysize-app:latest</span><br></pre></td></tr></table></figure>
+
+<h2 id="MinIO"><a href="#MinIO" class="headerlink" title="MinIO"></a>MinIO</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker pull minio/minio:RELEASE.2023-07-11T21-29-34Z</span><br><span class="line"></span><br><span class="line">docker run --name minio -p 9000:9000 -p 9001:9001 -e &quot;MINIO_ROOT_USER=admin&quot; -e &quot;MINIO_ROOT_PASSWORD=1234567890&quot; -it -d minio/minio:RELEASE.2023-07-11T21-29-34Z server /data --console-address &quot;:9001&quot;</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">host address</span></span><br><span class="line">https://hub.docker.com/r/minio/minio</span><br></pre></td></tr></table></figure>
+
+<h2 id="Skywalking"><a href="#Skywalking" class="headerlink" title="Skywalking"></a>Skywalking</h2><h3 id="oap"><a href="#oap" class="headerlink" title="oap"></a>oap</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker run --name skywalking-oap -d -p 1234:1234 -p 11800:11800 -p 12800:12800 apache/skywalking-oap-server:9.0.0</span><br></pre></td></tr></table></figure>
+
+<h3 id="ui"><a href="#ui" class="headerlink" title="ui"></a>ui</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker run --name skywalking-ui -d -e SW_OAP_ADDRESS=http://skywalking-oap:12800 -p 9999:8080 --link skywalking-oap:skywalking-oap apache/skywalking-ui:9.6.0</span><br></pre></td></tr></table></figure>
+
+<h2 id="janusgraph"><a href="#janusgraph" class="headerlink" title="janusgraph"></a>janusgraph</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker run -d --name janusgraph -p 8182:8182 janusgraph/janusgraph:1.0</span><br></pre></td></tr></table></figure>
+<h2 id="禅道"><a href="#禅道" class="headerlink" title="禅道"></a>禅道</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker pull easysoft/zentao:latest</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">[选择适合您的安装方法 - 禅道使用手册 - 禅道开源项目管理软件](https://www.zentao.net/book/zentaopms/455.html)</span></span><br><span class="line">docker run -itd -v $PWD/data:/data -p 80:80 -e MYSQL_INTERNAL=true hub.zentao.net/app/zentao</span><br></pre></td></tr></table></figure>
+<h2 id="Habse"><a href="#Habse" class="headerlink" title="Habse"></a>Habse</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker run --name hbase -d --platform linux/amd64 -p 2181:2181 -p 60000:60000 -p 60010:60010 -p 60020:60020 -p 60030:60030 cogniteev/hbase-standalone</span><br></pre></td></tr></table></figure>
+<ul>
+<li>2181: ZooKeeper 端口，用于协调分布式应用程序的服务发现和配置同步。</li>
+<li>8080: HBase 的 Web UI 端口，可以通过浏览器访问，提供集群状态和一些管理功能。</li>
+<li>8085: HBase 的 Master Web UI 端口，提供关于 HBase 主节点的信息。</li>
+<li>9090: HBase 的主要 API 端口，用于 HBase 的客户端与服务器之间的通信。</li>
+<li>9095: HBase 的主要 RPC（远程过程调用）引擎端口。</li>
+<li>16000: HBase 的主区域服务器（RegionServer）端口。</li>
+<li>16010: HBase 的主区域服务器 Web UI 端口，提供有关特定 RegionServer 的信息。</li>
+<li>16201: HBase 的备用区域服务器（RegionServer）端口。</li>
+<li>16301: HBase 的备用区域服务器 Web UI 端口，提供有关备用 RegionServer 的信息。</li>
+<li>16030: HBase 的主控制台端口，提供有关 HBase 主控制台的信息。</li>
+<li>16020: HBase 的主区域服务器信息端口。</li>
+</ul>
+<h2 id="Kafka"><a href="#Kafka" class="headerlink" title="Kafka"></a>Kafka</h2><figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">&#x27;2&#x27;</span></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">zookeeper:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">confluentinc/cp-zookeeper:latest</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="attr">ZOO_MY_ID:</span> <span class="number">1</span></span><br><span class="line">      <span class="attr">ZOOKEEPER_CLIENT_PORT:</span> <span class="number">2181</span></span><br><span class="line">      <span class="attr">ZOOKEEPER_TICK_TIME:</span> <span class="number">2000</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="number">12181</span><span class="string">:2181</span></span><br><span class="line">  </span><br><span class="line">  <span class="attr">kafka:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">confluentinc/cp-kafka:latest</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="attr">KAFKA_BROKER_ID:</span> <span class="number">1</span></span><br><span class="line">      <span class="attr">KAFKA_ZOOKEEPER_CONNECT:</span> <span class="string">zookeeper:2181</span></span><br><span class="line">      <span class="attr">ALLOW_PLAINTEXT_LISTENER:</span> <span class="literal">yes</span></span><br><span class="line">      <span class="attr">KAFKA_LISTENERS:</span> <span class="string">CLIENT://:9092,EXTERNAL://:19092</span></span><br><span class="line">      <span class="attr">KAFKA_LISTENER_SECURITY_PROTOCOL_MAP:</span> <span class="string">CLIENT:PLAINTEXT,EXTERNAL:PLAINTEXT</span></span><br><span class="line">      <span class="attr">KAFKA_ADVERTISED_LISTENERS:</span> <span class="string">CLIENT://:9092,EXTERNAL://127.0.0.1:19092</span></span><br><span class="line">      <span class="attr">KAFKA_INTER_BROKER_LISTENER_NAME:</span> <span class="string">CLIENT</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="number">9092</span><span class="string">:9092</span>    </span><br><span class="line">      <span class="bullet">-</span> <span class="number">19092</span><span class="string">:19092</span> </span><br><span class="line">    <span class="attr">depends_on:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">zookeeper</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Gaussdb"><a href="#Gaussdb" class="headerlink" title="Gaussdb"></a>Gaussdb</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker run -d --name opengauss -p 5432:5432 --rm -e GS_PASSWORD=mtkOP@128 enmotech/opengauss</span><br></pre></td></tr></table></figure>
+
+<h2 id="Cassandra"><a href="#Cassandra" class="headerlink" title="Cassandra"></a>Cassandra</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker run --name cassandra -d -e CASSANDRA_START_RPC=true -p 9160:9160 -p 9042:9042 -p 7199:7199 -p 7001:7001 -p 7000:7000 cassandra:3.11</span><br></pre></td></tr></table></figure>
+
+<h1 id="指令"><a href="#指令" class="headerlink" title="指令"></a>指令</h1><h2 id="复制文件"><a href="#复制文件" class="headerlink" title="复制文件"></a>复制文件</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">从宿主机给容器复制</span><br><span class="line">docker cp &#123;&#123;file_path&#125;&#125; &#123;&#123;id/name&#125;&#125;:container_path</span><br><span class="line"></span><br><span class="line">从容器给宿主机复制</span><br><span class="line">docker cp &#123;&#123;container_name&#125;&#125;:&#123;&#123;file_path&#125;&#125;  ~/Downloads</span><br></pre></td></tr></table></figure>
+
+<h2 id="查看容器-ip"><a href="#查看容器-ip" class="headerlink" title="查看容器 ip"></a>查看容器 ip</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker inspect -f &#x27;&#123;&#123;.Name&#125;&#125; - &#123;&#123;.NetworkSettings.IPAddress &#125;&#125;&#x27; $(docker ps -aq)</span><br></pre></td></tr></table></figure>
+
+<h2 id="查看所有容器-ip"><a href="#查看所有容器-ip" class="headerlink" title="查看所有容器 ip"></a>查看所有容器 ip</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker inspect -f &#x27;&#123;&#123;.Name&#125;&#125; - &#123;&#123;.NetworkSettings.IPAddress &#125;&#125;&#x27; $(docker ps -aq)</span><br></pre></td></tr></table></figure>
+
+<h2 id="查看-Docker-容器-IP-地址"><a href="#查看-Docker-容器-IP-地址" class="headerlink" title="查看 Docker 容器 IP 地址"></a>查看 Docker 容器 IP 地址</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker inspect xxx | grep IPAddress</span><br></pre></td></tr></table></figure>
+
+<h2 id="查看-Docker-正在运行的容器的-PID"><a href="#查看-Docker-正在运行的容器的-PID" class="headerlink" title="查看 Docker 正在运行的容器的 PID"></a>查看 Docker 正在运行的容器的 PID</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker inspect --format &#x27;&#123;&#123; .State.Pid &#125;&#125;&#x27; dockerid</span><br></pre></td></tr></table></figure>
+
+<h2 id="启动命令中增加-–-net"><a href="#启动命令中增加-–-net" class="headerlink" title="启动命令中增加 – net"></a>启动命令中增加 – net</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">不为进程启用 Network Namespace ，共享宿主机网络栈</span></span><br><span class="line">--net=host</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">启动一个容器并”加入“到另一个容器的 Network Namespace 里</span></span><br><span class="line">--net container:dockerid</span><br></pre></td></tr></table></figure>
+
+<h2 id="查看-latest-真实版本"><a href="#查看-latest-真实版本" class="headerlink" title="查看 latest 真实版本"></a>查看 latest 真实版本</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker image inspect imageid:latest | grep -i version</span><br></pre></td></tr></table></figure>
+
+<h2 id="修改-Tag-标签"><a href="#修改-Tag-标签" class="headerlink" title="修改 Tag 标签"></a>修改 Tag 标签</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">example: docker tag f16c redis:7.0.11</span></span><br><span class="line">docker tag imageid REPOSITORY:TAG</span><br></pre></td></tr></table></figure>
+
+<h2 id="查看-docker-磁盘使用情况"><a href="#查看-docker-磁盘使用情况" class="headerlink" title="查看 docker 磁盘使用情况"></a>查看 docker 磁盘使用情况</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker system df</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Images</td>
+<td>所有镜像占用的空间，包括拉取下来的镜像，和本地构建的。</td>
+</tr>
+<tr>
+<td>Containers</td>
+<td>运行的容器占用的空间，表示每个容器的读写层的空间。</td>
+</tr>
+<tr>
+<td>Local Volumes</td>
+<td>容器挂载本地数据卷的空间。</td>
+</tr>
+<tr>
+<td>Build Cache</td>
+<td>镜像构建过程中产生的缓存空间（只有在使用 BuildKit 时才有，Docker 18.09 以后可用）。</td>
+</tr>
+<tr>
+<td>RECLAIMABLE</td>
+<td>表示可回收的大小。</td>
+</tr>
+<tr>
+<td>## 一键清理 Build Cache 命令</td>
+<td></td>
+</tr>
+<tr>
+<td>保留最近一定时间的缓存，删除时长更久的缓存，可以通过添加 ​​–filter​​ 参数实现</td>
+<td></td>
+</tr>
+<tr>
+<td>&#96;&#96;&#96;shell</td>
+<td></td>
+</tr>
+<tr>
+<td>docker builder prune</td>
+<td></td>
+</tr>
+</tbody></table>
+<h2 id="拉取指定平台的镜像"><a href="#拉取指定平台的镜像" class="headerlink" title="拉取指定平台的镜像"></a>拉取指定平台的镜像</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">--platform linux/amd64</span><br></pre></td></tr></table></figure>
+
+<h2 id="格式化-ps-命令"><a href="#格式化-ps-命令" class="headerlink" title="格式化 ps 命令"></a>格式化 ps 命令</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker ps --format &quot;table &#123;&#123;.ID&#125;&#125;\t&#123;&#123;.Names&#125;&#125;\t&#123;&#123;.Image&#125;&#125;\t&#123;&#123;.Status&#125;&#125;\t&#123;&#123;.Ports&#125;&#125;&quot;</span><br></pre></td></tr></table></figure>
+
+<h2 id="永久修改"><a href="#永久修改" class="headerlink" title="永久修改"></a>永久修改</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vim ~/.docker/config.json</span><br><span class="line">&#123;</span><br><span class="line">  &quot;psFormat&quot;: &quot;table &#123;&#123;.ID&#125;&#125;\t&#123;&#123;.Names&#125;&#125;\t&#123;&#123;.Image&#125;&#125;\t&#123;&#123;.Status&#125;&#125;\t&#123;&#123;.Ports&#125;&#125;&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="保留最近10天的缓存示例命令"><a href="#保留最近10天的缓存示例命令" class="headerlink" title="保留最近10天的缓存示例命令"></a>保留最近10天的缓存示例命令</h1><p>docker builder prune –filter ‘until&#x3D;240h’</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">## 用于清理磁盘，删除关闭的容器、无用的数据卷和网络，以及 dangling 镜像（即无 tag 的镜像)</span><br><span class="line">```shell</span><br><span class="line">docker system prune​</span><br><span class="line"># 清理得更加彻底，可以将没有容器使用Docker镜像都删掉</span><br><span class="line">​​docker system prune -a</span><br></pre></td></tr></table></figure>
+
+<h2 id="导出镜像"><a href="#导出镜像" class="headerlink" title="导出镜像"></a>导出镜像</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker save -o openjdk-21.tar openjdk:21-jdk</span><br></pre></td></tr></table></figure>
+
+<h2 id="导入镜像"><a href="#导入镜像" class="headerlink" title="导入镜像"></a>导入镜像</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker load &lt; openjdk-21.tar</span><br></pre></td></tr></table></figure>
+<h1 id="Docker-Compose"><a href="#Docker-Compose" class="headerlink" title="Docker Compose"></a>Docker Compose</h1><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker inspect -f &#x27;&#123;&#123;.Name&#125;&#125; - &#123;&#123;range .NetworkSettings.Networks&#125;&#125;&#123;&#123;.IPAddress&#125;&#125;&#123;&#123;end&#125;&#125;&#x27; $(docker ps -aq)</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>容器</category>
+      </categories>
+      <tags>
+        <tag>docker</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Java线程池</title>
+    <url>/2020/01/07/Java%20%E7%BA%BF%E7%A8%8B%E6%B1%A0/</url>
+    <content><![CDATA[<h1 id="CPU-密集型"><a href="#CPU-密集型" class="headerlink" title="CPU 密集型"></a>CPU 密集型</h1><h2 id="最大线程数"><a href="#最大线程数" class="headerlink" title="最大线程数"></a>最大线程数</h2><p>最大线程数 &#x3D; CPU 核心数 + 1<br>额外的线程能确保 CPU 的时钟周期不会被浪费，从而保证 CPU 的利用率。</p>
+<h2 id="核心线程数"><a href="#核心线程数" class="headerlink" title="核心线程数"></a>核心线程数</h2><p>核心线程数 &#x3D; CPU 核心数 或 CPU 核心数 + 1</p>
+<h1 id="IO-密集型"><a href="#IO-密集型" class="headerlink" title="IO 密集型"></a>IO 密集型</h1><ol>
+<li>《Java 虚拟机并发编程》中推荐的计算方法<br> CPU 中可以满负荷运行的最大线程数 &#x3D; CPU 核心数 &#x2F; （1 - 阻塞系数）<br> 阻塞系数 &#x3D; 调用 IO 时间 &#x2F; 请求时长<br> 阻塞系数一般认为在 0.8 ~ 0.9 之间</li>
+<li>《Java 并发编程实战》中推荐的计算方法<br> 线程数 &#x3D; CPU 核心数 * （1 + IO 耗时 &#x2F; CPU 耗时）</li>
+</ol>
+<h2 id="最大线程数-1"><a href="#最大线程数-1" class="headerlink" title="最大线程数"></a>最大线程数</h2><p>最大线程数 &#x3D; CPU 核心数 * 2</p>
+<h2 id="核心线程数-1"><a href="#核心线程数-1" class="headerlink" title="核心线程数"></a>核心线程数</h2><p>核心线程数 &#x3D; 最大线程数 * 20%</p>
+<h1 id="混合型"><a href="#混合型" class="headerlink" title="混合型"></a>混合型</h1><p>核心线程数 &#x3D; （线程等待时间 &#x2F; 线程 CPU时间 + 1） * CPU 核心数</p>
+<h1 id="如何根据实际情况规划线程数"><a href="#如何根据实际情况规划线程数" class="headerlink" title="如何根据实际情况规划线程数"></a>如何根据实际情况规划线程数</h1><ol>
+<li>分析当前主机上，有没有其他进程干扰</li>
+<li>分析当前 JVM 进程上，有没有其他运行中或可能运行的线程</li>
+<li>设定目标</li>
+<li>目标 CPU 利用率 - 最高能容忍的 CPU 使用率</li>
+<li>目标 GC 频率&#x2F;暂停时间 - 多线程执行后，GC 频率会增高，最大能容忍到什么频率，每次暂停时间多少？</li>
+<li>执行效率 - 比如批处理时，单位时间内要开多少线程才能及时处理完毕</li>
+<li>……</li>
+<li>梳理链路关键点，是否有卡脖子的点，因为如果线程数过多，链路上某些节点资源有限可能会导致大量的线程在等待资源（比如三方接口限流，连接池数量有限，中间件压力过大无法支撑等）</li>
+<li>不断的增加&#x2F;减少线程数来测试，按最高的要求去测试，最终获得一个“满足要求”的线程数</li>
+</ol>
+]]></content>
+      <categories>
+        <category>后端</category>
+      </categories>
+      <tags>
+        <tag>Java</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Java进阶训练营笔记</title>
     <url>/2021/01/07/Java%20%E8%BF%9B%E9%98%B6%E8%AE%AD%E7%BB%83%E8%90%A5/</url>
     <content><![CDATA[<h1 id="JVM-核心技术-基础知识"><a href="#JVM-核心技术-基础知识" class="headerlink" title="JVM 核心技术-基础知识"></a>JVM 核心技术-基础知识</h1><h2 id="什么是字节码"><a href="#什么是字节码" class="headerlink" title="什么是字节码"></a>什么是字节码</h2><p><strong>Java bytecode</strong> 由单字节（byte）的指令组成，理论上最多支持 256 个操作吗，实际上 Java 只使用了 200 左右的操作码，一些操作码保留给调试操作<br>根据指令性质，分为 4 个大类</p>
@@ -401,6 +591,37 @@
       </categories>
       <tags>
         <tag>Java</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Maven</title>
+    <url>/2020/05/18/Maven/</url>
+    <content><![CDATA[<h1 id="scope-provided-和-optional-true-的区别"><a href="#scope-provided-和-optional-true-的区别" class="headerlink" title="scope provided 和 optional &#x3D; true 的区别"></a>scope provided 和 optional &#x3D; true 的区别</h1><h3 id="相同点"><a href="#相同点" class="headerlink" title="相同点"></a>相同点</h3><p>两者都不会将依赖直接打入包中</p>
+<h3 id="不同点"><a href="#不同点" class="headerlink" title="不同点"></a>不同点</h3><ul>
+<li>provided 表示某个依赖必须，该依赖通常是由系统或者容器提供</li>
+<li>optional 表示某个依赖可选，该依赖是否使用都不会影响服务运行</li>
+</ul>
+]]></content>
+      <categories>
+        <category>后端</category>
+      </categories>
+      <tags>
+        <tag>Maven</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Llama2 部署</title>
+    <url>/2023/10/18/Llama2%20%E9%83%A8%E7%BD%B2/</url>
+    <content><![CDATA[<h1 id="Llama-模型"><a href="#Llama-模型" class="headerlink" title="Llama 模型"></a>Llama 模型</h1><p><a href="https://github.com/FlagAlpha/Llama2-Chinese">FlagAlpha&#x2F;Llama2-Chinese: Llama中文社区，最好的中文Llama大模型，完全开源可商用</a><br><a href="https://github.com/ymcui/Chinese-LLaMA-Alpaca">ymcui&#x2F;Chinese-LLaMA-Alpaca: 中文LLaMA&amp;Alpaca大语言模型+本地CPU&#x2F;GPU训练部署 (Chinese LLaMA &amp; Alpaca LLMs)</a></p>
+<h1 id="llama-cpp-部署"><a href="#llama-cpp-部署" class="headerlink" title="llama.cpp 部署"></a>llama.cpp 部署</h1><p>参考文档部署即可<br><a href="https://github.com/ymcui/Chinese-LLaMA-Alpaca">ymcui&#x2F;Chinese-LLaMA-Alpaca: 中文LLaMA&amp;Alpaca大语言模型+本地CPU&#x2F;GPU训练部署 (Chinese LLaMA &amp; Alpaca LLMs)</a><br><strong>模型使用需要进行量化</strong></p>
+<h1 id="编程语言实现"><a href="#编程语言实现" class="headerlink" title="编程语言实现"></a>编程语言实现</h1><h2 id="Java"><a href="#Java" class="headerlink" title="Java"></a>Java</h2><p><a href="https://github.com/kherud/java-llama.cpp">kherud&#x2F;java-llama.cpp: Java Bindings for llama.cpp - A Port of Facebook’s LLaMA model in C&#x2F;C++</a><br>如果部署了 llama.cpp 可以直接通过 java api 进行调用</p>
+<h2 id="Python"><a href="#Python" class="headerlink" title="Python"></a>Python</h2><p><a href="https://github.com/abetlen/llama-cpp-python">abetlen&#x2F;llama-cpp-python: Python bindings for llama.cpp</a><br>可以通过 llama-cpp-python[server] 启动 open api 的兼容接口</p>
+]]></content>
+      <categories>
+        <category>AIGC</category>
+      </categories>
+      <tags>
+        <tag>Llama</tag>
       </tags>
   </entry>
   <entry>
@@ -1038,68 +1259,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Llama2 部署</title>
-    <url>/2023/10/18/Llama2%20%E9%83%A8%E7%BD%B2/</url>
-    <content><![CDATA[<h1 id="Llama-模型"><a href="#Llama-模型" class="headerlink" title="Llama 模型"></a>Llama 模型</h1><p><a href="https://github.com/FlagAlpha/Llama2-Chinese">FlagAlpha&#x2F;Llama2-Chinese: Llama中文社区，最好的中文Llama大模型，完全开源可商用</a><br><a href="https://github.com/ymcui/Chinese-LLaMA-Alpaca">ymcui&#x2F;Chinese-LLaMA-Alpaca: 中文LLaMA&amp;Alpaca大语言模型+本地CPU&#x2F;GPU训练部署 (Chinese LLaMA &amp; Alpaca LLMs)</a></p>
-<h1 id="llama-cpp-部署"><a href="#llama-cpp-部署" class="headerlink" title="llama.cpp 部署"></a>llama.cpp 部署</h1><p>参考文档部署即可<br><a href="https://github.com/ymcui/Chinese-LLaMA-Alpaca">ymcui&#x2F;Chinese-LLaMA-Alpaca: 中文LLaMA&amp;Alpaca大语言模型+本地CPU&#x2F;GPU训练部署 (Chinese LLaMA &amp; Alpaca LLMs)</a><br><strong>模型使用需要进行量化</strong></p>
-<h1 id="编程语言实现"><a href="#编程语言实现" class="headerlink" title="编程语言实现"></a>编程语言实现</h1><h2 id="Java"><a href="#Java" class="headerlink" title="Java"></a>Java</h2><p><a href="https://github.com/kherud/java-llama.cpp">kherud&#x2F;java-llama.cpp: Java Bindings for llama.cpp - A Port of Facebook’s LLaMA model in C&#x2F;C++</a><br>如果部署了 llama.cpp 可以直接通过 java api 进行调用</p>
-<h2 id="Python"><a href="#Python" class="headerlink" title="Python"></a>Python</h2><p><a href="https://github.com/abetlen/llama-cpp-python">abetlen&#x2F;llama-cpp-python: Python bindings for llama.cpp</a><br>可以通过 llama-cpp-python[server] 启动 open api 的兼容接口</p>
-]]></content>
-      <categories>
-        <category>AIGC</category>
-      </categories>
-      <tags>
-        <tag>Llama</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Maven</title>
-    <url>/2020/05/18/Maven/</url>
-    <content><![CDATA[<h1 id="scope-provided-和-optional-true-的区别"><a href="#scope-provided-和-optional-true-的区别" class="headerlink" title="scope provided 和 optional &#x3D; true 的区别"></a>scope provided 和 optional &#x3D; true 的区别</h1><h3 id="相同点"><a href="#相同点" class="headerlink" title="相同点"></a>相同点</h3><p>两者都不会将依赖直接打入包中</p>
-<h3 id="不同点"><a href="#不同点" class="headerlink" title="不同点"></a>不同点</h3><ul>
-<li>provided 表示某个依赖必须，该依赖通常是由系统或者容器提供</li>
-<li>optional 表示某个依赖可选，该依赖是否使用都不会影响服务运行</li>
-</ul>
-]]></content>
-      <categories>
-        <category>后端</category>
-      </categories>
-      <tags>
-        <tag>Maven</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Java线程池</title>
-    <url>/2020/01/07/Java%20%E7%BA%BF%E7%A8%8B%E6%B1%A0/</url>
-    <content><![CDATA[<h1 id="CPU-密集型"><a href="#CPU-密集型" class="headerlink" title="CPU 密集型"></a>CPU 密集型</h1><h2 id="最大线程数"><a href="#最大线程数" class="headerlink" title="最大线程数"></a>最大线程数</h2><p>最大线程数 &#x3D; CPU 核心数 + 1<br>额外的线程能确保 CPU 的时钟周期不会被浪费，从而保证 CPU 的利用率。</p>
-<h2 id="核心线程数"><a href="#核心线程数" class="headerlink" title="核心线程数"></a>核心线程数</h2><p>核心线程数 &#x3D; CPU 核心数 或 CPU 核心数 + 1</p>
-<h1 id="IO-密集型"><a href="#IO-密集型" class="headerlink" title="IO 密集型"></a>IO 密集型</h1><ol>
-<li>《Java 虚拟机并发编程》中推荐的计算方法<br> CPU 中可以满负荷运行的最大线程数 &#x3D; CPU 核心数 &#x2F; （1 - 阻塞系数）<br> 阻塞系数 &#x3D; 调用 IO 时间 &#x2F; 请求时长<br> 阻塞系数一般认为在 0.8 ~ 0.9 之间</li>
-<li>《Java 并发编程实战》中推荐的计算方法<br> 线程数 &#x3D; CPU 核心数 * （1 + IO 耗时 &#x2F; CPU 耗时）</li>
-</ol>
-<h2 id="最大线程数-1"><a href="#最大线程数-1" class="headerlink" title="最大线程数"></a>最大线程数</h2><p>最大线程数 &#x3D; CPU 核心数 * 2</p>
-<h2 id="核心线程数-1"><a href="#核心线程数-1" class="headerlink" title="核心线程数"></a>核心线程数</h2><p>核心线程数 &#x3D; 最大线程数 * 20%</p>
-<h1 id="混合型"><a href="#混合型" class="headerlink" title="混合型"></a>混合型</h1><p>核心线程数 &#x3D; （线程等待时间 &#x2F; 线程 CPU时间 + 1） * CPU 核心数</p>
-<h1 id="如何根据实际情况规划线程数"><a href="#如何根据实际情况规划线程数" class="headerlink" title="如何根据实际情况规划线程数"></a>如何根据实际情况规划线程数</h1><ol>
-<li>分析当前主机上，有没有其他进程干扰</li>
-<li>分析当前 JVM 进程上，有没有其他运行中或可能运行的线程</li>
-<li>设定目标</li>
-<li>目标 CPU 利用率 - 最高能容忍的 CPU 使用率</li>
-<li>目标 GC 频率&#x2F;暂停时间 - 多线程执行后，GC 频率会增高，最大能容忍到什么频率，每次暂停时间多少？</li>
-<li>执行效率 - 比如批处理时，单位时间内要开多少线程才能及时处理完毕</li>
-<li>……</li>
-<li>梳理链路关键点，是否有卡脖子的点，因为如果线程数过多，链路上某些节点资源有限可能会导致大量的线程在等待资源（比如三方接口限流，连接池数量有限，中间件压力过大无法支撑等）</li>
-<li>不断的增加&#x2F;减少线程数来测试，按最高的要求去测试，最终获得一个“满足要求”的线程数</li>
-</ol>
-]]></content>
-      <categories>
-        <category>后端</category>
-      </categories>
-      <tags>
-        <tag>Java</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Nacos</title>
     <url>/2020/06/28/Nacos/</url>
     <content><![CDATA[<h1 id="Nacos"><a href="#Nacos" class="headerlink" title="Nacos"></a>Nacos</h1><h2 id="Config"><a href="#Config" class="headerlink" title="Config"></a>Config</h2><h3 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h3><p>与配置中心相关的配置应放在 bootstrap.properties 或 bootstrap.yml 中</p>
@@ -1124,165 +1283,6 @@
       </categories>
       <tags>
         <tag>Nacos</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>常用Dockerfile</title>
-    <url>/2023/11/07/Docker/</url>
-    <content><![CDATA[<h1 id="镜像"><a href="#镜像" class="headerlink" title="镜像"></a>镜像</h1><h2 id="Elasticsearch"><a href="#Elasticsearch" class="headerlink" title="Elasticsearch"></a>Elasticsearch</h2><h3 id="6-8-23-m1"><a href="#6-8-23-m1" class="headerlink" title="6.8.23-m1"></a>6.8.23-m1</h3><figure class="highlight dockerfile"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Dockerfile-elastic.yml</span></span><br><span class="line"><span class="keyword">FROM</span> arm64v8/openjdk:<span class="number">8</span>-jdk-buster</span><br><span class="line"><span class="keyword">WORKDIR</span><span class="language-bash"> /usr</span></span><br><span class="line"><span class="comment"># add a non root user</span></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> useradd -m elasticuser</span></span><br><span class="line"><span class="comment"># Download extras</span></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> apt update</span></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> apt install -y curl nano</span></span><br><span class="line"><span class="comment"># Download elasticsearch</span></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> curl -L -O https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-6.8.23.tar.gz</span></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> tar -xvf elasticsearch-6.8.23.tar.gz</span></span><br><span class="line"><span class="comment"># Add config</span></span><br><span class="line"><span class="keyword">ADD</span><span class="language-bash"> elasticsearch.yml /usr/elasticsearch-6.8.23/config/elasticsearch.yml</span></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> <span class="built_in">chown</span> -R elasticuser: .</span></span><br><span class="line"><span class="keyword">USER</span> elasticuser</span><br><span class="line"><span class="keyword">ENV</span> JAVA_HOME=/usr/local/openjdk-<span class="number">18</span>/bin/java</span><br><span class="line"><span class="keyword">ENV</span> discovery.type=single-node</span><br><span class="line"><span class="keyword">ENV</span> xpack.security.enabled: false</span><br><span class="line"><span class="keyword">ENV</span> xpack.ml.enabled: false</span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> <span class="built_in">cd</span> elasticsearch-6.8.23/bin</span></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> <span class="built_in">chown</span> -R elasticuser: elasticsearch-6.8.23</span></span><br><span class="line"><span class="keyword">EXPOSE</span> <span class="number">9200</span> <span class="number">9300</span></span><br><span class="line"><span class="keyword">CMD</span><span class="language-bash"> <span class="built_in">cd</span> /usr/elasticsearch-6.8.23/bin/ &amp;&amp; ./elasticsearch</span></span><br></pre></td></tr></table></figure>
-
-<h4 id="编译镜像"><a href="#编译镜像" class="headerlink" title="编译镜像"></a>编译镜像</h4><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cd ~/developer/container_repo/docker_repo/elastic</span><br><span class="line">docker build -f Dockerfile -t elastic:6.8.23 .</span><br></pre></td></tr></table></figure>
-
-<h4 id="启动命令"><a href="#启动命令" class="headerlink" title="启动命令"></a>启动命令</h4><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker run -d --name es -p 9200:9200 -p 9300:9300 -e &quot;discovery.type=single-node&quot; -e ES_JAVA_OPTS=&quot;-Xms512m -Xmx512m&quot; elasticsearch:8.3.1</span><br></pre></td></tr></table></figure>
-
-<h4 id="启动后进入容器修改配置文件"><a href="#启动后进入容器修改配置文件" class="headerlink" title="启动后进入容器修改配置文件"></a>启动后进入容器修改配置文件</h4><p>容器内没有 vi 命令的可以使用 docker cp 命令进行替换，修改后重启容器即可<br>以下配置文件不一定完全符合启动版本，某些版本中还会有 https 的配置，酌情开启或者关闭</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># elasticsearch.yml</span></span><br><span class="line"><span class="attr">xpack.security.enabled:</span> <span class="literal">false</span></span><br><span class="line"><span class="attr">xpack.ml.enabled:</span> <span class="literal">false</span></span><br><span class="line"><span class="attr">http.host:</span> <span class="number">0.0</span><span class="number">.0</span><span class="number">.0</span></span><br><span class="line"><span class="attr">transport.host:</span> <span class="number">0.0</span><span class="number">.0</span><span class="number">.0</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="8-8-0"><a href="#8-8-0" class="headerlink" title="8.8.0"></a>8.8.0</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker pull elasticsearch:8.8.0</span><br></pre></td></tr></table></figure>
-
-<h2 id="Postgresql"><a href="#Postgresql" class="headerlink" title="Postgresql"></a>Postgresql</h2><h3 id="启动命令-1"><a href="#启动命令-1" class="headerlink" title="启动命令"></a>启动命令</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker run --name postgres -d -p 5432:5432 -e POSTGRES_PASSWORD=123456 postgres:14.1</span><br></pre></td></tr></table></figure>
-
-<h2 id="Nacos-m1"><a href="#Nacos-m1" class="headerlink" title="Nacos-m1"></a>Nacos-m1</h2><h3 id="2-0-3"><a href="#2-0-3" class="headerlink" title="2.0.3"></a>2.0.3</h3><h4 id="官方镜像地址"><a href="#官方镜像地址" class="headerlink" title="官方镜像地址"></a>官方镜像地址</h4><p><a href="https://github.com/nacos-group/nacos-docker/blob/v2.0.3/README_ZH.md">https://github.com/nacos-group/nacos-docker/blob/v2.0.3/README_ZH.md</a></p>
-<figure class="highlight dockerfile"><table><tr><td class="code"><pre><span class="line"><span class="keyword">FROM</span> centos:<span class="number">8.3</span>.<span class="number">2011</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># set environment</span></span><br><span class="line"><span class="keyword">ENV</span> MODE=<span class="string">&quot;cluster&quot;</span> \</span><br><span class="line">   PREFER_HOST_MODE=<span class="string">&quot;ip&quot;</span>\</span><br><span class="line">   BASE_DIR=<span class="string">&quot;/home/nacos&quot;</span> \</span><br><span class="line">   CLASSPATH=<span class="string">&quot;.:/home/nacos/conf:$CLASSPATH&quot;</span> \</span><br><span class="line">   CLUSTER_CONF=<span class="string">&quot;/home/nacos/conf/cluster.conf&quot;</span> \</span><br><span class="line">   FUNCTION_MODE=<span class="string">&quot;all&quot;</span> \</span><br><span class="line">   JAVA_HOME=<span class="string">&quot;/usr/lib/jvm/java-1.8.0-openjdk&quot;</span> \</span><br><span class="line">   NACOS_USER=<span class="string">&quot;nacos&quot;</span> \</span><br><span class="line">   JAVA=<span class="string">&quot;/usr/lib/jvm/java-1.8.0-openjdk/bin/java&quot;</span> \</span><br><span class="line">   JVM_XMS=<span class="string">&quot;1g&quot;</span> \</span><br><span class="line">   JVM_XMX=<span class="string">&quot;1g&quot;</span> \</span><br><span class="line">   JVM_XMN=<span class="string">&quot;512m&quot;</span> \</span><br><span class="line">   JVM_MS=<span class="string">&quot;128m&quot;</span> \</span><br><span class="line">   JVM_MMS=<span class="string">&quot;320m&quot;</span> \</span><br><span class="line">   NACOS_DEBUG=<span class="string">&quot;n&quot;</span> \</span><br><span class="line">   TOMCAT_ACCESSLOG_ENABLED=<span class="string">&quot;false&quot;</span> \</span><br><span class="line">   TIME_ZONE=<span class="string">&quot;Asia/Shanghai&quot;</span></span><br><span class="line"><span class="keyword">ARG</span> NACOS_VERSION=<span class="number">2.0</span>.<span class="number">3</span></span><br><span class="line"><span class="keyword">ARG</span> HOT_FIX_FLAG=<span class="string">&quot;&quot;</span></span><br><span class="line"><span class="keyword">WORKDIR</span><span class="language-bash"> <span class="variable">$BASE_DIR</span></span></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> <span class="built_in">set</span> -x \</span></span><br><span class="line"><span class="language-bash">   &amp;&amp; sed -i <span class="string">&#x27;s/mirrorlist/#mirrorlist/g&#x27;</span> /etc/yum.repos.d/CentOS-* \</span></span><br><span class="line"><span class="language-bash">   &amp;&amp; sed -i <span class="string">&#x27;s|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g&#x27;</span> /etc/yum.repos.d/CentOS-* \</span></span><br><span class="line"><span class="language-bash">   &amp;&amp; yum update -y \</span></span><br><span class="line"><span class="language-bash">   &amp;&amp; yum install -y java-1.8.0-openjdk java-1.8.0-openjdk-devel wget iputils nc vim libcurl --allowerasing</span></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> wget https://github.com/alibaba/nacos/releases/download/<span class="variable">$&#123;NACOS_VERSION&#125;</span><span class="variable">$&#123;HOT_FIX_FLAG&#125;</span>/nacos-server-<span class="variable">$&#123;NACOS_VERSION&#125;</span>.tar.gz -P /home</span></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> tar -xzvf /home/nacos-server-<span class="variable">$&#123;NACOS_VERSION&#125;</span>.tar.gz -C /home \</span></span><br><span class="line"><span class="language-bash">   &amp;&amp; <span class="built_in">rm</span> -rf /home/nacos-server-<span class="variable">$&#123;NACOS_VERSION&#125;</span>.tar.gz /home/nacos/bin/* /home/nacos/conf/*.properties /home/nacos/conf/*.example /home/nacos/conf/nacos-mysql.sql</span></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> yum autoremove -y wget \</span></span><br><span class="line"><span class="language-bash">   &amp;&amp; <span class="built_in">ln</span> -snf /usr/share/zoneinfo/<span class="variable">$TIME_ZONE</span> /etc/localtime &amp;&amp; <span class="built_in">echo</span> <span class="variable">$TIME_ZONE</span> &gt; /etc/timezone \</span></span><br><span class="line"><span class="language-bash">   &amp;&amp; yum clean all</span></span><br><span class="line"><span class="keyword">ADD</span><span class="language-bash"> bin/docker-startup.sh bin/docker-startup.sh</span></span><br><span class="line"><span class="keyword">ADD</span><span class="language-bash"> conf/application.properties conf/application.properties</span></span><br><span class="line"><span class="comment"># set startup log dir</span></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> <span class="built_in">mkdir</span> -p logs \</span></span><br><span class="line"><span class="language-bash">	&amp;&amp; <span class="built_in">cd</span> logs \</span></span><br><span class="line"><span class="language-bash">	&amp;&amp; <span class="built_in">touch</span> start.out \</span></span><br><span class="line"><span class="language-bash">	&amp;&amp; <span class="built_in">ln</span> -sf /dev/stdout start.out \</span></span><br><span class="line"><span class="language-bash">	&amp;&amp; <span class="built_in">ln</span> -sf /dev/stderr start.out</span></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> <span class="built_in">chmod</span> +x bin/docker-startup.sh</span></span><br><span class="line"><span class="keyword">EXPOSE</span> <span class="number">8848</span></span><br><span class="line"><span class="keyword">ENTRYPOINT</span><span class="language-bash"> [<span class="string">&quot;bin/docker-startup.sh&quot;</span>]</span></span><br></pre></td></tr></table></figure>
-
-<h4 id="编译镜像-1"><a href="#编译镜像-1" class="headerlink" title="编译镜像"></a>编译镜像</h4><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cd ~/developer/container_repo/docker_repo/nacos_2.0.3</span><br><span class="line">docker build -f Dockerfile -t nacos:2.0.3 .</span><br></pre></td></tr></table></figure>
-
-<h4 id="启动命令-2"><a href="#启动命令-2" class="headerlink" title="启动命令"></a>启动命令</h4><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker run --env MODE=standalone --name nacos -d -p 8848:8848 -p 9848:9848 -p 9849:9849 nacos:2.0.3</span><br></pre></td></tr></table></figure>
-
-<h3 id="2-2-3"><a href="#2-2-3" class="headerlink" title="2.2.3"></a>2.2.3</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">FROM amd64/buildpack-deps:buster-curl as installer</span><br><span class="line"></span><br><span class="line">ARG NACOS_VERSION=2.2.3</span><br><span class="line">ARG HOT_FIX_FLAG=&quot;&quot;</span><br><span class="line"></span><br><span class="line">RUN set -x \</span><br><span class="line">    &amp;&amp; curl -SL --output /var/tmp/nacos-server.tar.gz https://github.com/alibaba/nacos/releases/download/$&#123;NACOS_VERSION&#125;$&#123;HOT_FIX_FLAG&#125;/nacos-server-$&#123;NACOS_VERSION&#125;.tar.gz \</span><br><span class="line">    &amp;&amp; tar -xzvf /var/tmp/nacos-server.tar.gz -C /home \</span><br><span class="line">    &amp;&amp; rm -rf /var/tmp/nacos-server.tar.gz /home/nacos/bin/* /home/nacos/conf/*.properties /home/nacos/conf/*.example /home/nacos/conf/nacos-mysql.sql</span><br><span class="line"></span><br><span class="line">FROM adoptopenjdk/openjdk8:jre8u372-b07</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash"><span class="built_in">set</span> environment</span></span><br><span class="line">ENV MODE=&quot;cluster&quot; \</span><br><span class="line">    PREFER_HOST_MODE=&quot;ip&quot;\</span><br><span class="line">    BASE_DIR=&quot;/home/nacos&quot; \</span><br><span class="line">    CLASSPATH=&quot;.:/home/nacos/conf:$CLASSPATH&quot; \</span><br><span class="line">    CLUSTER_CONF=&quot;/home/nacos/conf/cluster.conf&quot; \</span><br><span class="line">    FUNCTION_MODE=&quot;all&quot; \</span><br><span class="line">    NACOS_USER=&quot;nacos&quot; \</span><br><span class="line">    JAVA=&quot;/opt/java/openjdk/bin/java&quot; \</span><br><span class="line">    JVM_XMS=&quot;1g&quot; \</span><br><span class="line">    JVM_XMX=&quot;1g&quot; \</span><br><span class="line">    JVM_XMN=&quot;512m&quot; \</span><br><span class="line">    JVM_MS=&quot;128m&quot; \</span><br><span class="line">    JVM_MMS=&quot;320m&quot; \</span><br><span class="line">    NACOS_DEBUG=&quot;n&quot; \</span><br><span class="line">    TOMCAT_ACCESSLOG_ENABLED=&quot;false&quot; \</span><br><span class="line">    TZ=&quot;Asia/Shanghai&quot;</span><br><span class="line"></span><br><span class="line">WORKDIR $BASE_DIR</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">copy nacos bin</span></span><br><span class="line">COPY --from=installer [&quot;/home/nacos&quot;, &quot;/home/nacos&quot;]</span><br><span class="line"></span><br><span class="line">ADD bin/docker-startup.sh bin/docker-startup.sh</span><br><span class="line">ADD conf/application.properties conf/application.properties</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash"><span class="built_in">set</span> startup <span class="built_in">log</span> <span class="built_in">dir</span></span></span><br><span class="line">RUN mkdir -p logs \</span><br><span class="line">    &amp;&amp; cd logs \</span><br><span class="line">    &amp;&amp; touch start.out \</span><br><span class="line">    &amp;&amp; ln -sf /dev/stdout start.out \</span><br><span class="line">    &amp;&amp; ln -sf /dev/stderr start.out</span><br><span class="line">RUN chmod +x bin/docker-startup.sh</span><br><span class="line"></span><br><span class="line">EXPOSE 8848</span><br><span class="line">ENTRYPOINT [&quot;bin/docker-startup.sh&quot;]</span><br></pre></td></tr></table></figure>
-
-<h4 id="编译镜像-2"><a href="#编译镜像-2" class="headerlink" title="编译镜像"></a>编译镜像</h4><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cd ~/developer/container_repo/docker_repo/nacos_2.2.3</span><br><span class="line">docker build -f Dockerfile.Slim -t nacos:2.2.3 .</span><br></pre></td></tr></table></figure>
-
-<h4 id="启动命令-3"><a href="#启动命令-3" class="headerlink" title="启动命令"></a>启动命令</h4><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">key</span></span><br><span class="line">Secret_nacos-server_fabula_haha@</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">key <span class="built_in">base64</span></span></span><br><span class="line">U2VjcmV0X25hY29zLXNlcnZlcl9mYWJ1bGFfaGFoYUA=</span><br><span class="line"></span><br><span class="line">docker run --env MODE=standalone --env NACOS_AUTH_ENABLE=true --env NACOS_AUTH_TOKEN=U2VjcmV0X25hY29zLXNlcnZlcl9mYWJ1bGFfaGFoYUA= --env nacos.core.auth.server.identity.key=nacos --env nacos.core.auth.server.identity.value=nacos --name nacos -d -p 8848:8848 -p 9848:9848 -p 9849:9849 nacos:2.2.3</span><br></pre></td></tr></table></figure>
-
-<h2 id="ShenYu"><a href="#ShenYu" class="headerlink" title="ShenYu"></a>ShenYu</h2><h3 id="默认用户密码"><a href="#默认用户密码" class="headerlink" title="默认用户密码"></a>默认用户密码</h3><p>admin&#x2F;123456</p>
-<h3 id="拉取镜像"><a href="#拉取镜像" class="headerlink" title="拉取镜像"></a>拉取镜像</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker pull apache/shenyu-admin:vdocker pull apache/shenyu-admin:2.4.3</span><br></pre></td></tr></table></figure>
-
-<h3 id="h2-模式启动命令"><a href="#h2-模式启动命令" class="headerlink" title="h2 模式启动命令"></a>h2 模式启动命令</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker run --name shenyu-admin-h2 -d -p 9095:9095 apache/shenyu-admin:2.4.3</span><br><span class="line">docker run --name shenyu-admin-h2 -e &quot;shenyu.sync.nacos.url=localhost:8848&quot; -e &quot;shenyu.sync.nacos.namespace=shenyu-admin&quot; -d -p 9095:9095 apache/shenyu-admin:2.4.3</span><br></pre></td></tr></table></figure>
-
-<h3 id="PG-模式启动命令"><a href="#PG-模式启动命令" class="headerlink" title="PG 模式启动命令"></a>PG 模式启动命令</h3><p>初始化数据库脚本：<a href="https://github.com/apache/shenyu/tree/master/db/init/pg">https://github.com/apache/shenyu/tree/master/db/init/pg</a></p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker run --name shenyu-admin -e &quot;SPRING_PROFILES_ACTIVE=pg&quot; -e &quot;spring.datasource.url=jdbc:postgresql://localhost:5432/shenyu?useUnicode=true&amp;characterEncoding=utf-8&amp;useSSL=false&quot; -e &quot;spring.datasource.username=postgres&quot; -e &quot;spring.datasource.password=123456&quot; -d -p 9095:9095 apache/shenyu-admin:2.4.3</span><br></pre></td></tr></table></figure>
-
-<h3 id="MySQL"><a href="#MySQL" class="headerlink" title="MySQL"></a>MySQL</h3><p>将 <a href="https://repo1.maven.org/maven2/mysql/mysql-connector-java/8.0.18/mysql-connector-java-8.0.18.jar">mysql-connector.jar</a> 拷贝到 <code>/$&#123;your_work_dir&#125;/ext-lib</code></p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker run -v /$&#123;your_work_dir&#125;/ext-lib:/opt/shenyu-admin/ext-lib -e &quot;SPRING_PROFILES_ACTIVE=mysql&quot; -e &quot;spring.datasource.url=jdbc:mysql://$&#123;your_ip_port&#125;/shenyu?useUnicode=true&amp;characterEncoding=utf-8&amp;useSSL=false&quot; -e &quot;spring.datasource.username=$&#123;your_username&#125;&quot; -e &quot;spring.datasource.password=$&#123;your_password&#125;&quot; -d -p 9095:9095 --net shenyu apache/shenyu-admin:$&#123;current.version&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker run --name shenyu-admin -v /Users/dongx/developer/shenyu_ext-lib:/opt/shenyu-admin/ext-lib -e &quot;SPRING_PROFILES_ACTIVE=mysql&quot; -e &quot;spring.datasource.url=jdbc:mysql://host.docker.internal:3306/shenyu?useUnicode=true&amp;characterEncoding=utf-8&amp;useSSL=false&amp;allowPublicKeyRetrieval=true&quot; -e &quot;spring.datasource.username=root&quot; -e &quot;spring.datasource.password=123456&quot; -d -p 9095:9095 apache/shenyu-admin:2.4.3</span><br></pre></td></tr></table></figure>
-
-<h2 id="Mongo"><a href="#Mongo" class="headerlink" title="Mongo"></a>Mongo</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker pull mongo:6.0.6</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">--auth 需要密码访问</span></span><br><span class="line">docker run --name mongo -p 27017:27017 -it -d mongo:6.0.6 --auth</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">连接 mongo</span></span><br><span class="line">docker exec -it mongo mongosh admin</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">默认情况，MongoDB 不包含任何管理员账户或用户账户, 手动创建名为 admin，密码为 123456 的用户。</span></span><br><span class="line">db.createUser(&#123; user:&#x27;admin&#x27;,pwd:&#x27;123456&#x27;,roles:[ &#123; role:&#x27;userAdminAnyDatabase&#x27;, db: &#x27;admin&#x27;&#125;,&quot;readWriteAnyDatabase&quot;]&#125;);</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">使用创建的用户信息进行连接。</span></span><br><span class="line">db.auth(&#x27;admin&#x27;, &#x27;123456&#x27;);</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">查看所有角色</span></span><br><span class="line">show users;</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">删除角色</span></span><br><span class="line">db.dropUser(&#x27;chatterbot&#x27;)</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">通过 use 命令创建数据库</span></span><br><span class="line">use chatterbot;</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">给数据库创建连接用户</span></span><br><span class="line">db.createUser(&#123; user:&#x27;chatterbot&#x27;,pwd:&#x27;123456&#x27;,roles:[ &#123; role:&#x27;readWrite&#x27;, db: &#x27;chatterbot&#x27;&#125;]&#125;);</span><br></pre></td></tr></table></figure>
-
-<h2 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker pull redis:7.0.11</span><br><span class="line"></span><br><span class="line">docker run -d --name redis -p 6379:6379 redis:7.0.11</span><br></pre></td></tr></table></figure>
-
-<h2 id="Every-size-app"><a href="#Every-size-app" class="headerlink" title="Every size app"></a>Every size app</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker pull ghcr.io/kibalabs/everysize-app:latest</span><br><span class="line"></span><br><span class="line">docker run --name everysize-app -p 8888:80 -it -d ghcr.io/kibalabs/everysize-app:latest</span><br></pre></td></tr></table></figure>
-
-<h2 id="MinIO"><a href="#MinIO" class="headerlink" title="MinIO"></a>MinIO</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker pull minio/minio:RELEASE.2023-07-11T21-29-34Z</span><br><span class="line"></span><br><span class="line">docker run --name minio -p 9000:9000 -p 9001:9001 -e &quot;MINIO_ROOT_USER=admin&quot; -e &quot;MINIO_ROOT_PASSWORD=1234567890&quot; -it -d minio/minio:RELEASE.2023-07-11T21-29-34Z server /data --console-address &quot;:9001&quot;</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">host address</span></span><br><span class="line">https://hub.docker.com/r/minio/minio</span><br></pre></td></tr></table></figure>
-
-<h2 id="Skywalking"><a href="#Skywalking" class="headerlink" title="Skywalking"></a>Skywalking</h2><h3 id="oap"><a href="#oap" class="headerlink" title="oap"></a>oap</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker run --name skywalking-oap -d -p 1234:1234 -p 11800:11800 -p 12800:12800 apache/skywalking-oap-server:9.0.0</span><br></pre></td></tr></table></figure>
-
-<h3 id="ui"><a href="#ui" class="headerlink" title="ui"></a>ui</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker run --name skywalking-ui -d -e SW_OAP_ADDRESS=http://skywalking-oap:12800 -p 9999:8080 --link skywalking-oap:skywalking-oap apache/skywalking-ui:9.6.0</span><br></pre></td></tr></table></figure>
-
-<h2 id="janusgraph"><a href="#janusgraph" class="headerlink" title="janusgraph"></a>janusgraph</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker run -d --name janusgraph -p 8182:8182 janusgraph/janusgraph:1.0</span><br></pre></td></tr></table></figure>
-<h2 id="禅道"><a href="#禅道" class="headerlink" title="禅道"></a>禅道</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker pull easysoft/zentao:latest</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">[选择适合您的安装方法 - 禅道使用手册 - 禅道开源项目管理软件](https://www.zentao.net/book/zentaopms/455.html)</span></span><br><span class="line">docker run -itd -v $PWD/data:/data -p 80:80 -e MYSQL_INTERNAL=true hub.zentao.net/app/zentao</span><br></pre></td></tr></table></figure>
-<h2 id="Habse"><a href="#Habse" class="headerlink" title="Habse"></a>Habse</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker run --name hbase -d --platform linux/amd64 -p 2181:2181 -p 60000:60000 -p 60010:60010 -p 60020:60020 -p 60030:60030 cogniteev/hbase-standalone</span><br></pre></td></tr></table></figure>
-<ul>
-<li>2181: ZooKeeper 端口，用于协调分布式应用程序的服务发现和配置同步。</li>
-<li>8080: HBase 的 Web UI 端口，可以通过浏览器访问，提供集群状态和一些管理功能。</li>
-<li>8085: HBase 的 Master Web UI 端口，提供关于 HBase 主节点的信息。</li>
-<li>9090: HBase 的主要 API 端口，用于 HBase 的客户端与服务器之间的通信。</li>
-<li>9095: HBase 的主要 RPC（远程过程调用）引擎端口。</li>
-<li>16000: HBase 的主区域服务器（RegionServer）端口。</li>
-<li>16010: HBase 的主区域服务器 Web UI 端口，提供有关特定 RegionServer 的信息。</li>
-<li>16201: HBase 的备用区域服务器（RegionServer）端口。</li>
-<li>16301: HBase 的备用区域服务器 Web UI 端口，提供有关备用 RegionServer 的信息。</li>
-<li>16030: HBase 的主控制台端口，提供有关 HBase 主控制台的信息。</li>
-<li>16020: HBase 的主区域服务器信息端口。</li>
-</ul>
-<h2 id="Kafka"><a href="#Kafka" class="headerlink" title="Kafka"></a>Kafka</h2><figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">&#x27;2&#x27;</span></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">zookeeper:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">confluentinc/cp-zookeeper:latest</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="attr">ZOO_MY_ID:</span> <span class="number">1</span></span><br><span class="line">      <span class="attr">ZOOKEEPER_CLIENT_PORT:</span> <span class="number">2181</span></span><br><span class="line">      <span class="attr">ZOOKEEPER_TICK_TIME:</span> <span class="number">2000</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="number">12181</span><span class="string">:2181</span></span><br><span class="line">  </span><br><span class="line">  <span class="attr">kafka:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">confluentinc/cp-kafka:latest</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="attr">KAFKA_BROKER_ID:</span> <span class="number">1</span></span><br><span class="line">      <span class="attr">KAFKA_ZOOKEEPER_CONNECT:</span> <span class="string">zookeeper:2181</span></span><br><span class="line">      <span class="attr">ALLOW_PLAINTEXT_LISTENER:</span> <span class="literal">yes</span></span><br><span class="line">      <span class="attr">KAFKA_LISTENERS:</span> <span class="string">CLIENT://:9092,EXTERNAL://:19092</span></span><br><span class="line">      <span class="attr">KAFKA_LISTENER_SECURITY_PROTOCOL_MAP:</span> <span class="string">CLIENT:PLAINTEXT,EXTERNAL:PLAINTEXT</span></span><br><span class="line">      <span class="attr">KAFKA_ADVERTISED_LISTENERS:</span> <span class="string">CLIENT://:9092,EXTERNAL://127.0.0.1:19092</span></span><br><span class="line">      <span class="attr">KAFKA_INTER_BROKER_LISTENER_NAME:</span> <span class="string">CLIENT</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="number">9092</span><span class="string">:9092</span>    </span><br><span class="line">      <span class="bullet">-</span> <span class="number">19092</span><span class="string">:19092</span> </span><br><span class="line">    <span class="attr">depends_on:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">zookeeper</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="Gaussdb"><a href="#Gaussdb" class="headerlink" title="Gaussdb"></a>Gaussdb</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker run -d --name opengauss -p 5432:5432 --rm -e GS_PASSWORD=mtkOP@128 enmotech/opengauss</span><br></pre></td></tr></table></figure>
-
-<h2 id="Cassandra"><a href="#Cassandra" class="headerlink" title="Cassandra"></a>Cassandra</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker run --name cassandra -d -e CASSANDRA_START_RPC=true -p 9160:9160 -p 9042:9042 -p 7199:7199 -p 7001:7001 -p 7000:7000 cassandra:3.11</span><br></pre></td></tr></table></figure>
-
-<h1 id="指令"><a href="#指令" class="headerlink" title="指令"></a>指令</h1><h2 id="复制文件"><a href="#复制文件" class="headerlink" title="复制文件"></a>复制文件</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">从宿主机给容器复制</span><br><span class="line">docker cp &#123;&#123;file_path&#125;&#125; &#123;&#123;id/name&#125;&#125;:container_path</span><br><span class="line"></span><br><span class="line">从容器给宿主机复制</span><br><span class="line">docker cp &#123;&#123;container_name&#125;&#125;:&#123;&#123;file_path&#125;&#125;  ~/Downloads</span><br></pre></td></tr></table></figure>
-
-<h2 id="查看容器-ip"><a href="#查看容器-ip" class="headerlink" title="查看容器 ip"></a>查看容器 ip</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker inspect -f &#x27;&#123;&#123;.Name&#125;&#125; - &#123;&#123;.NetworkSettings.IPAddress &#125;&#125;&#x27; $(docker ps -aq)</span><br></pre></td></tr></table></figure>
-
-<h2 id="查看所有容器-ip"><a href="#查看所有容器-ip" class="headerlink" title="查看所有容器 ip"></a>查看所有容器 ip</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker inspect -f &#x27;&#123;&#123;.Name&#125;&#125; - &#123;&#123;.NetworkSettings.IPAddress &#125;&#125;&#x27; $(docker ps -aq)</span><br></pre></td></tr></table></figure>
-
-<h2 id="查看-Docker-容器-IP-地址"><a href="#查看-Docker-容器-IP-地址" class="headerlink" title="查看 Docker 容器 IP 地址"></a>查看 Docker 容器 IP 地址</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker inspect xxx | grep IPAddress</span><br></pre></td></tr></table></figure>
-
-<h2 id="查看-Docker-正在运行的容器的-PID"><a href="#查看-Docker-正在运行的容器的-PID" class="headerlink" title="查看 Docker 正在运行的容器的 PID"></a>查看 Docker 正在运行的容器的 PID</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker inspect --format &#x27;&#123;&#123; .State.Pid &#125;&#125;&#x27; dockerid</span><br></pre></td></tr></table></figure>
-
-<h2 id="启动命令中增加-–-net"><a href="#启动命令中增加-–-net" class="headerlink" title="启动命令中增加 – net"></a>启动命令中增加 – net</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">不为进程启用 Network Namespace ，共享宿主机网络栈</span></span><br><span class="line">--net=host</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">启动一个容器并”加入“到另一个容器的 Network Namespace 里</span></span><br><span class="line">--net container:dockerid</span><br></pre></td></tr></table></figure>
-
-<h2 id="查看-latest-真实版本"><a href="#查看-latest-真实版本" class="headerlink" title="查看 latest 真实版本"></a>查看 latest 真实版本</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker image inspect imageid:latest | grep -i version</span><br></pre></td></tr></table></figure>
-
-<h2 id="修改-Tag-标签"><a href="#修改-Tag-标签" class="headerlink" title="修改 Tag 标签"></a>修改 Tag 标签</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">example: docker tag f16c redis:7.0.11</span></span><br><span class="line">docker tag imageid REPOSITORY:TAG</span><br></pre></td></tr></table></figure>
-
-<h2 id="查看-docker-磁盘使用情况"><a href="#查看-docker-磁盘使用情况" class="headerlink" title="查看 docker 磁盘使用情况"></a>查看 docker 磁盘使用情况</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker system df</span><br></pre></td></tr></table></figure>
-
-<table>
-<thead>
-<tr>
-<th>类型</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>Images</td>
-<td>所有镜像占用的空间，包括拉取下来的镜像，和本地构建的。</td>
-</tr>
-<tr>
-<td>Containers</td>
-<td>运行的容器占用的空间，表示每个容器的读写层的空间。</td>
-</tr>
-<tr>
-<td>Local Volumes</td>
-<td>容器挂载本地数据卷的空间。</td>
-</tr>
-<tr>
-<td>Build Cache</td>
-<td>镜像构建过程中产生的缓存空间（只有在使用 BuildKit 时才有，Docker 18.09 以后可用）。</td>
-</tr>
-<tr>
-<td>RECLAIMABLE</td>
-<td>表示可回收的大小。</td>
-</tr>
-<tr>
-<td>## 一键清理 Build Cache 命令</td>
-<td></td>
-</tr>
-<tr>
-<td>保留最近一定时间的缓存，删除时长更久的缓存，可以通过添加 ​​–filter​​ 参数实现</td>
-<td></td>
-</tr>
-<tr>
-<td>&#96;&#96;&#96;shell</td>
-<td></td>
-</tr>
-<tr>
-<td>docker builder prune</td>
-<td></td>
-</tr>
-</tbody></table>
-<h2 id="拉取指定平台的镜像"><a href="#拉取指定平台的镜像" class="headerlink" title="拉取指定平台的镜像"></a>拉取指定平台的镜像</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">--platform linux/amd64</span><br></pre></td></tr></table></figure>
-
-<h2 id="格式化-ps-命令"><a href="#格式化-ps-命令" class="headerlink" title="格式化 ps 命令"></a>格式化 ps 命令</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker ps --format &quot;table &#123;&#123;.ID&#125;&#125;\t&#123;&#123;.Names&#125;&#125;\t&#123;&#123;.Image&#125;&#125;\t&#123;&#123;.Status&#125;&#125;\t&#123;&#123;.Ports&#125;&#125;&quot;</span><br></pre></td></tr></table></figure>
-
-<h2 id="永久修改"><a href="#永久修改" class="headerlink" title="永久修改"></a>永久修改</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vim ~/.docker/config.json</span><br><span class="line">&#123;</span><br><span class="line">  &quot;psFormat&quot;: &quot;table &#123;&#123;.ID&#125;&#125;\t&#123;&#123;.Names&#125;&#125;\t&#123;&#123;.Image&#125;&#125;\t&#123;&#123;.Status&#125;&#125;\t&#123;&#123;.Ports&#125;&#125;&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h1 id="保留最近10天的缓存示例命令"><a href="#保留最近10天的缓存示例命令" class="headerlink" title="保留最近10天的缓存示例命令"></a>保留最近10天的缓存示例命令</h1><p>docker builder prune –filter ‘until&#x3D;240h’</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">## 用于清理磁盘，删除关闭的容器、无用的数据卷和网络，以及 dangling 镜像（即无 tag 的镜像)</span><br><span class="line">```shell</span><br><span class="line">docker system prune​</span><br><span class="line"># 清理得更加彻底，可以将没有容器使用Docker镜像都删掉</span><br><span class="line">​​docker system prune -a</span><br></pre></td></tr></table></figure>
-
-<h2 id="导出镜像"><a href="#导出镜像" class="headerlink" title="导出镜像"></a>导出镜像</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker save -o openjdk-21.tar openjdk:21-jdk</span><br></pre></td></tr></table></figure>
-
-<h2 id="导入镜像"><a href="#导入镜像" class="headerlink" title="导入镜像"></a>导入镜像</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker load &lt; openjdk-21.tar</span><br></pre></td></tr></table></figure>
-<h1 id="Docker-Compose"><a href="#Docker-Compose" class="headerlink" title="Docker Compose"></a>Docker Compose</h1><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker inspect -f &#x27;&#123;&#123;.Name&#125;&#125; - &#123;&#123;range .NetworkSettings.Networks&#125;&#125;&#123;&#123;.IPAddress&#125;&#125;&#123;&#123;end&#125;&#125;&#x27; $(docker ps -aq)</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>容器</category>
-      </categories>
-      <tags>
-        <tag>docker</tag>
       </tags>
   </entry>
   <entry>
@@ -1501,25 +1501,6 @@
       </categories>
       <tags>
         <tag>shell 正则</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>标签系统</title>
-    <url>/2019/01/17/%E6%A0%87%E7%AD%BE%E7%B3%BB%E7%BB%9F/</url>
-    <content><![CDATA[<h1 id="标签分类"><a href="#标签分类" class="headerlink" title="标签分类"></a>标签分类</h1><h2 id="用户标签"><a href="#用户标签" class="headerlink" title="用户标签"></a>用户标签</h2><p><a href="https://ruby-china.org/topics/40481">如何实现一个信息架构友好的标签系统 · Ruby China</a></p>
-<h3 id="属性标签"><a href="#属性标签" class="headerlink" title="属性标签"></a>属性标签</h3><p>数据来源是用户自身的属性</p>
-<h3 id="行为标签"><a href="#行为标签" class="headerlink" title="行为标签"></a>行为标签</h3><p>数据来源是用户的行为数据</p>
-<h2 id="信息架构标签"><a href="#信息架构标签" class="headerlink" title="信息架构标签"></a>信息架构标签</h2><p><a href="https://ruby-china.org/topics/40481">如何实现一个信息架构友好的标签系统 · Ruby China</a><br>通过搜索和标签过滤信息要素</p>
-<ul>
-<li>同义词环圈</li>
-<li>优选术语</li>
-</ul>
-]]></content>
-      <categories>
-        <category>系统设计</category>
-      </categories>
-      <tags>
-        <tag>设计</tag>
       </tags>
   </entry>
   <entry>
@@ -1804,44 +1785,22 @@
       </tags>
   </entry>
   <entry>
-    <title>两数之和</title>
-    <url>/2019/03/12/Array/1.%E4%B8%A4%E6%95%B0%E4%B9%8B%E5%92%8C/</url>
-    <content><![CDATA[<h1 id="1-两数之和"><a href="#1-两数之和" class="headerlink" title="1.两数之和"></a>1.两数之和</h1><p>**难度：简单 **</p>
-<h3 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">给定一个整数数组 nums 和一个目标值 target，请你在该数组中找出和为目标值的那 两个 整数，并返回他们的数组下标。</span><br><span class="line">你可以假设每种输入只会对应一个答案。但是，数组中同一个元素不能使用两遍。</span><br></pre></td></tr></table></figure>
-<p>示例：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">给定 nums = [2, 7, 11, 15], target = 9</span><br><span class="line">因为 nums[0] + nums[1] = 2 + 7 = 9</span><br><span class="line">所以返回 [0, 1]</span><br></pre></td></tr></table></figure>
-<h3 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h3><h4 id="方法一：-暴力破解-双重循环"><a href="#方法一：-暴力破解-双重循环" class="headerlink" title="方法一： 暴力破解-双重循环"></a>方法一： 暴力破解-双重循环</h4><h5 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h5><pre><code>通过双重循环取得满足 nums[i] + nums[j] = target 的下标
-</code></pre>
-<h5 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span>[] twoSum(<span class="type">int</span>[] nums, <span class="type">int</span> target) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; nums.length - <span class="number">1</span>; i++) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> i + <span class="number">1</span>; j &lt; nums.length; j++) &#123;</span><br><span class="line">                <span class="keyword">if</span> (nums[i] + nums[j] == target) &#123;</span><br><span class="line">                    <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;i, j&#125;;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;&#125;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="复杂度分析"><a href="#复杂度分析" class="headerlink" title="复杂度分析"></a>复杂度分析</h5><ol>
-<li>时间复杂度：O(n^2)</li>
-<li>空间复杂度：O(1)</li>
-</ol>
-<h4 id="方法二：哈希表-双重循环"><a href="#方法二：哈希表-双重循环" class="headerlink" title="方法二：哈希表-双重循环"></a>方法二：哈希表-双重循环</h4><h5 id="思路-1"><a href="#思路-1" class="headerlink" title="思路"></a>思路</h5><ol>
-<li>先循环一次将所有数值存入哈希表中，key 为值，value 为所在数组下标</li>
-<li>再循环一次，查看符合条件的数值是否存在哈希表中，存在即可返回</li>
-</ol>
-<h5 id="代码-1"><a href="#代码-1" class="headerlink" title="代码"></a>代码</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span>[] twoSum(<span class="type">int</span>[] nums, <span class="type">int</span> target) &#123;</span><br><span class="line">        Map&lt;Integer, Integer&gt; map = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; nums.length; i++) &#123;</span><br><span class="line">            map.put(nums[i], i);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; nums.length; i++) &#123;</span><br><span class="line">            <span class="type">int</span> <span class="variable">result</span> <span class="operator">=</span> target - nums[i];</span><br><span class="line">            <span class="keyword">if</span> (map.get(result) != <span class="literal">null</span> &amp;&amp; map.get(result) != i) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;i, map.get(result)&#125;;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;&#125;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="复杂度分析-1"><a href="#复杂度分析-1" class="headerlink" title="复杂度分析"></a>复杂度分析</h5><ol>
-<li>时间复杂度：O(n)</li>
-<li>空间复杂度：O(1)</li>
-</ol>
-<h4 id="方法二：哈希表-单循环"><a href="#方法二：哈希表-单循环" class="headerlink" title="方法二：哈希表-单循环"></a>方法二：哈希表-单循环</h4><h5 id="思路-2"><a href="#思路-2" class="headerlink" title="思路"></a>思路</h5><ol>
-<li>循环的同时将数值存入哈希表中，key 为值，value 为所在数组下标</li>
-<li>同时判断符合条件的数值是否存在哈希表中，存在即可返回</li>
-<li>由于先符合的数值的下标存储在哈希表中，所以返回时先返回哈希表中存储的数值</li>
-</ol>
-<h5 id="代码-2"><a href="#代码-2" class="headerlink" title="代码"></a>代码</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span>[] twoSum(<span class="type">int</span>[] nums, <span class="type">int</span> target) &#123;</span><br><span class="line">        Map&lt;Integer, Integer&gt; map = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; nums.length; i++) &#123;</span><br><span class="line">            <span class="type">int</span> <span class="variable">result</span> <span class="operator">=</span> target - nums[i];</span><br><span class="line">            <span class="keyword">if</span> (map.get(result) != <span class="literal">null</span>) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;map.get(result), i&#125;;</span><br><span class="line">            &#125;</span><br><span class="line">            map.put(nums[i], i);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;&#125;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="复杂度分析-2"><a href="#复杂度分析-2" class="headerlink" title="复杂度分析"></a>复杂度分析</h5><ol>
-<li>时间复杂度：O(n)</li>
-<li>空间复杂度：O(1)</li>
-</ol>
+    <title>标签系统</title>
+    <url>/2019/01/17/%E6%A0%87%E7%AD%BE%E7%B3%BB%E7%BB%9F/</url>
+    <content><![CDATA[<h1 id="标签分类"><a href="#标签分类" class="headerlink" title="标签分类"></a>标签分类</h1><h2 id="用户标签"><a href="#用户标签" class="headerlink" title="用户标签"></a>用户标签</h2><p><a href="https://ruby-china.org/topics/40481">如何实现一个信息架构友好的标签系统 · Ruby China</a></p>
+<h3 id="属性标签"><a href="#属性标签" class="headerlink" title="属性标签"></a>属性标签</h3><p>数据来源是用户自身的属性</p>
+<h3 id="行为标签"><a href="#行为标签" class="headerlink" title="行为标签"></a>行为标签</h3><p>数据来源是用户的行为数据</p>
+<h2 id="信息架构标签"><a href="#信息架构标签" class="headerlink" title="信息架构标签"></a>信息架构标签</h2><p><a href="https://ruby-china.org/topics/40481">如何实现一个信息架构友好的标签系统 · Ruby China</a><br>通过搜索和标签过滤信息要素</p>
+<ul>
+<li>同义词环圈</li>
+<li>优选术语</li>
+</ul>
 ]]></content>
       <categories>
-        <category>算法</category>
+        <category>系统设计</category>
       </categories>
       <tags>
-        <tag>数组</tag>
+        <tag>设计</tag>
       </tags>
   </entry>
   <entry>
@@ -2291,20 +2250,37 @@
       </tags>
   </entry>
   <entry>
-    <title>三数之和</title>
-    <url>/2019/03/27/Array/15.%E4%B8%89%E6%95%B0%E4%B9%8B%E5%92%8C/</url>
-    <content><![CDATA[<h1 id="15-三数之和"><a href="#15-三数之和" class="headerlink" title="15.三数之和"></a>15.三数之和</h1><p><strong>难度：中等</strong></p>
-<h3 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">给你一个包含 n 个整数的数组 nums，判断 nums 中是否存在三个元素 a，b，c ，使得 a + b + c = 0 ？请你找出所有满足条件且不重复的三元组。</span><br><span class="line">注意：答案中不可以包含重复的三元组。</span><br></pre></td></tr></table></figure>
+    <title>两数之和</title>
+    <url>/2019/03/12/Array/1.%E4%B8%A4%E6%95%B0%E4%B9%8B%E5%92%8C/</url>
+    <content><![CDATA[<h1 id="1-两数之和"><a href="#1-两数之和" class="headerlink" title="1.两数之和"></a>1.两数之和</h1><p>**难度：简单 **</p>
+<h3 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">给定一个整数数组 nums 和一个目标值 target，请你在该数组中找出和为目标值的那 两个 整数，并返回他们的数组下标。</span><br><span class="line">你可以假设每种输入只会对应一个答案。但是，数组中同一个元素不能使用两遍。</span><br></pre></td></tr></table></figure>
 <p>示例：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">给定数组 nums = [-1, 0, 1, 2, -1, -4]，</span><br><span class="line">满足要求的三元组集合为：</span><br><span class="line">[</span><br><span class="line">  [-1, 0, 1],</span><br><span class="line">  [-1, -1, 2]</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
-<p><strong>注意：</strong>答案中不可以包含重复的三元组。</p>
-<h3 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h3><h4 id="方法一：-暴力破解法-三重循环"><a href="#方法一：-暴力破解法-三重循环" class="headerlink" title="方法一： 暴力破解法-三重循环"></a>方法一： 暴力破解法-三重循环</h4><h5 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h5><p>​	通过三重循环，取出所有符合条件的答案</p>
-<h5 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">```</span><br><span class="line">##### 复杂度分析</span><br><span class="line"><span class="number">1.</span> 时间复杂度：O(n^<span class="number">3</span>)</span><br><span class="line"><span class="number">2.</span> 空间复杂度：O(<span class="number">1</span>)</span><br><span class="line">#### 方法二：双指针遍历</span><br><span class="line">##### 思路</span><br><span class="line"> 	<span class="number">1.</span> 先将数组进行排序</span><br><span class="line"> 	<span class="number">2.</span> 将最小数固定指针，分别使用快慢指针从数组起始位置 + <span class="number">1</span>和终点位置向中进行遍历</span><br><span class="line"> 	<span class="number">3.</span> 寻找满足 nums[k] + nums[i] + nums[j] = <span class="number">0</span> 的组合</span><br><span class="line">##### 代码</span><br><span class="line">```java</span><br></pre></td></tr></table></figure>
-<p>简化后</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">给定 nums = [2, 7, 11, 15], target = 9</span><br><span class="line">因为 nums[0] + nums[1] = 2 + 7 = 9</span><br><span class="line">所以返回 [0, 1]</span><br></pre></td></tr></table></figure>
+<h3 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h3><h4 id="方法一：-暴力破解-双重循环"><a href="#方法一：-暴力破解-双重循环" class="headerlink" title="方法一： 暴力破解-双重循环"></a>方法一： 暴力破解-双重循环</h4><h5 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h5><pre><code>通过双重循环取得满足 nums[i] + nums[j] = target 的下标
+</code></pre>
+<h5 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span>[] twoSum(<span class="type">int</span>[] nums, <span class="type">int</span> target) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; nums.length - <span class="number">1</span>; i++) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> i + <span class="number">1</span>; j &lt; nums.length; j++) &#123;</span><br><span class="line">                <span class="keyword">if</span> (nums[i] + nums[j] == target) &#123;</span><br><span class="line">                    <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;i, j&#125;;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;&#125;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h5 id="复杂度分析"><a href="#复杂度分析" class="headerlink" title="复杂度分析"></a>复杂度分析</h5><ol>
-<li>时间复杂度：</li>
-<li>空间复杂度：</li>
+<li>时间复杂度：O(n^2)</li>
+<li>空间复杂度：O(1)</li>
+</ol>
+<h4 id="方法二：哈希表-双重循环"><a href="#方法二：哈希表-双重循环" class="headerlink" title="方法二：哈希表-双重循环"></a>方法二：哈希表-双重循环</h4><h5 id="思路-1"><a href="#思路-1" class="headerlink" title="思路"></a>思路</h5><ol>
+<li>先循环一次将所有数值存入哈希表中，key 为值，value 为所在数组下标</li>
+<li>再循环一次，查看符合条件的数值是否存在哈希表中，存在即可返回</li>
+</ol>
+<h5 id="代码-1"><a href="#代码-1" class="headerlink" title="代码"></a>代码</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span>[] twoSum(<span class="type">int</span>[] nums, <span class="type">int</span> target) &#123;</span><br><span class="line">        Map&lt;Integer, Integer&gt; map = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; nums.length; i++) &#123;</span><br><span class="line">            map.put(nums[i], i);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; nums.length; i++) &#123;</span><br><span class="line">            <span class="type">int</span> <span class="variable">result</span> <span class="operator">=</span> target - nums[i];</span><br><span class="line">            <span class="keyword">if</span> (map.get(result) != <span class="literal">null</span> &amp;&amp; map.get(result) != i) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;i, map.get(result)&#125;;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;&#125;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="复杂度分析-1"><a href="#复杂度分析-1" class="headerlink" title="复杂度分析"></a>复杂度分析</h5><ol>
+<li>时间复杂度：O(n)</li>
+<li>空间复杂度：O(1)</li>
+</ol>
+<h4 id="方法二：哈希表-单循环"><a href="#方法二：哈希表-单循环" class="headerlink" title="方法二：哈希表-单循环"></a>方法二：哈希表-单循环</h4><h5 id="思路-2"><a href="#思路-2" class="headerlink" title="思路"></a>思路</h5><ol>
+<li>循环的同时将数值存入哈希表中，key 为值，value 为所在数组下标</li>
+<li>同时判断符合条件的数值是否存在哈希表中，存在即可返回</li>
+<li>由于先符合的数值的下标存储在哈希表中，所以返回时先返回哈希表中存储的数值</li>
+</ol>
+<h5 id="代码-2"><a href="#代码-2" class="headerlink" title="代码"></a>代码</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span>[] twoSum(<span class="type">int</span>[] nums, <span class="type">int</span> target) &#123;</span><br><span class="line">        Map&lt;Integer, Integer&gt; map = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; nums.length; i++) &#123;</span><br><span class="line">            <span class="type">int</span> <span class="variable">result</span> <span class="operator">=</span> target - nums[i];</span><br><span class="line">            <span class="keyword">if</span> (map.get(result) != <span class="literal">null</span>) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;map.get(result), i&#125;;</span><br><span class="line">            &#125;</span><br><span class="line">            map.put(nums[i], i);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;&#125;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="复杂度分析-2"><a href="#复杂度分析-2" class="headerlink" title="复杂度分析"></a>复杂度分析</h5><ol>
+<li>时间复杂度：O(n)</li>
+<li>空间复杂度：O(1)</li>
 </ol>
 ]]></content>
       <categories>
@@ -2386,6 +2362,46 @@
       </tags>
   </entry>
   <entry>
+    <title>移动零</title>
+    <url>/2019/06/11/Array/283.%E7%A7%BB%E5%8A%A8%E9%9B%B6/</url>
+    <content><![CDATA[<h1 id="283-移动零"><a href="#283-移动零" class="headerlink" title="283.移动零"></a>283.移动零</h1><p><strong>难度：简单</strong></p>
+<h3 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">给定一个数组 nums，编写一个函数将所有 0 移动到数组的末尾，同时保持非零元素的相对顺序。</span><br></pre></td></tr></table></figure>
+<p>示例：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入: [0,1,0,3,12]</span><br><span class="line">输出: [1,3,12,0,0]</span><br></pre></td></tr></table></figure>
+<p><strong>说明</strong>:</p>
+<ol>
+<li>必须在原数组上操作，不能拷贝额外的数组。</li>
+<li>尽量减少操作次数。</li>
+</ol>
+<h3 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h3><h4 id="方法一：-双迭代法"><a href="#方法一：-双迭代法" class="headerlink" title="方法一： 双迭代法"></a>方法一： 双迭代法</h4><h5 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h5><ol>
+<li>先通过一次循环确定非零元素，并将非零元素全部赋值到前部</li>
+<li>再通过一次循环，将剩余的元素置零</li>
+</ol>
+<h5 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">moveZeroes</span><span class="params">(<span class="type">int</span>[] nums)</span> &#123;</span><br><span class="line">       <span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">       <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; nums.length; i++) &#123;</span><br><span class="line">           <span class="keyword">if</span> (nums[i] != <span class="number">0</span>) &#123;</span><br><span class="line">               nums[j++] = nums[i];</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> j; i &lt; nums.length; i++) &#123;</span><br><span class="line">           nums[i] = <span class="number">0</span>;</span><br><span class="line">       &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="复杂度分析"><a href="#复杂度分析" class="headerlink" title="复杂度分析"></a>复杂度分析</h5><ol>
+<li>时间复杂度：O(n)</li>
+<li>空间复杂度：O(1)</li>
+</ol>
+<h4 id="方法二：双指针-快慢指针"><a href="#方法二：双指针-快慢指针" class="headerlink" title="方法二：双指针-快慢指针"></a>方法二：双指针-快慢指针</h4><h5 id="思路-1"><a href="#思路-1" class="headerlink" title="思路"></a>思路</h5><ol>
+<li>由于只需要保证考虑非零元素的顺序，所以可以定义一个慢指针记录非零元素的位置</li>
+<li>当快指针经过非零元素的时候，将值赋值给慢指针，同时将快指针所处的位置置0</li>
+<li>慢指针在快指针经过非0元素时，进1</li>
+<li>由于存在快慢指针存在同一下标的情况，所以当快慢指针不相等时，才操作数组</li>
+</ol>
+<h5 id="代码-1"><a href="#代码-1" class="headerlink" title="代码"></a>代码</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">moveZeroes</span><span class="params">(<span class="type">int</span>[] nums)</span> &#123;</span><br><span class="line">       <span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">       <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; nums.length; i++) &#123;</span><br><span class="line">           <span class="keyword">if</span> (nums[i] != <span class="number">0</span>) &#123;</span><br><span class="line">               <span class="keyword">if</span> (i != j) &#123;</span><br><span class="line">                   nums[j] = nums[i];</span><br><span class="line">                   nums[i] = <span class="number">0</span>;</span><br><span class="line">               &#125;</span><br><span class="line">               j++;</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="复杂度分析-1"><a href="#复杂度分析-1" class="headerlink" title="复杂度分析"></a>复杂度分析</h5><ol>
+<li>时间复杂度：O(n)</li>
+<li>空间复杂度：O(1)</li>
+</ol>
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>数组</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>整数数组加一</title>
     <url>/2019/04/12/Array/66.%E5%8A%A0%E4%B8%80/</url>
     <content><![CDATA[<h1 id="Leetcode"><a href="#Leetcode" class="headerlink" title="Leetcode"></a>Leetcode</h1><p><strong>难度：简单</strong></p>
@@ -2404,6 +2420,47 @@
 </ol>
 <h5 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span>[] plusOne(<span class="type">int</span>[] digits) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> digits.length - <span class="number">1</span>; i &gt;= <span class="number">0</span>; i--) &#123;</span><br><span class="line">            digits[i]++;</span><br><span class="line">            digits[i] %= <span class="number">10</span>;</span><br><span class="line">            <span class="keyword">if</span> (digits[i] != <span class="number">0</span>) &#123;</span><br><span class="line">                <span class="keyword">return</span> digits;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        digits = <span class="keyword">new</span> <span class="title class_">int</span>[digits.length + <span class="number">1</span>];</span><br><span class="line">        digits[<span class="number">0</span>] = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">return</span> digits;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h5 id="复杂度分析"><a href="#复杂度分析" class="headerlink" title="复杂度分析"></a>复杂度分析</h5><ol>
+<li>时间复杂度：O(n)</li>
+<li>空间复杂度：O(1)</li>
+</ol>
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>数组</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>合并两个有序数组</title>
+    <url>/2019/04/29/Array/88.%E5%90%88%E5%B9%B6%E4%B8%A4%E4%B8%AA%E6%9C%89%E5%BA%8F%E6%95%B0%E7%BB%84/</url>
+    <content><![CDATA[<h1 id="88-合并两个有序数组"><a href="#88-合并两个有序数组" class="headerlink" title="88.合并两个有序数组"></a>88.合并两个有序数组</h1><p><strong>难度：简单</strong></p>
+<h3 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">给你两个有序整数数组 nums1 和 nums2，请你将 nums2 合并到 nums1 中，使 nums1 成为一个有序数组。</span><br><span class="line">说明:</span><br><span class="line">初始化 nums1 和 nums2 的元素数量分别为 m 和 n 。</span><br><span class="line">你可以假设 nums1 有足够的空间（空间大小大于或等于 m + n）来保存 nums2 中的元素。</span><br></pre></td></tr></table></figure>
+<p>示例：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入:</span><br><span class="line">nums1 = [1,2,3,0,0,0], m = 3</span><br><span class="line">nums2 = [2,5,6],       n = 3</span><br><span class="line">输出: [1,2,2,3,5,6]</span><br></pre></td></tr></table></figure>
+<h3 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h3><h4 id="方法一：-利用库函数"><a href="#方法一：-利用库函数" class="headerlink" title="方法一： 利用库函数"></a>方法一： 利用库函数</h4><h5 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h5><ol>
+<li>先将两个数组合并</li>
+<li>利用库函数进行排序</li>
+</ol>
+<h5 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">merge</span><span class="params">(<span class="type">int</span>[] nums1, <span class="type">int</span> m, <span class="type">int</span>[] nums2, <span class="type">int</span> n)</span> &#123;</span><br><span class="line">		System.arraycopy(nums2, <span class="number">0</span>, nums1, m, n);</span><br><span class="line">    	Arrays.sort(nums1);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="复杂度分析"><a href="#复杂度分析" class="headerlink" title="复杂度分析"></a>复杂度分析</h5><ol>
+<li>时间复杂度：O(n)</li>
+<li>空间复杂度：O(1)</li>
+</ol>
+<h4 id="方法二：双指针"><a href="#方法二：双指针" class="headerlink" title="方法二：双指针"></a>方法二：双指针</h4><h5 id="思路-1"><a href="#思路-1" class="headerlink" title="思路"></a>思路</h5><ol>
+<li>两个指针 i 和 j 分别逆序遍历 nums1 和 nums2 数组，从大到小依次逆序插入到 nums1 中</li>
+<li>l 用于记录 nums1 插入数值的位置</li>
+<li>当 nums2 遍历完成时，说明已经将 nums2 的元素全部插入到 nums1 中</li>
+<li>插入哪个 nums 数组的数据就将对应 nums 数组的指针相应 -1， 同时 l 也相应 -1</li>
+</ol>
+<h5 id="代码-1"><a href="#代码-1" class="headerlink" title="代码"></a>代码</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">merge</span><span class="params">(<span class="type">int</span>[] nums1, <span class="type">int</span> m, <span class="type">int</span>[] nums2, <span class="type">int</span> n)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> m - <span class="number">1</span>;</span><br><span class="line">        <span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> n - <span class="number">1</span>;</span><br><span class="line">        <span class="type">int</span> <span class="variable">l</span> <span class="operator">=</span> m + n - <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span> (j &gt;= <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (i &gt;= <span class="number">0</span> &amp;&amp; nums1[i] &gt;= nums2[j]) &#123;</span><br><span class="line">                nums1[l] = nums1[i];</span><br><span class="line">                i--;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                nums1[l] = nums2[j];</span><br><span class="line">                j--;</span><br><span class="line">            &#125;</span><br><span class="line">            l--;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>简化后</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">merge</span><span class="params">(<span class="type">int</span>[] nums1, <span class="type">int</span> m, <span class="type">int</span>[] nums2, <span class="type">int</span> n)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> m - <span class="number">1</span>;</span><br><span class="line">        <span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> n - <span class="number">1</span>;</span><br><span class="line">        <span class="type">int</span> <span class="variable">l</span> <span class="operator">=</span> m + n - <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span> (j &gt;= <span class="number">0</span>) &#123;</span><br><span class="line">            nums1[l--] = i &gt;= <span class="number">0</span>  &amp;&amp; nums1[i] &gt;= nums2[j] ? nums1[i--] : nums2[j--];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>进一步简化：将 i 和 j 的值 由 m 和 n 代替</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">merge</span><span class="params">(<span class="type">int</span>[] nums1, <span class="type">int</span> m, <span class="type">int</span>[] nums2, <span class="type">int</span> n)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">l</span> <span class="operator">=</span> m-- + n-- - <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span> (n &gt;= <span class="number">0</span>) &#123;</span><br><span class="line">            nums1[l--] = (m &gt;= <span class="number">0</span>  &amp;&amp; nums1[m] &gt;= nums2[n]) ? nums1[m--] : nums2[n--];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>终极版：n– - 1 的实际效果 等于 –n</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">merge</span><span class="params">(<span class="type">int</span>[] nums1, <span class="type">int</span> m, <span class="type">int</span>[] nums2, <span class="type">int</span> n)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">l</span> <span class="operator">=</span> m-- + --n;</span><br><span class="line">        <span class="keyword">while</span> (n &gt;= <span class="number">0</span>) &#123;</span><br><span class="line">            nums1[l--] = (m &gt;= <span class="number">0</span>  &amp;&amp; nums1[m] &gt;= nums2[n]) ? nums1[m--] : nums2[n--];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="复杂度分析-1"><a href="#复杂度分析-1" class="headerlink" title="复杂度分析"></a>复杂度分析</h5><ol>
 <li>时间复杂度：O(n)</li>
 <li>空间复杂度：O(1)</li>
 </ol>
@@ -2452,87 +2509,6 @@
 <h4 id="方法四：迭代"><a href="#方法四：迭代" class="headerlink" title="方法四：迭代"></a>方法四：迭代</h4><h5 id="思路-3"><a href="#思路-3" class="headerlink" title="思路"></a>思路</h5><p>​	使用迭代的方式，滚动赋值给前一阶和前两阶的数值</p>
 <h5 id="代码-3"><a href="#代码-3" class="headerlink" title="代码"></a>代码</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">climbStairs</span><span class="params">(<span class="type">int</span> n)</span> &#123;</span><br><span class="line">       <span class="keyword">if</span> (n == <span class="number">1</span> || n == <span class="number">2</span>) &#123;</span><br><span class="line">           <span class="keyword">return</span> n;</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="type">int</span> <span class="variable">l1</span> <span class="operator">=</span> <span class="number">1</span>;</span><br><span class="line">       <span class="type">int</span> <span class="variable">l2</span> <span class="operator">=</span> <span class="number">2</span>;</span><br><span class="line">       <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">3</span>; i &lt;= n; i++) &#123;</span><br><span class="line">           <span class="type">int</span> <span class="variable">result</span> <span class="operator">=</span> l1 + l2;</span><br><span class="line">           l1 = l2;</span><br><span class="line">           l2 = result;</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">return</span> l2;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h5 id="复杂度分析-3"><a href="#复杂度分析-3" class="headerlink" title="复杂度分析"></a>复杂度分析</h5><ol>
-<li>时间复杂度：O(n)</li>
-<li>空间复杂度：O(1)</li>
-</ol>
-]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>数组</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>移动零</title>
-    <url>/2019/06/11/Array/283.%E7%A7%BB%E5%8A%A8%E9%9B%B6/</url>
-    <content><![CDATA[<h1 id="283-移动零"><a href="#283-移动零" class="headerlink" title="283.移动零"></a>283.移动零</h1><p><strong>难度：简单</strong></p>
-<h3 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">给定一个数组 nums，编写一个函数将所有 0 移动到数组的末尾，同时保持非零元素的相对顺序。</span><br></pre></td></tr></table></figure>
-<p>示例：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入: [0,1,0,3,12]</span><br><span class="line">输出: [1,3,12,0,0]</span><br></pre></td></tr></table></figure>
-<p><strong>说明</strong>:</p>
-<ol>
-<li>必须在原数组上操作，不能拷贝额外的数组。</li>
-<li>尽量减少操作次数。</li>
-</ol>
-<h3 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h3><h4 id="方法一：-双迭代法"><a href="#方法一：-双迭代法" class="headerlink" title="方法一： 双迭代法"></a>方法一： 双迭代法</h4><h5 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h5><ol>
-<li>先通过一次循环确定非零元素，并将非零元素全部赋值到前部</li>
-<li>再通过一次循环，将剩余的元素置零</li>
-</ol>
-<h5 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">moveZeroes</span><span class="params">(<span class="type">int</span>[] nums)</span> &#123;</span><br><span class="line">       <span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">       <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; nums.length; i++) &#123;</span><br><span class="line">           <span class="keyword">if</span> (nums[i] != <span class="number">0</span>) &#123;</span><br><span class="line">               nums[j++] = nums[i];</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> j; i &lt; nums.length; i++) &#123;</span><br><span class="line">           nums[i] = <span class="number">0</span>;</span><br><span class="line">       &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="复杂度分析"><a href="#复杂度分析" class="headerlink" title="复杂度分析"></a>复杂度分析</h5><ol>
-<li>时间复杂度：O(n)</li>
-<li>空间复杂度：O(1)</li>
-</ol>
-<h4 id="方法二：双指针-快慢指针"><a href="#方法二：双指针-快慢指针" class="headerlink" title="方法二：双指针-快慢指针"></a>方法二：双指针-快慢指针</h4><h5 id="思路-1"><a href="#思路-1" class="headerlink" title="思路"></a>思路</h5><ol>
-<li>由于只需要保证考虑非零元素的顺序，所以可以定义一个慢指针记录非零元素的位置</li>
-<li>当快指针经过非零元素的时候，将值赋值给慢指针，同时将快指针所处的位置置0</li>
-<li>慢指针在快指针经过非0元素时，进1</li>
-<li>由于存在快慢指针存在同一下标的情况，所以当快慢指针不相等时，才操作数组</li>
-</ol>
-<h5 id="代码-1"><a href="#代码-1" class="headerlink" title="代码"></a>代码</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">moveZeroes</span><span class="params">(<span class="type">int</span>[] nums)</span> &#123;</span><br><span class="line">       <span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">       <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; nums.length; i++) &#123;</span><br><span class="line">           <span class="keyword">if</span> (nums[i] != <span class="number">0</span>) &#123;</span><br><span class="line">               <span class="keyword">if</span> (i != j) &#123;</span><br><span class="line">                   nums[j] = nums[i];</span><br><span class="line">                   nums[i] = <span class="number">0</span>;</span><br><span class="line">               &#125;</span><br><span class="line">               j++;</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="复杂度分析-1"><a href="#复杂度分析-1" class="headerlink" title="复杂度分析"></a>复杂度分析</h5><ol>
-<li>时间复杂度：O(n)</li>
-<li>空间复杂度：O(1)</li>
-</ol>
-]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>数组</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>合并两个有序数组</title>
-    <url>/2019/04/29/Array/88.%E5%90%88%E5%B9%B6%E4%B8%A4%E4%B8%AA%E6%9C%89%E5%BA%8F%E6%95%B0%E7%BB%84/</url>
-    <content><![CDATA[<h1 id="88-合并两个有序数组"><a href="#88-合并两个有序数组" class="headerlink" title="88.合并两个有序数组"></a>88.合并两个有序数组</h1><p><strong>难度：简单</strong></p>
-<h3 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">给你两个有序整数数组 nums1 和 nums2，请你将 nums2 合并到 nums1 中，使 nums1 成为一个有序数组。</span><br><span class="line">说明:</span><br><span class="line">初始化 nums1 和 nums2 的元素数量分别为 m 和 n 。</span><br><span class="line">你可以假设 nums1 有足够的空间（空间大小大于或等于 m + n）来保存 nums2 中的元素。</span><br></pre></td></tr></table></figure>
-<p>示例：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入:</span><br><span class="line">nums1 = [1,2,3,0,0,0], m = 3</span><br><span class="line">nums2 = [2,5,6],       n = 3</span><br><span class="line">输出: [1,2,2,3,5,6]</span><br></pre></td></tr></table></figure>
-<h3 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h3><h4 id="方法一：-利用库函数"><a href="#方法一：-利用库函数" class="headerlink" title="方法一： 利用库函数"></a>方法一： 利用库函数</h4><h5 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h5><ol>
-<li>先将两个数组合并</li>
-<li>利用库函数进行排序</li>
-</ol>
-<h5 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">merge</span><span class="params">(<span class="type">int</span>[] nums1, <span class="type">int</span> m, <span class="type">int</span>[] nums2, <span class="type">int</span> n)</span> &#123;</span><br><span class="line">		System.arraycopy(nums2, <span class="number">0</span>, nums1, m, n);</span><br><span class="line">    	Arrays.sort(nums1);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="复杂度分析"><a href="#复杂度分析" class="headerlink" title="复杂度分析"></a>复杂度分析</h5><ol>
-<li>时间复杂度：O(n)</li>
-<li>空间复杂度：O(1)</li>
-</ol>
-<h4 id="方法二：双指针"><a href="#方法二：双指针" class="headerlink" title="方法二：双指针"></a>方法二：双指针</h4><h5 id="思路-1"><a href="#思路-1" class="headerlink" title="思路"></a>思路</h5><ol>
-<li>两个指针 i 和 j 分别逆序遍历 nums1 和 nums2 数组，从大到小依次逆序插入到 nums1 中</li>
-<li>l 用于记录 nums1 插入数值的位置</li>
-<li>当 nums2 遍历完成时，说明已经将 nums2 的元素全部插入到 nums1 中</li>
-<li>插入哪个 nums 数组的数据就将对应 nums 数组的指针相应 -1， 同时 l 也相应 -1</li>
-</ol>
-<h5 id="代码-1"><a href="#代码-1" class="headerlink" title="代码"></a>代码</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">merge</span><span class="params">(<span class="type">int</span>[] nums1, <span class="type">int</span> m, <span class="type">int</span>[] nums2, <span class="type">int</span> n)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> m - <span class="number">1</span>;</span><br><span class="line">        <span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> n - <span class="number">1</span>;</span><br><span class="line">        <span class="type">int</span> <span class="variable">l</span> <span class="operator">=</span> m + n - <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span> (j &gt;= <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (i &gt;= <span class="number">0</span> &amp;&amp; nums1[i] &gt;= nums2[j]) &#123;</span><br><span class="line">                nums1[l] = nums1[i];</span><br><span class="line">                i--;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                nums1[l] = nums2[j];</span><br><span class="line">                j--;</span><br><span class="line">            &#125;</span><br><span class="line">            l--;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>简化后</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">merge</span><span class="params">(<span class="type">int</span>[] nums1, <span class="type">int</span> m, <span class="type">int</span>[] nums2, <span class="type">int</span> n)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> m - <span class="number">1</span>;</span><br><span class="line">        <span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> n - <span class="number">1</span>;</span><br><span class="line">        <span class="type">int</span> <span class="variable">l</span> <span class="operator">=</span> m + n - <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span> (j &gt;= <span class="number">0</span>) &#123;</span><br><span class="line">            nums1[l--] = i &gt;= <span class="number">0</span>  &amp;&amp; nums1[i] &gt;= nums2[j] ? nums1[i--] : nums2[j--];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>进一步简化：将 i 和 j 的值 由 m 和 n 代替</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">merge</span><span class="params">(<span class="type">int</span>[] nums1, <span class="type">int</span> m, <span class="type">int</span>[] nums2, <span class="type">int</span> n)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">l</span> <span class="operator">=</span> m-- + n-- - <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span> (n &gt;= <span class="number">0</span>) &#123;</span><br><span class="line">            nums1[l--] = (m &gt;= <span class="number">0</span>  &amp;&amp; nums1[m] &gt;= nums2[n]) ? nums1[m--] : nums2[n--];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>终极版：n– - 1 的实际效果 等于 –n</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">merge</span><span class="params">(<span class="type">int</span>[] nums1, <span class="type">int</span> m, <span class="type">int</span>[] nums2, <span class="type">int</span> n)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">l</span> <span class="operator">=</span> m-- + --n;</span><br><span class="line">        <span class="keyword">while</span> (n &gt;= <span class="number">0</span>) &#123;</span><br><span class="line">            nums1[l--] = (m &gt;= <span class="number">0</span>  &amp;&amp; nums1[m] &gt;= nums2[n]) ? nums1[m--] : nums2[n--];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="复杂度分析-1"><a href="#复杂度分析-1" class="headerlink" title="复杂度分析"></a>复杂度分析</h5><ol>
 <li>时间复杂度：O(n)</li>
 <li>空间复杂度：O(1)</li>
 </ol>
@@ -2623,6 +2599,30 @@
       </tags>
   </entry>
   <entry>
+    <title>三数之和</title>
+    <url>/2019/03/27/Array/15.%E4%B8%89%E6%95%B0%E4%B9%8B%E5%92%8C/</url>
+    <content><![CDATA[<h1 id="15-三数之和"><a href="#15-三数之和" class="headerlink" title="15.三数之和"></a>15.三数之和</h1><p><strong>难度：中等</strong></p>
+<h3 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">给你一个包含 n 个整数的数组 nums，判断 nums 中是否存在三个元素 a，b，c ，使得 a + b + c = 0 ？请你找出所有满足条件且不重复的三元组。</span><br><span class="line">注意：答案中不可以包含重复的三元组。</span><br></pre></td></tr></table></figure>
+<p>示例：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">给定数组 nums = [-1, 0, 1, 2, -1, -4]，</span><br><span class="line">满足要求的三元组集合为：</span><br><span class="line">[</span><br><span class="line">  [-1, 0, 1],</span><br><span class="line">  [-1, -1, 2]</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<p><strong>注意：</strong>答案中不可以包含重复的三元组。</p>
+<h3 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h3><h4 id="方法一：-暴力破解法-三重循环"><a href="#方法一：-暴力破解法-三重循环" class="headerlink" title="方法一： 暴力破解法-三重循环"></a>方法一： 暴力破解法-三重循环</h4><h5 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h5><p>​	通过三重循环，取出所有符合条件的答案</p>
+<h5 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">```</span><br><span class="line">##### 复杂度分析</span><br><span class="line"><span class="number">1.</span> 时间复杂度：O(n^<span class="number">3</span>)</span><br><span class="line"><span class="number">2.</span> 空间复杂度：O(<span class="number">1</span>)</span><br><span class="line">#### 方法二：双指针遍历</span><br><span class="line">##### 思路</span><br><span class="line"> 	<span class="number">1.</span> 先将数组进行排序</span><br><span class="line"> 	<span class="number">2.</span> 将最小数固定指针，分别使用快慢指针从数组起始位置 + <span class="number">1</span>和终点位置向中进行遍历</span><br><span class="line"> 	<span class="number">3.</span> 寻找满足 nums[k] + nums[i] + nums[j] = <span class="number">0</span> 的组合</span><br><span class="line">##### 代码</span><br><span class="line">```java</span><br></pre></td></tr></table></figure>
+<p>简化后</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
+<h5 id="复杂度分析"><a href="#复杂度分析" class="headerlink" title="复杂度分析"></a>复杂度分析</h5><ol>
+<li>时间复杂度：</li>
+<li>空间复杂度：</li>
+</ol>
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>数组</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>合并两个有序链表</title>
     <url>/2019/07/02/Linked%20List/21.%E5%90%88%E5%B9%B6%E4%B8%A4%E4%B8%AA%E6%9C%89%E5%BA%8F%E9%93%BE%E8%A1%A8/</url>
     <content><![CDATA[<h1 id="21-合并两个有序链表"><a href="#21-合并两个有序链表" class="headerlink" title="21.合并两个有序链表"></a>21.合并两个有序链表</h1><p><strong>难度：简单</strong></p>
@@ -2691,37 +2691,6 @@
       </tags>
   </entry>
   <entry>
-    <title>K个一组翻转链表</title>
-    <url>/2019/08/11/Linked%20List/25.K%E4%B8%AA%E4%B8%80%E7%BB%84%E7%BF%BB%E8%BD%AC%E9%93%BE%E8%A1%A8/</url>
-    <content><![CDATA[<h1 id="Leetcode"><a href="#Leetcode" class="headerlink" title="Leetcode"></a>Leetcode</h1><p><strong>难度：困难</strong></p>
-<h3 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">给你一个链表，每k个节点一组进行翻转，请你返回翻转后的链表。</span><br><span class="line">k是一个正整数，它的值小于或等于链表的长度。</span><br><span class="line">如果节点总数不是k的整数倍，那么请将最后剩余的节点保持原有顺序。</span><br></pre></td></tr></table></figure>
-<p>示例：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">给你这个链表：1-&gt;2-&gt;3-&gt;4-&gt;5</span><br><span class="line">当k= 2 时，应当返回: 2-&gt;1-&gt;4-&gt;3-&gt;5</span><br><span class="line">当k= 3 时，应当返回: 3-&gt;2-&gt;1-&gt;4-&gt;5</span><br></pre></td></tr></table></figure>
-<p>说明：</p>
-<ol>
-<li>你的算法只能使用常数的额外空间。</li>
-<li><strong>你不能只是单纯的改变节点内部的值</strong>，而是需要实际进行节点交换。</li>
-</ol>
-<h3 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h3><h4 id="方法："><a href="#方法：" class="headerlink" title="方法："></a>方法：</h4><h5 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h5><ol>
-<li>声明一个 tail 链表 用于记录需要翻转的 k 个元素</li>
-<li>当 tail &#x3D;&#x3D; null 时说明不够 k 个元素，直接返回其余元素</li>
-<li>翻转 head 到 tail 之间的元素</li>
-<li>递归寻找下一组元素，将翻转后的链表指向下一组元素，下一组元素的头部即是 tail 链表</li>
-</ol>
-<h5 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> ListNode <span class="title function_">reverseKGroup</span><span class="params">(ListNode head, <span class="type">int</span> k)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (head == <span class="literal">null</span> || head.next == <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> head;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="type">ListNode</span> <span class="variable">tail</span> <span class="operator">=</span> head;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; k; i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (tail == <span class="literal">null</span>) &#123;</span><br><span class="line">                <span class="keyword">return</span> head;</span><br><span class="line">            &#125;</span><br><span class="line">            tail = tail.next;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="type">ListNode</span> <span class="variable">a</span> <span class="operator">=</span> revese(head, tail);</span><br><span class="line">        head.next = reverseKGroup(tail, k);</span><br><span class="line">        <span class="keyword">return</span> a;</span><br><span class="line">    &#125;</span><br><span class="line">    ListNode <span class="title function_">revese</span><span class="params">(ListNode cur, ListNode tail)</span> &#123;</span><br><span class="line">        <span class="type">ListNode</span> <span class="variable">prev</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">        <span class="keyword">while</span> (cur != tail) &#123;</span><br><span class="line">            <span class="type">ListNode</span> <span class="variable">temp</span> <span class="operator">=</span> cur.next;</span><br><span class="line">            cur.next = prev;</span><br><span class="line">            prev = cur;</span><br><span class="line">            cur = temp;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> prev;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="复杂度分析"><a href="#复杂度分析" class="headerlink" title="复杂度分析"></a>复杂度分析</h5><ol>
-<li>时间复杂度：O(n)</li>
-<li>空间复杂度：O(1)</li>
-</ol>
-]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>链表</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>两两交换链表中的节点</title>
     <url>/2019/08/11/Linked%20List/24.%E4%B8%A4%E4%B8%A4%E4%BA%A4%E6%8D%A2%E9%93%BE%E8%A1%A8%E4%B8%AD%E7%9A%84%E8%8A%82%E7%82%B9/</url>
     <content><![CDATA[<h1 id="24-两两交换链表中的节点"><a href="#24-两两交换链表中的节点" class="headerlink" title="24. 两两交换链表中的节点"></a>24. 两两交换链表中的节点</h1><p><strong>难度：中等</strong></p>
@@ -2749,6 +2718,37 @@
 </ol>
 <h5 id="代码-1"><a href="#代码-1" class="headerlink" title="代码"></a>代码</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"> */</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> ListNode <span class="title function_">swapPairs</span><span class="params">(ListNode head)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (head == <span class="literal">null</span> || head.next == <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> head;</span><br><span class="line">        &#125;</span><br><span class="line">       <span class="type">ListNode</span> <span class="variable">first</span> <span class="operator">=</span> head;</span><br><span class="line">       <span class="type">ListNode</span> <span class="variable">second</span> <span class="operator">=</span> head.next;</span><br><span class="line">       first.next = swapPairs(head.next.next);</span><br><span class="line">       second.next = first;</span><br><span class="line">       <span class="keyword">return</span> second;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h5 id="复杂度分析-1"><a href="#复杂度分析-1" class="headerlink" title="复杂度分析"></a>复杂度分析</h5><ol>
+<li>时间复杂度：O(n)</li>
+<li>空间复杂度：O(1)</li>
+</ol>
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>链表</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>K个一组翻转链表</title>
+    <url>/2019/08/11/Linked%20List/25.K%E4%B8%AA%E4%B8%80%E7%BB%84%E7%BF%BB%E8%BD%AC%E9%93%BE%E8%A1%A8/</url>
+    <content><![CDATA[<h1 id="Leetcode"><a href="#Leetcode" class="headerlink" title="Leetcode"></a>Leetcode</h1><p><strong>难度：困难</strong></p>
+<h3 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">给你一个链表，每k个节点一组进行翻转，请你返回翻转后的链表。</span><br><span class="line">k是一个正整数，它的值小于或等于链表的长度。</span><br><span class="line">如果节点总数不是k的整数倍，那么请将最后剩余的节点保持原有顺序。</span><br></pre></td></tr></table></figure>
+<p>示例：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">给你这个链表：1-&gt;2-&gt;3-&gt;4-&gt;5</span><br><span class="line">当k= 2 时，应当返回: 2-&gt;1-&gt;4-&gt;3-&gt;5</span><br><span class="line">当k= 3 时，应当返回: 3-&gt;2-&gt;1-&gt;4-&gt;5</span><br></pre></td></tr></table></figure>
+<p>说明：</p>
+<ol>
+<li>你的算法只能使用常数的额外空间。</li>
+<li><strong>你不能只是单纯的改变节点内部的值</strong>，而是需要实际进行节点交换。</li>
+</ol>
+<h3 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h3><h4 id="方法："><a href="#方法：" class="headerlink" title="方法："></a>方法：</h4><h5 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h5><ol>
+<li>声明一个 tail 链表 用于记录需要翻转的 k 个元素</li>
+<li>当 tail &#x3D;&#x3D; null 时说明不够 k 个元素，直接返回其余元素</li>
+<li>翻转 head 到 tail 之间的元素</li>
+<li>递归寻找下一组元素，将翻转后的链表指向下一组元素，下一组元素的头部即是 tail 链表</li>
+</ol>
+<h5 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> ListNode <span class="title function_">reverseKGroup</span><span class="params">(ListNode head, <span class="type">int</span> k)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (head == <span class="literal">null</span> || head.next == <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> head;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="type">ListNode</span> <span class="variable">tail</span> <span class="operator">=</span> head;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; k; i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (tail == <span class="literal">null</span>) &#123;</span><br><span class="line">                <span class="keyword">return</span> head;</span><br><span class="line">            &#125;</span><br><span class="line">            tail = tail.next;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="type">ListNode</span> <span class="variable">a</span> <span class="operator">=</span> revese(head, tail);</span><br><span class="line">        head.next = reverseKGroup(tail, k);</span><br><span class="line">        <span class="keyword">return</span> a;</span><br><span class="line">    &#125;</span><br><span class="line">    ListNode <span class="title function_">revese</span><span class="params">(ListNode cur, ListNode tail)</span> &#123;</span><br><span class="line">        <span class="type">ListNode</span> <span class="variable">prev</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">        <span class="keyword">while</span> (cur != tail) &#123;</span><br><span class="line">            <span class="type">ListNode</span> <span class="variable">temp</span> <span class="operator">=</span> cur.next;</span><br><span class="line">            cur.next = prev;</span><br><span class="line">            prev = cur;</span><br><span class="line">            cur = temp;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> prev;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="复杂度分析"><a href="#复杂度分析" class="headerlink" title="复杂度分析"></a>复杂度分析</h5><ol>
 <li>时间复杂度：O(n)</li>
 <li>空间复杂度：O(1)</li>
 </ol>
