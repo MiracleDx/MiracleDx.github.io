@@ -160,6 +160,37 @@
       </tags>
   </entry>
   <entry>
+    <title>Java线程池</title>
+    <url>/MiracleDx/2020/01/07/Java%20%E7%BA%BF%E7%A8%8B%E6%B1%A0/</url>
+    <content><![CDATA[<h1 id="CPU-密集型"><a href="#CPU-密集型" class="headerlink" title="CPU 密集型"></a>CPU 密集型</h1><h2 id="最大线程数"><a href="#最大线程数" class="headerlink" title="最大线程数"></a>最大线程数</h2><p>最大线程数 &#x3D; CPU 核心数 + 1<br>额外的线程能确保 CPU 的时钟周期不会被浪费，从而保证 CPU 的利用率。</p>
+<h2 id="核心线程数"><a href="#核心线程数" class="headerlink" title="核心线程数"></a>核心线程数</h2><p>核心线程数 &#x3D; CPU 核心数 或 CPU 核心数 + 1</p>
+<h1 id="IO-密集型"><a href="#IO-密集型" class="headerlink" title="IO 密集型"></a>IO 密集型</h1><ol>
+<li>《Java 虚拟机并发编程》中推荐的计算方法<br> CPU 中可以满负荷运行的最大线程数 &#x3D; CPU 核心数 &#x2F; （1 - 阻塞系数）<br> 阻塞系数 &#x3D; 调用 IO 时间 &#x2F; 请求时长<br> 阻塞系数一般认为在 0.8 ~ 0.9 之间</li>
+<li>《Java 并发编程实战》中推荐的计算方法<br> 线程数 &#x3D; CPU 核心数 * （1 + IO 耗时 &#x2F; CPU 耗时）</li>
+</ol>
+<h2 id="最大线程数-1"><a href="#最大线程数-1" class="headerlink" title="最大线程数"></a>最大线程数</h2><p>最大线程数 &#x3D; CPU 核心数 * 2</p>
+<h2 id="核心线程数-1"><a href="#核心线程数-1" class="headerlink" title="核心线程数"></a>核心线程数</h2><p>核心线程数 &#x3D; 最大线程数 * 20%</p>
+<h1 id="混合型"><a href="#混合型" class="headerlink" title="混合型"></a>混合型</h1><p>核心线程数 &#x3D; （线程等待时间 &#x2F; 线程 CPU时间 + 1） * CPU 核心数</p>
+<h1 id="如何根据实际情况规划线程数"><a href="#如何根据实际情况规划线程数" class="headerlink" title="如何根据实际情况规划线程数"></a>如何根据实际情况规划线程数</h1><ol>
+<li>分析当前主机上，有没有其他进程干扰</li>
+<li>分析当前 JVM 进程上，有没有其他运行中或可能运行的线程</li>
+<li>设定目标</li>
+<li>目标 CPU 利用率 - 最高能容忍的 CPU 使用率</li>
+<li>目标 GC 频率&#x2F;暂停时间 - 多线程执行后，GC 频率会增高，最大能容忍到什么频率，每次暂停时间多少？</li>
+<li>执行效率 - 比如批处理时，单位时间内要开多少线程才能及时处理完毕</li>
+<li>……</li>
+<li>梳理链路关键点，是否有卡脖子的点，因为如果线程数过多，链路上某些节点资源有限可能会导致大量的线程在等待资源（比如三方接口限流，连接池数量有限，中间件压力过大无法支撑等）</li>
+<li>不断的增加&#x2F;减少线程数来测试，按最高的要求去测试，最终获得一个“满足要求”的线程数</li>
+</ol>
+]]></content>
+      <categories>
+        <category>后端</category>
+      </categories>
+      <tags>
+        <tag>Java</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Java进阶训练营笔记</title>
     <url>/MiracleDx/2021/01/07/Java%20%E8%BF%9B%E9%98%B6%E8%AE%AD%E7%BB%83%E8%90%A5/</url>
     <content><![CDATA[<h1 id="JVM-核心技术-基础知识"><a href="#JVM-核心技术-基础知识" class="headerlink" title="JVM 核心技术-基础知识"></a>JVM 核心技术-基础知识</h1><h2 id="什么是字节码"><a href="#什么是字节码" class="headerlink" title="什么是字节码"></a>什么是字节码</h2><p><strong>Java bytecode</strong> 由单字节（byte）的指令组成，理论上最多支持 256 个操作吗，实际上 Java 只使用了 200 左右的操作码，一些操作码保留给调试操作<br>根据指令性质，分为 4 个大类</p>
@@ -563,37 +594,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Java线程池</title>
-    <url>/MiracleDx/2020/01/07/Java%20%E7%BA%BF%E7%A8%8B%E6%B1%A0/</url>
-    <content><![CDATA[<h1 id="CPU-密集型"><a href="#CPU-密集型" class="headerlink" title="CPU 密集型"></a>CPU 密集型</h1><h2 id="最大线程数"><a href="#最大线程数" class="headerlink" title="最大线程数"></a>最大线程数</h2><p>最大线程数 &#x3D; CPU 核心数 + 1<br>额外的线程能确保 CPU 的时钟周期不会被浪费，从而保证 CPU 的利用率。</p>
-<h2 id="核心线程数"><a href="#核心线程数" class="headerlink" title="核心线程数"></a>核心线程数</h2><p>核心线程数 &#x3D; CPU 核心数 或 CPU 核心数 + 1</p>
-<h1 id="IO-密集型"><a href="#IO-密集型" class="headerlink" title="IO 密集型"></a>IO 密集型</h1><ol>
-<li>《Java 虚拟机并发编程》中推荐的计算方法<br> CPU 中可以满负荷运行的最大线程数 &#x3D; CPU 核心数 &#x2F; （1 - 阻塞系数）<br> 阻塞系数 &#x3D; 调用 IO 时间 &#x2F; 请求时长<br> 阻塞系数一般认为在 0.8 ~ 0.9 之间</li>
-<li>《Java 并发编程实战》中推荐的计算方法<br> 线程数 &#x3D; CPU 核心数 * （1 + IO 耗时 &#x2F; CPU 耗时）</li>
-</ol>
-<h2 id="最大线程数-1"><a href="#最大线程数-1" class="headerlink" title="最大线程数"></a>最大线程数</h2><p>最大线程数 &#x3D; CPU 核心数 * 2</p>
-<h2 id="核心线程数-1"><a href="#核心线程数-1" class="headerlink" title="核心线程数"></a>核心线程数</h2><p>核心线程数 &#x3D; 最大线程数 * 20%</p>
-<h1 id="混合型"><a href="#混合型" class="headerlink" title="混合型"></a>混合型</h1><p>核心线程数 &#x3D; （线程等待时间 &#x2F; 线程 CPU时间 + 1） * CPU 核心数</p>
-<h1 id="如何根据实际情况规划线程数"><a href="#如何根据实际情况规划线程数" class="headerlink" title="如何根据实际情况规划线程数"></a>如何根据实际情况规划线程数</h1><ol>
-<li>分析当前主机上，有没有其他进程干扰</li>
-<li>分析当前 JVM 进程上，有没有其他运行中或可能运行的线程</li>
-<li>设定目标</li>
-<li>目标 CPU 利用率 - 最高能容忍的 CPU 使用率</li>
-<li>目标 GC 频率&#x2F;暂停时间 - 多线程执行后，GC 频率会增高，最大能容忍到什么频率，每次暂停时间多少？</li>
-<li>执行效率 - 比如批处理时，单位时间内要开多少线程才能及时处理完毕</li>
-<li>……</li>
-<li>梳理链路关键点，是否有卡脖子的点，因为如果线程数过多，链路上某些节点资源有限可能会导致大量的线程在等待资源（比如三方接口限流，连接池数量有限，中间件压力过大无法支撑等）</li>
-<li>不断的增加&#x2F;减少线程数来测试，按最高的要求去测试，最终获得一个“满足要求”的线程数</li>
-</ol>
-]]></content>
-      <categories>
-        <category>后端</category>
-      </categories>
-      <tags>
-        <tag>Java</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Llama2 部署</title>
     <url>/MiracleDx/2023/10/18/Llama2%20%E9%83%A8%E7%BD%B2/</url>
     <content><![CDATA[<h1 id="Llama-模型"><a href="#Llama-模型" class="headerlink" title="Llama 模型"></a>Llama 模型</h1><p><a href="https://github.com/FlagAlpha/Llama2-Chinese">FlagAlpha&#x2F;Llama2-Chinese: Llama中文社区，最好的中文Llama大模型，完全开源可商用</a><br><a href="https://github.com/ymcui/Chinese-LLaMA-Alpaca">ymcui&#x2F;Chinese-LLaMA-Alpaca: 中文LLaMA&amp;Alpaca大语言模型+本地CPU&#x2F;GPU训练部署 (Chinese LLaMA &amp; Alpaca LLMs)</a></p>
@@ -606,22 +606,6 @@
       </categories>
       <tags>
         <tag>Llama</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Maven</title>
-    <url>/MiracleDx/2020/05/18/Maven/</url>
-    <content><![CDATA[<h1 id="scope-provided-和-optional-true-的区别"><a href="#scope-provided-和-optional-true-的区别" class="headerlink" title="scope provided 和 optional &#x3D; true 的区别"></a>scope provided 和 optional &#x3D; true 的区别</h1><h3 id="相同点"><a href="#相同点" class="headerlink" title="相同点"></a>相同点</h3><p>两者都不会将依赖直接打入包中</p>
-<h3 id="不同点"><a href="#不同点" class="headerlink" title="不同点"></a>不同点</h3><ul>
-<li>provided 表示某个依赖必须，该依赖通常是由系统或者容器提供</li>
-<li>optional 表示某个依赖可选，该依赖是否使用都不会影响服务运行</li>
-</ul>
-]]></content>
-      <categories>
-        <category>后端</category>
-      </categories>
-      <tags>
-        <tag>Maven</tag>
       </tags>
   </entry>
   <entry>
@@ -1847,6 +1831,22 @@
       </tags>
   </entry>
   <entry>
+    <title>Maven</title>
+    <url>/MiracleDx/2020/05/18/Maven/</url>
+    <content><![CDATA[<h1 id="scope-provided-和-optional-true-的区别"><a href="#scope-provided-和-optional-true-的区别" class="headerlink" title="scope provided 和 optional &#x3D; true 的区别"></a>scope provided 和 optional &#x3D; true 的区别</h1><h3 id="相同点"><a href="#相同点" class="headerlink" title="相同点"></a>相同点</h3><p>两者都不会将依赖直接打入包中</p>
+<h3 id="不同点"><a href="#不同点" class="headerlink" title="不同点"></a>不同点</h3><ul>
+<li>provided 表示某个依赖必须，该依赖通常是由系统或者容器提供</li>
+<li>optional 表示某个依赖可选，该依赖是否使用都不会影响服务运行</li>
+</ul>
+]]></content>
+      <categories>
+        <category>后端</category>
+      </categories>
+      <tags>
+        <tag>Maven</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Nacos</title>
     <url>/MiracleDx/2020/06/28/Nacos/</url>
     <content><![CDATA[<h1 id="Nacos"><a href="#Nacos" class="headerlink" title="Nacos"></a>Nacos</h1><h2 id="Config"><a href="#Config" class="headerlink" title="Config"></a>Config</h2><h3 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h3><p>与配置中心相关的配置应放在 bootstrap.properties 或 bootstrap.yml 中</p>
@@ -1874,32 +1874,136 @@
       </tags>
   </entry>
   <entry>
-    <title>RocketMQ Docker 镜像制作</title>
-    <url>/MiracleDx/2022/03/24/RocketMQ%20Docker%20%E9%95%9C%E5%83%8F%E5%88%B6%E4%BD%9C/</url>
-    <content><![CDATA[<h1 id="预准备"><a href="#预准备" class="headerlink" title="预准备"></a>预准备</h1><h2 id="替换-runbroker-sh-中-JAVA-OPT-参数"><a href="#替换-runbroker-sh-中-JAVA-OPT-参数" class="headerlink" title="替换 runbroker.sh 中 JAVA_OPT 参数"></a>替换 runbroker.sh 中 JAVA_OPT 参数</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">将以下参数替换为</span></span><br><span class="line">JAVA_OPT=&quot;$&#123;JAVA_OPT&#125; -server -Xms8g -Xmx8g&quot;</span><br><span class="line">JAVA_OPT=&quot;$&#123;JAVA_OPT&#125; -XX:+UseG1GC -XX:G1HeapRegionSize=16m -XX:G1ReservePercent=25 -XX:InitiatingHeapOccupancyPercent=30 -XX:SoftRefLRUPolicyMSPerMB=0&quot;</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">原因：个人电脑多集群下无法支撑多个节点 8g 内存且open jdk 不支持 G1</span></span><br><span class="line">JAVA_OPT=&quot;$&#123;JAVA_OPT&#125; -server -Xms512m -Xmx512m -Xmn256m&quot;</span><br></pre></td></tr></table></figure>
-<h2 id="查看-linux-版本"><a href="#查看-linux-版本" class="headerlink" title="查看 linux 版本"></a>查看 linux 版本</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">查看 centos 版本</span></span><br><span class="line">cat /etc/redhat-release </span><br></pre></td></tr></table></figure>
-<h2 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h2><ol>
-<li>以下 centos 及 jdk 均基于 arm 架构，x86 需替换相应资源</li>
-<li>volume 中，除启动的配置文件外，还需要放置以下文件<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">logback_broker.xml</span><br><span class="line">logback_namesrv.xml</span><br><span class="line">logback_tools.xml</span><br><span class="line">plain_acl.yml</span><br><span class="line">tools.yml</span><br></pre></td></tr></table></figure></li>
-<li>Broker 启动文件需要配置 brokerIP1，指定连接 IP</li>
+    <title>Spring 核心编程思想笔记</title>
+    <url>/MiracleDx/2022/05/21/Spring%20%E6%A0%B8%E5%BF%83%E7%BC%96%E7%A8%8B%E6%80%9D%E6%83%B3/</url>
+    <content><![CDATA[<ol>
+<li>什么是 Spring Framework<br>《Spring 核心编程思想》第 12 讲</li>
+<li>Spring Framework 有哪些核心模块</li>
 </ol>
-<h1 id="1-Dockerfile-basic"><a href="#1-Dockerfile-basic" class="headerlink" title="1. Dockerfile-basic"></a>1. Dockerfile-basic</h1><figure class="highlight dockerfile"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 构建 centos java8 环境</span></span><br><span class="line"><span class="keyword">FROM</span> centos</span><br><span class="line"><span class="keyword">LABEL</span><span class="language-bash"> MAINTAINER Dongx dongxiang@sinosoft.com.cn</span></span><br><span class="line"><span class="comment"># 设置 Java 环境变量</span></span><br><span class="line"><span class="keyword">ADD</span><span class="language-bash"> jdk-8u301-linux-aarch64.tar.gz /opt/java/</span></span><br><span class="line"><span class="keyword">WORKDIR</span><span class="language-bash"> /opt/java</span></span><br><span class="line"><span class="keyword">ENV</span> JAVA_HOME=/opt/java/jdk1.<span class="number">8.0</span>_301</span><br><span class="line"><span class="keyword">ENV</span> CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar</span><br><span class="line"><span class="keyword">ENV</span> PATH=$JAVA_HOME/bin:$PATH</span><br><span class="line"><span class="comment"># 设置 RocketMQ 环境</span></span><br><span class="line"><span class="keyword">ADD</span><span class="language-bash"> rocketmq-4.9.2.tar.gz /opt/rocketmq/</span></span><br></pre></td></tr></table></figure>
-<h1 id="2-Dockerfile-NameSrv"><a href="#2-Dockerfile-NameSrv" class="headerlink" title="2. Dockerfile-NameSrv"></a>2. Dockerfile-NameSrv</h1><figure class="highlight dockerfile"><table><tr><td class="code"><pre><span class="line"><span class="keyword">FROM</span> rocketmq-basic:v1</span><br><span class="line"><span class="keyword">LABEL</span><span class="language-bash"> MAINTAINER Dongx dongxiang@sinosoft.com.cn</span></span><br><span class="line"><span class="comment"># 工作目录</span></span><br><span class="line"><span class="keyword">WORKDIR</span><span class="language-bash"> /opt/rocketmq/rocketmq-4.9.2/bin</span></span><br><span class="line"><span class="comment"># 暴露端口</span></span><br><span class="line"><span class="keyword">EXPOSE</span> <span class="number">9876</span></span><br><span class="line"><span class="comment"># 启动 namesrc</span></span><br><span class="line"><span class="keyword">CMD</span><span class="language-bash"> ./mqnamesrv -n <span class="variable">$&#123;NAMESRV_ADDR&#125;</span></span></span><br></pre></td></tr></table></figure>
-<h1 id="3-Dockerfile-Broker"><a href="#3-Dockerfile-Broker" class="headerlink" title="3.Dockerfile-Broker"></a>3.Dockerfile-Broker</h1><figure class="highlight dockerfile"><table><tr><td class="code"><pre><span class="line"><span class="keyword">FROM</span> rocketmq-basic:v1</span><br><span class="line"><span class="keyword">LABEL</span><span class="language-bash"> MAINTAINER Dongx dongxiang@sinosoft.com.cn</span></span><br><span class="line"><span class="comment"># 工作目录</span></span><br><span class="line"><span class="keyword">WORKDIR</span><span class="language-bash"> /opt/rocketmq/rocketmq-4.9.2/bin</span></span><br><span class="line"><span class="comment"># ROCKETMQ_HOME</span></span><br><span class="line"><span class="keyword">ENV</span> ROCKETMQ_HOME=/opt/rocketmq/rocketmq-<span class="number">4.9</span>.<span class="number">2</span></span><br><span class="line"><span class="comment"># NameServer 地址</span></span><br><span class="line"><span class="keyword">ENV</span> NAMESRV_ADDR=localhost:<span class="number">9876</span></span><br><span class="line"><span class="comment"># conf 地址</span></span><br><span class="line"><span class="keyword">ENV</span> CONF_PATH=broker.conf</span><br><span class="line"><span class="comment"># 暴露端口</span></span><br><span class="line"><span class="keyword">EXPOSE</span> <span class="number">10909</span> <span class="number">10911</span> <span class="number">10912</span></span><br><span class="line"><span class="comment">#启动 Broker</span></span><br><span class="line"><span class="keyword">CMD</span><span class="language-bash"> ./mqbroker -n <span class="variable">$&#123;NAMESRV_ADDR&#125;</span> -c <span class="variable">$&#123;ROCKETMQ_HOME&#125;</span>/conf/<span class="variable">$&#123;CONF_PATH&#125;</span> autoCreateTopicEnable=<span class="literal">true</span></span></span><br></pre></td></tr></table></figure>
-<h1 id="4-构建镜像"><a href="#4-构建镜像" class="headerlink" title="4. 构建镜像"></a>4. 构建镜像</h1><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">基础镜像</span></span><br><span class="line">docker build -f Dockerfile-Basic -t rocketmq-basic:v1 .</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">NameServer 镜像</span></span><br><span class="line">docker build -f Dockerfile-NameSrv -t rocketmq-namesrv:v1 .</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">Broker 镜像</span></span><br><span class="line">docker build -f Dockerfile-Broker -t rocketmq-broker:v1 .</span><br></pre></td></tr></table></figure>
-<h1 id="5-启动"><a href="#5-启动" class="headerlink" title="5. 启动"></a>5. 启动</h1><h2 id="5-1-NameServer"><a href="#5-1-NameServer" class="headerlink" title="5.1 NameServer"></a>5.1 NameServer</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">启动</span></span><br><span class="line">docker run -d -e NAMESRV_ADDR=192.168.8.102:9876 -v /Users/dongx/developer/docker_repo/rocketmq/logs/namesrv:/root/logs/rocketmqlogs -p 9876:9876 --name rocketmq-namesrv rocketmq-namesrv:v1</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">进入容器验证</span></span><br><span class="line">docker exec -it $&#123;containerId&#125; bash</span><br><span class="line">tail -f ~/logs/rocketmqlogs/namesrv.log</span><br></pre></td></tr></table></figure>
-<h2 id="5-2-Broker"><a href="#5-2-Broker" class="headerlink" title="5.2 Broker"></a>5.2 Broker</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">启动</span></span><br><span class="line">docker run -d -e NAMESRV_ADDR=192.168.8.102:9876 -e CONF_PATH=customer/broker.conf -v /Users/dongx/developer/docker_repo/rocketmq/logs/broker:/root/logs/rocketmqlogs -v /Users/dongx/developer/docker_repo/rocketmq/conf:/opt/rocketmq/rocketmq-4.9.2/conf/customer -p 10909:10909 -p 10911:10911 -p 10912:10912 --name rocketmq-broker rocketmq-broker:v1</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">进入容器验证</span></span><br><span class="line">tail -f ~/logs/rocketmqlogs/broker.log</span><br></pre></td></tr></table></figure>
-<h1 id="6-RocketMQ-Dashboard"><a href="#6-RocketMQ-Dashboard" class="headerlink" title="6. RocketMQ-Dashboard"></a>6. RocketMQ-Dashboard</h1><h2 id="6-1-Dockerfile"><a href="#6-1-Dockerfile" class="headerlink" title="6.1 Dockerfile"></a>6.1 Dockerfile</h2><figure class="highlight dockerfile"><table><tr><td class="code"><pre><span class="line"><span class="keyword">FROM</span> centos</span><br><span class="line"><span class="keyword">LABEL</span><span class="language-bash"> MAINTAINER Dongx dongxiang@sinosoft.com.cn</span></span><br><span class="line"><span class="comment"># 设置 Java 环境变量</span></span><br><span class="line"><span class="keyword">ADD</span><span class="language-bash"> jdk-8u301-linux-aarch64.tar.gz /opt/java/</span></span><br><span class="line"><span class="keyword">WORKDIR</span><span class="language-bash"> /opt/java</span></span><br><span class="line"><span class="keyword">ENV</span> JAVA_HOME=/opt/java/jdk1.<span class="number">8.0</span>_301</span><br><span class="line"><span class="keyword">ENV</span> CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar</span><br><span class="line"><span class="keyword">ENV</span> PATH=$JAVA_HOME/bin:$PATH</span><br><span class="line"><span class="comment"># 设置工作目录</span></span><br><span class="line"><span class="keyword">WORKDIR</span><span class="language-bash"> /opt/rocketmq/</span></span><br><span class="line"><span class="comment"># 设置 Dashboard 环境</span></span><br><span class="line"><span class="keyword">COPY</span><span class="language-bash"> rocketmq-dashboard-*.jar rocketmq-dashboard.jar</span></span><br><span class="line"><span class="comment"># jvm 参数</span></span><br><span class="line"><span class="keyword">ENV</span> JAVA_OPTS=<span class="string">&quot;&quot;</span></span><br><span class="line"><span class="comment"># 暴露端口</span></span><br><span class="line"><span class="keyword">EXPOSE</span> <span class="number">8080</span></span><br><span class="line"><span class="keyword">ENTRYPOINT</span><span class="language-bash"> [ <span class="string">&quot;sh&quot;</span>, <span class="string">&quot;-c&quot;</span>, <span class="string">&quot;java <span class="variable">$JAVA_OPTS</span> -jar rocketmq-dashboard.jar&quot;</span> ]</span></span><br></pre></td></tr></table></figure>
-<h2 id="6-2-构建"><a href="#6-2-构建" class="headerlink" title="6.2 构建"></a>6.2 构建</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker build -f Dockerfile-Dashboard -t rocketmq-dashboard:v1 .</span><br></pre></td></tr></table></figure>
-<h2 id="6-3-启动"><a href="#6-3-启动" class="headerlink" title="6.3 启动"></a>6.3 启动</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker run -d -e JAVA_OPTS=&quot;-Dlogging.level.root=info -Drocketmq.namesrv.addr=192.168.8.102:9876&quot; -p 8080:8080 --name rocketmq-dashboard rocketmq-dashboard:v1</span><br></pre></td></tr></table></figure>
-<h1 id="7-Docker-Compose"><a href="#7-Docker-Compose" class="headerlink" title="7. Docker-Compose"></a>7. Docker-Compose</h1><figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">&quot;3.3&quot;</span></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line"><span class="attr">namesrv:</span></span><br><span class="line"><span class="attr">image:</span> <span class="string">rocketmq-namesrv:v1</span></span><br><span class="line"><span class="attr">container_name:</span> <span class="string">rocketmq-namesrv-compose</span></span><br><span class="line"><span class="attr">ports:</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">&quot;9876:9876&quot;</span></span><br><span class="line"><span class="attr">environment:</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">NAMESRV_ADDR=192.168.8.102:9876</span></span><br><span class="line"><span class="attr">volumes:</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">/Users/dongx/developer/docker_repo/rocketmq/logs/namesrv:/root/logs/rocketmqlogs</span></span><br><span class="line"><span class="attr">broker:</span></span><br><span class="line"><span class="attr">image:</span> <span class="string">rocketmq-broker:v1</span></span><br><span class="line"><span class="attr">container_name:</span> <span class="string">rocketmq-broker-compose</span></span><br><span class="line"><span class="attr">depends_on:</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">namesrv</span></span><br><span class="line"><span class="attr">ports:</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">&quot;10909:10909&quot;</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">&quot;10911:10911&quot;</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">&quot;10912:10912&quot;</span></span><br><span class="line"><span class="attr">environment:</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">NAMESRV_ADDR=192.168.8.102:9876</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">CONF_PATH=customer/broker.conf</span></span><br><span class="line"><span class="attr">volumes:</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">/Users/dongx/developer/docker_repo/rocketmq/logs/broker:/root/logs/rocketmqlogs</span> </span><br><span class="line"><span class="bullet">-</span> <span class="string">/Users/dongx/developer/docker_repo/rocketmq/conf:/opt/rocketmq/rocketmq-4.9.2/conf/customer</span></span><br><span class="line"><span class="attr">dashboard:</span></span><br><span class="line"><span class="attr">image:</span> <span class="string">rocketmq-dashboard:v1</span></span><br><span class="line"><span class="attr">container_name:</span> <span class="string">rocketmq-dashbaord</span></span><br><span class="line"><span class="attr">depends_on:</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">namesrv</span></span><br><span class="line"><span class="attr">ports:</span></span><br><span class="line"><span class="bullet">-</span> <span class="number">8080</span><span class="string">:8080</span></span><br><span class="line"><span class="attr">environment:</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">JAVA_OPTS=-Dlogging.level.root=info</span> <span class="string">-Drocketmq.namesrv.addr=namesrv:9876</span></span><br></pre></td></tr></table></figure>
-<h2 id="6-1-启动"><a href="#6-1-启动" class="headerlink" title="6.1 启动"></a>6.1 启动</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker-compose up -d</span><br></pre></td></tr></table></figure>
+<ul>
+<li>spring-core: Spring 基础 API 模块，如资源查找，泛型处理</li>
+<li>spring-beans: Spring Bean 相关，如依赖查找，依赖注入</li>
+<li>spring-aop: Spring AOP 处理，如动态代理，AOP 字节码提升</li>
+<li>spring-context: 事件驱动、注解驱动，模块驱动等</li>
+<li>spring-expression: Spring 表达式语言模块</li>
+</ul>
+<ol start="3">
+<li>Spring Framework 的优势和不足是什么<br>《Spring 核心编程思想》全篇贯穿</li>
+<li>IoC 编程思路有哪些实现方式</li>
+</ol>
+<ul>
+<li>依赖查找（有侵入性，性能低）</li>
+<li>依赖注入（侵入性小，性能高）</li>
+<li>构造器注入</li>
+<li>参数注入</li>
+<li>Getter、Setter 注入</li>
+<li>interface 注入</li>
+<li>上下文依赖查询</li>
+<li>模版方法设计模式（传统方式需要自己调用）</li>
+<li>策略模式</li>
+</ul>
+<ol start="5">
+<li>IoC 容器都有哪些职责</li>
+</ol>
+<h6 id="通用职责"><a href="#通用职责" class="headerlink" title="通用职责"></a>通用职责</h6><ul>
+<li>依赖处理</li>
+<li>依赖查找</li>
+<li>依赖注入</li>
+<li>生命周期管理</li>
+<li>容器（容器自身的启动、停止等）</li>
+<li>托管的资源（Java Beans 或其它资源 – 例：Spring 中的事件监听器、XML、properties等）</li>
+<li>配置</li>
+<li>容器（例：定时任务 – 容器通知什么时候执行）</li>
+<li>外部化配置（属性配置 – 例：XML）</li>
+<li>托管的资源（同上）<br>-Spring Boot 通过嵌入式的方式由 Spring 上下文影响到容器<br>-Spring MVC 是容器影响到 Spring MVC</li>
+</ul>
+<ol start="6">
+<li>IoC 容器有哪些实现</li>
+</ol>
+<h6 id="主要实现"><a href="#主要实现" class="headerlink" title="主要实现"></a>主要实现</h6><ul>
+<li>Java SE</li>
+<li>Java Beans</li>
+<li>Java ServiceLoader SPI</li>
+<li>JNDI（Java Naming and Directory Interface）</li>
+<li>Java EE</li>
+<li>EJB（Enterpise Java Beans）</li>
+<li>Servlet</li>
+<li>开源</li>
+<li>Apache Avalon</li>
+<li>PicoContainer</li>
+<li>Google Guice</li>
+<li>Spring Framework</li>
+</ul>
+<ol start="7">
+<li>Spring 中的容器应该怎么理解，有哪些类型的容器<br>容器指运行时启动的基础设施，比如传统 Spring MVC 在 Tomcat 容器或者 EJB 容器</li>
+<li>传统 IoC 容器的实现</li>
+</ol>
+<h6 id="Java-Beans-作为IoC容器"><a href="#Java-Beans-作为IoC容器" class="headerlink" title="Java Beans 作为IoC容器"></a>Java Beans 作为IoC容器</h6><ul>
+<li>特性</li>
+<li>依赖查找</li>
+<li>生命周期管理</li>
+<li>配置元信息</li>
+<li>事件</li>
+<li>自定义</li>
+<li>资源管理</li>
+<li>持久化</li>
+<li>规范</li>
+<li>JavaBeans</li>
+<li>BeanContext</li>
+</ul>
+<ol start="9">
+<li>什么是 IoC<br> 简单的说，IoC 是反转控制，类似于好莱坞原则，主要有依赖查找和依赖注入实现</li>
+<li>依赖查找和依赖注入的区别<br> 依赖查找是主动或手动的依赖查找方式，通常需要依赖容器或标准 API 实现<br> 依赖注入是手动或自动依赖绑定的方式，无需依赖特定的容器和 API 实现<br>11.Spring 作为 IoC 容器有什么优势<br> Spring 作为典型的 IoC 容器，具有依赖查找和依赖注入的功能。它还具有 AOP 抽象、事务抽象、事件机制、SPI 扩展、强大的第三方整合、易测试性、更好的面向对象<br>12.Spring IoC 依赖查找都有哪些方式</li>
+</ol>
+<ul>
+<li>根据 Bean 名称查找</li>
+<li>实时查找</li>
+<li>延时查找</li>
+<li>根据 Bean 类型查找</li>
+<li>单个 Bean 对象</li>
+<li>集合 Bean 对象</li>
+<li>根据 Bean 名称 + 类型查找</li>
+<li>根据 Java 注解查找</li>
+<li>单个 Bean 对象</li>
+<li>集合 Bean 对象<br>13.Spring Ioc 依赖注入</li>
+<li>根据 Bean 名称注入</li>
+<li>根据 Bean 类型注入</li>
+<li>单个 Bean 对象</li>
+<li>集合 Bean 对象</li>
+<li>注入容器内建 Bean 对象</li>
+<li>注入非容器内建 Bean 对象</li>
+<li>注入类型</li>
+<li>实时注入</li>
+<li>延迟注入<br>14.Spring 容器依赖的三个来源</li>
+<li>自定义 Bean，可以通过 getBean 方法获取</li>
+<li>容器内建依赖的 Bean，如课程中的 useRepository 中的 BeanFactory，无法通过 getBean 方法获取，是通过 AutowireCapableFactory中的 resolveDependency 方法注册</li>
+<li>依赖，被组合的对象</li>
+<li>容器内建 Bean，如 Envrionment、BeanDefinitions 和 Singleton Objects 可以通过 getBean 获取</li>
+<li>内建（Built-in），是由 Spring IoC 容器内部生成的 Bean 或组件<br>15.Spring IoC 配置元信息</li>
+<li>Bean 定义配置</li>
+<li>基于 XML 文件</li>
+<li>基于 Properties 文件</li>
+<li>基于 Java 注解</li>
+<li>基于 Java API</li>
+<li>基于 Groovy</li>
+<li>IoC 容器配置</li>
+<li>基于 XML 文件</li>
+<li>基于 Java 注解</li>
+<li>基于 Java API</li>
+<li>外部化属性配置</li>
+<li>基于 Java 注解<br>16.BeanFactory 和 ApplicationContext 有什么区别</li>
+<li>ApplicationContext 是 BeanFactory的子接口</li>
+<li>BeanFactory 是一个底层的 IoC 容器，提供了 IoC 容器的基本实现。而 ApplicationContext 是 BeanFactory 的超集，提供了丰富的企业级特性</li>
+<li>ApplicationContext 委托 DefaultListableBeanFacory 实现 Bean 的依赖查找和依赖注入<br>17.AbstractApplicationContext#prepareBeanFactory 中指明 beanFactory.registerResolvableDependency(BeanFactory.class, beanFactory)，说明当 byType 是 BeanFactory.class的时候，获取到的是 ApplicationContext 中的 DefaultListableBeanFactory 对象<br>18.什么是 Spring IoC 容器？<br>19.BeanFactory 和 Factory 有什么区别？<br> 1.BeanFactory 是 IoC 底层容器<br> 2.FactoryBean 是创建 Bean 的一种方式，帮助实现复杂的初始化逻辑<br> Spring Bean 的两种实现方式</li>
+<li>普通 Bean</li>
+<li>工厂 Bean (FactoryBean)<br> pojo 继承 FactoryBean，并实现其方法，当容器通过 getBean() 获取Bean 时，返回的是实现的 getObject() 方法返回的对象，该对象通过 getObjectType() 方法决定哪个对象被容器调用，当对象类型相同时再通过 isSingleton() 方法判断是不是同一个对象<br>20.Spring IoC 容器启动时做了哪些准备？<br> 1.IoC 配置元信息读取和解析<br> 2.IoC 容器生命周期<br> 3.Spring 事件发布<br> 4.国际化等</li>
+</ul>
 ]]></content>
       <categories>
-        <category>中间件</category>
+        <category>后端</category>
       </categories>
       <tags>
-        <tag>RockerMQ 容器</tag>
+        <tag>Spring</tag>
       </tags>
   </entry>
   <entry>
@@ -1956,6 +2060,35 @@
       </categories>
       <tags>
         <tag>shell 正则</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>RocketMQ Docker 镜像制作</title>
+    <url>/MiracleDx/2022/03/24/RocketMQ%20Docker%20%E9%95%9C%E5%83%8F%E5%88%B6%E4%BD%9C/</url>
+    <content><![CDATA[<h1 id="预准备"><a href="#预准备" class="headerlink" title="预准备"></a>预准备</h1><h2 id="替换-runbroker-sh-中-JAVA-OPT-参数"><a href="#替换-runbroker-sh-中-JAVA-OPT-参数" class="headerlink" title="替换 runbroker.sh 中 JAVA_OPT 参数"></a>替换 runbroker.sh 中 JAVA_OPT 参数</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">将以下参数替换为</span></span><br><span class="line">JAVA_OPT=&quot;$&#123;JAVA_OPT&#125; -server -Xms8g -Xmx8g&quot;</span><br><span class="line">JAVA_OPT=&quot;$&#123;JAVA_OPT&#125; -XX:+UseG1GC -XX:G1HeapRegionSize=16m -XX:G1ReservePercent=25 -XX:InitiatingHeapOccupancyPercent=30 -XX:SoftRefLRUPolicyMSPerMB=0&quot;</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">原因：个人电脑多集群下无法支撑多个节点 8g 内存且open jdk 不支持 G1</span></span><br><span class="line">JAVA_OPT=&quot;$&#123;JAVA_OPT&#125; -server -Xms512m -Xmx512m -Xmn256m&quot;</span><br></pre></td></tr></table></figure>
+<h2 id="查看-linux-版本"><a href="#查看-linux-版本" class="headerlink" title="查看 linux 版本"></a>查看 linux 版本</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">查看 centos 版本</span></span><br><span class="line">cat /etc/redhat-release </span><br></pre></td></tr></table></figure>
+<h2 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h2><ol>
+<li>以下 centos 及 jdk 均基于 arm 架构，x86 需替换相应资源</li>
+<li>volume 中，除启动的配置文件外，还需要放置以下文件<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">logback_broker.xml</span><br><span class="line">logback_namesrv.xml</span><br><span class="line">logback_tools.xml</span><br><span class="line">plain_acl.yml</span><br><span class="line">tools.yml</span><br></pre></td></tr></table></figure></li>
+<li>Broker 启动文件需要配置 brokerIP1，指定连接 IP</li>
+</ol>
+<h1 id="1-Dockerfile-basic"><a href="#1-Dockerfile-basic" class="headerlink" title="1. Dockerfile-basic"></a>1. Dockerfile-basic</h1><figure class="highlight dockerfile"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 构建 centos java8 环境</span></span><br><span class="line"><span class="keyword">FROM</span> centos</span><br><span class="line"><span class="keyword">LABEL</span><span class="language-bash"> MAINTAINER Dongx dongxiang@sinosoft.com.cn</span></span><br><span class="line"><span class="comment"># 设置 Java 环境变量</span></span><br><span class="line"><span class="keyword">ADD</span><span class="language-bash"> jdk-8u301-linux-aarch64.tar.gz /opt/java/</span></span><br><span class="line"><span class="keyword">WORKDIR</span><span class="language-bash"> /opt/java</span></span><br><span class="line"><span class="keyword">ENV</span> JAVA_HOME=/opt/java/jdk1.<span class="number">8.0</span>_301</span><br><span class="line"><span class="keyword">ENV</span> CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar</span><br><span class="line"><span class="keyword">ENV</span> PATH=$JAVA_HOME/bin:$PATH</span><br><span class="line"><span class="comment"># 设置 RocketMQ 环境</span></span><br><span class="line"><span class="keyword">ADD</span><span class="language-bash"> rocketmq-4.9.2.tar.gz /opt/rocketmq/</span></span><br></pre></td></tr></table></figure>
+<h1 id="2-Dockerfile-NameSrv"><a href="#2-Dockerfile-NameSrv" class="headerlink" title="2. Dockerfile-NameSrv"></a>2. Dockerfile-NameSrv</h1><figure class="highlight dockerfile"><table><tr><td class="code"><pre><span class="line"><span class="keyword">FROM</span> rocketmq-basic:v1</span><br><span class="line"><span class="keyword">LABEL</span><span class="language-bash"> MAINTAINER Dongx dongxiang@sinosoft.com.cn</span></span><br><span class="line"><span class="comment"># 工作目录</span></span><br><span class="line"><span class="keyword">WORKDIR</span><span class="language-bash"> /opt/rocketmq/rocketmq-4.9.2/bin</span></span><br><span class="line"><span class="comment"># 暴露端口</span></span><br><span class="line"><span class="keyword">EXPOSE</span> <span class="number">9876</span></span><br><span class="line"><span class="comment"># 启动 namesrc</span></span><br><span class="line"><span class="keyword">CMD</span><span class="language-bash"> ./mqnamesrv -n <span class="variable">$&#123;NAMESRV_ADDR&#125;</span></span></span><br></pre></td></tr></table></figure>
+<h1 id="3-Dockerfile-Broker"><a href="#3-Dockerfile-Broker" class="headerlink" title="3.Dockerfile-Broker"></a>3.Dockerfile-Broker</h1><figure class="highlight dockerfile"><table><tr><td class="code"><pre><span class="line"><span class="keyword">FROM</span> rocketmq-basic:v1</span><br><span class="line"><span class="keyword">LABEL</span><span class="language-bash"> MAINTAINER Dongx dongxiang@sinosoft.com.cn</span></span><br><span class="line"><span class="comment"># 工作目录</span></span><br><span class="line"><span class="keyword">WORKDIR</span><span class="language-bash"> /opt/rocketmq/rocketmq-4.9.2/bin</span></span><br><span class="line"><span class="comment"># ROCKETMQ_HOME</span></span><br><span class="line"><span class="keyword">ENV</span> ROCKETMQ_HOME=/opt/rocketmq/rocketmq-<span class="number">4.9</span>.<span class="number">2</span></span><br><span class="line"><span class="comment"># NameServer 地址</span></span><br><span class="line"><span class="keyword">ENV</span> NAMESRV_ADDR=localhost:<span class="number">9876</span></span><br><span class="line"><span class="comment"># conf 地址</span></span><br><span class="line"><span class="keyword">ENV</span> CONF_PATH=broker.conf</span><br><span class="line"><span class="comment"># 暴露端口</span></span><br><span class="line"><span class="keyword">EXPOSE</span> <span class="number">10909</span> <span class="number">10911</span> <span class="number">10912</span></span><br><span class="line"><span class="comment">#启动 Broker</span></span><br><span class="line"><span class="keyword">CMD</span><span class="language-bash"> ./mqbroker -n <span class="variable">$&#123;NAMESRV_ADDR&#125;</span> -c <span class="variable">$&#123;ROCKETMQ_HOME&#125;</span>/conf/<span class="variable">$&#123;CONF_PATH&#125;</span> autoCreateTopicEnable=<span class="literal">true</span></span></span><br></pre></td></tr></table></figure>
+<h1 id="4-构建镜像"><a href="#4-构建镜像" class="headerlink" title="4. 构建镜像"></a>4. 构建镜像</h1><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">基础镜像</span></span><br><span class="line">docker build -f Dockerfile-Basic -t rocketmq-basic:v1 .</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">NameServer 镜像</span></span><br><span class="line">docker build -f Dockerfile-NameSrv -t rocketmq-namesrv:v1 .</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">Broker 镜像</span></span><br><span class="line">docker build -f Dockerfile-Broker -t rocketmq-broker:v1 .</span><br></pre></td></tr></table></figure>
+<h1 id="5-启动"><a href="#5-启动" class="headerlink" title="5. 启动"></a>5. 启动</h1><h2 id="5-1-NameServer"><a href="#5-1-NameServer" class="headerlink" title="5.1 NameServer"></a>5.1 NameServer</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">启动</span></span><br><span class="line">docker run -d -e NAMESRV_ADDR=192.168.8.102:9876 -v /Users/dongx/developer/docker_repo/rocketmq/logs/namesrv:/root/logs/rocketmqlogs -p 9876:9876 --name rocketmq-namesrv rocketmq-namesrv:v1</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">进入容器验证</span></span><br><span class="line">docker exec -it $&#123;containerId&#125; bash</span><br><span class="line">tail -f ~/logs/rocketmqlogs/namesrv.log</span><br></pre></td></tr></table></figure>
+<h2 id="5-2-Broker"><a href="#5-2-Broker" class="headerlink" title="5.2 Broker"></a>5.2 Broker</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">启动</span></span><br><span class="line">docker run -d -e NAMESRV_ADDR=192.168.8.102:9876 -e CONF_PATH=customer/broker.conf -v /Users/dongx/developer/docker_repo/rocketmq/logs/broker:/root/logs/rocketmqlogs -v /Users/dongx/developer/docker_repo/rocketmq/conf:/opt/rocketmq/rocketmq-4.9.2/conf/customer -p 10909:10909 -p 10911:10911 -p 10912:10912 --name rocketmq-broker rocketmq-broker:v1</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">进入容器验证</span></span><br><span class="line">tail -f ~/logs/rocketmqlogs/broker.log</span><br></pre></td></tr></table></figure>
+<h1 id="6-RocketMQ-Dashboard"><a href="#6-RocketMQ-Dashboard" class="headerlink" title="6. RocketMQ-Dashboard"></a>6. RocketMQ-Dashboard</h1><h2 id="6-1-Dockerfile"><a href="#6-1-Dockerfile" class="headerlink" title="6.1 Dockerfile"></a>6.1 Dockerfile</h2><figure class="highlight dockerfile"><table><tr><td class="code"><pre><span class="line"><span class="keyword">FROM</span> centos</span><br><span class="line"><span class="keyword">LABEL</span><span class="language-bash"> MAINTAINER Dongx dongxiang@sinosoft.com.cn</span></span><br><span class="line"><span class="comment"># 设置 Java 环境变量</span></span><br><span class="line"><span class="keyword">ADD</span><span class="language-bash"> jdk-8u301-linux-aarch64.tar.gz /opt/java/</span></span><br><span class="line"><span class="keyword">WORKDIR</span><span class="language-bash"> /opt/java</span></span><br><span class="line"><span class="keyword">ENV</span> JAVA_HOME=/opt/java/jdk1.<span class="number">8.0</span>_301</span><br><span class="line"><span class="keyword">ENV</span> CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar</span><br><span class="line"><span class="keyword">ENV</span> PATH=$JAVA_HOME/bin:$PATH</span><br><span class="line"><span class="comment"># 设置工作目录</span></span><br><span class="line"><span class="keyword">WORKDIR</span><span class="language-bash"> /opt/rocketmq/</span></span><br><span class="line"><span class="comment"># 设置 Dashboard 环境</span></span><br><span class="line"><span class="keyword">COPY</span><span class="language-bash"> rocketmq-dashboard-*.jar rocketmq-dashboard.jar</span></span><br><span class="line"><span class="comment"># jvm 参数</span></span><br><span class="line"><span class="keyword">ENV</span> JAVA_OPTS=<span class="string">&quot;&quot;</span></span><br><span class="line"><span class="comment"># 暴露端口</span></span><br><span class="line"><span class="keyword">EXPOSE</span> <span class="number">8080</span></span><br><span class="line"><span class="keyword">ENTRYPOINT</span><span class="language-bash"> [ <span class="string">&quot;sh&quot;</span>, <span class="string">&quot;-c&quot;</span>, <span class="string">&quot;java <span class="variable">$JAVA_OPTS</span> -jar rocketmq-dashboard.jar&quot;</span> ]</span></span><br></pre></td></tr></table></figure>
+<h2 id="6-2-构建"><a href="#6-2-构建" class="headerlink" title="6.2 构建"></a>6.2 构建</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker build -f Dockerfile-Dashboard -t rocketmq-dashboard:v1 .</span><br></pre></td></tr></table></figure>
+<h2 id="6-3-启动"><a href="#6-3-启动" class="headerlink" title="6.3 启动"></a>6.3 启动</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker run -d -e JAVA_OPTS=&quot;-Dlogging.level.root=info -Drocketmq.namesrv.addr=192.168.8.102:9876&quot; -p 8080:8080 --name rocketmq-dashboard rocketmq-dashboard:v1</span><br></pre></td></tr></table></figure>
+<h1 id="7-Docker-Compose"><a href="#7-Docker-Compose" class="headerlink" title="7. Docker-Compose"></a>7. Docker-Compose</h1><figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">&quot;3.3&quot;</span></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line"><span class="attr">namesrv:</span></span><br><span class="line"><span class="attr">image:</span> <span class="string">rocketmq-namesrv:v1</span></span><br><span class="line"><span class="attr">container_name:</span> <span class="string">rocketmq-namesrv-compose</span></span><br><span class="line"><span class="attr">ports:</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">&quot;9876:9876&quot;</span></span><br><span class="line"><span class="attr">environment:</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">NAMESRV_ADDR=192.168.8.102:9876</span></span><br><span class="line"><span class="attr">volumes:</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">/Users/dongx/developer/docker_repo/rocketmq/logs/namesrv:/root/logs/rocketmqlogs</span></span><br><span class="line"><span class="attr">broker:</span></span><br><span class="line"><span class="attr">image:</span> <span class="string">rocketmq-broker:v1</span></span><br><span class="line"><span class="attr">container_name:</span> <span class="string">rocketmq-broker-compose</span></span><br><span class="line"><span class="attr">depends_on:</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">namesrv</span></span><br><span class="line"><span class="attr">ports:</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">&quot;10909:10909&quot;</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">&quot;10911:10911&quot;</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">&quot;10912:10912&quot;</span></span><br><span class="line"><span class="attr">environment:</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">NAMESRV_ADDR=192.168.8.102:9876</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">CONF_PATH=customer/broker.conf</span></span><br><span class="line"><span class="attr">volumes:</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">/Users/dongx/developer/docker_repo/rocketmq/logs/broker:/root/logs/rocketmqlogs</span> </span><br><span class="line"><span class="bullet">-</span> <span class="string">/Users/dongx/developer/docker_repo/rocketmq/conf:/opt/rocketmq/rocketmq-4.9.2/conf/customer</span></span><br><span class="line"><span class="attr">dashboard:</span></span><br><span class="line"><span class="attr">image:</span> <span class="string">rocketmq-dashboard:v1</span></span><br><span class="line"><span class="attr">container_name:</span> <span class="string">rocketmq-dashbaord</span></span><br><span class="line"><span class="attr">depends_on:</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">namesrv</span></span><br><span class="line"><span class="attr">ports:</span></span><br><span class="line"><span class="bullet">-</span> <span class="number">8080</span><span class="string">:8080</span></span><br><span class="line"><span class="attr">environment:</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">JAVA_OPTS=-Dlogging.level.root=info</span> <span class="string">-Drocketmq.namesrv.addr=namesrv:9876</span></span><br></pre></td></tr></table></figure>
+<h2 id="6-1-启动"><a href="#6-1-启动" class="headerlink" title="6.1 启动"></a>6.1 启动</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker-compose up -d</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>中间件</category>
+      </categories>
+      <tags>
+        <tag>RockerMQ 容器</tag>
       </tags>
   </entry>
   <entry>
@@ -2669,139 +2802,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Spring 核心编程思想笔记</title>
-    <url>/MiracleDx/2022/05/21/Spring%20%E6%A0%B8%E5%BF%83%E7%BC%96%E7%A8%8B%E6%80%9D%E6%83%B3/</url>
-    <content><![CDATA[<ol>
-<li>什么是 Spring Framework<br>《Spring 核心编程思想》第 12 讲</li>
-<li>Spring Framework 有哪些核心模块</li>
-</ol>
-<ul>
-<li>spring-core: Spring 基础 API 模块，如资源查找，泛型处理</li>
-<li>spring-beans: Spring Bean 相关，如依赖查找，依赖注入</li>
-<li>spring-aop: Spring AOP 处理，如动态代理，AOP 字节码提升</li>
-<li>spring-context: 事件驱动、注解驱动，模块驱动等</li>
-<li>spring-expression: Spring 表达式语言模块</li>
-</ul>
-<ol start="3">
-<li>Spring Framework 的优势和不足是什么<br>《Spring 核心编程思想》全篇贯穿</li>
-<li>IoC 编程思路有哪些实现方式</li>
-</ol>
-<ul>
-<li>依赖查找（有侵入性，性能低）</li>
-<li>依赖注入（侵入性小，性能高）</li>
-<li>构造器注入</li>
-<li>参数注入</li>
-<li>Getter、Setter 注入</li>
-<li>interface 注入</li>
-<li>上下文依赖查询</li>
-<li>模版方法设计模式（传统方式需要自己调用）</li>
-<li>策略模式</li>
-</ul>
-<ol start="5">
-<li>IoC 容器都有哪些职责</li>
-</ol>
-<h6 id="通用职责"><a href="#通用职责" class="headerlink" title="通用职责"></a>通用职责</h6><ul>
-<li>依赖处理</li>
-<li>依赖查找</li>
-<li>依赖注入</li>
-<li>生命周期管理</li>
-<li>容器（容器自身的启动、停止等）</li>
-<li>托管的资源（Java Beans 或其它资源 – 例：Spring 中的事件监听器、XML、properties等）</li>
-<li>配置</li>
-<li>容器（例：定时任务 – 容器通知什么时候执行）</li>
-<li>外部化配置（属性配置 – 例：XML）</li>
-<li>托管的资源（同上）<br>-Spring Boot 通过嵌入式的方式由 Spring 上下文影响到容器<br>-Spring MVC 是容器影响到 Spring MVC</li>
-</ul>
-<ol start="6">
-<li>IoC 容器有哪些实现</li>
-</ol>
-<h6 id="主要实现"><a href="#主要实现" class="headerlink" title="主要实现"></a>主要实现</h6><ul>
-<li>Java SE</li>
-<li>Java Beans</li>
-<li>Java ServiceLoader SPI</li>
-<li>JNDI（Java Naming and Directory Interface）</li>
-<li>Java EE</li>
-<li>EJB（Enterpise Java Beans）</li>
-<li>Servlet</li>
-<li>开源</li>
-<li>Apache Avalon</li>
-<li>PicoContainer</li>
-<li>Google Guice</li>
-<li>Spring Framework</li>
-</ul>
-<ol start="7">
-<li>Spring 中的容器应该怎么理解，有哪些类型的容器<br>容器指运行时启动的基础设施，比如传统 Spring MVC 在 Tomcat 容器或者 EJB 容器</li>
-<li>传统 IoC 容器的实现</li>
-</ol>
-<h6 id="Java-Beans-作为IoC容器"><a href="#Java-Beans-作为IoC容器" class="headerlink" title="Java Beans 作为IoC容器"></a>Java Beans 作为IoC容器</h6><ul>
-<li>特性</li>
-<li>依赖查找</li>
-<li>生命周期管理</li>
-<li>配置元信息</li>
-<li>事件</li>
-<li>自定义</li>
-<li>资源管理</li>
-<li>持久化</li>
-<li>规范</li>
-<li>JavaBeans</li>
-<li>BeanContext</li>
-</ul>
-<ol start="9">
-<li>什么是 IoC<br> 简单的说，IoC 是反转控制，类似于好莱坞原则，主要有依赖查找和依赖注入实现</li>
-<li>依赖查找和依赖注入的区别<br> 依赖查找是主动或手动的依赖查找方式，通常需要依赖容器或标准 API 实现<br> 依赖注入是手动或自动依赖绑定的方式，无需依赖特定的容器和 API 实现<br>11.Spring 作为 IoC 容器有什么优势<br> Spring 作为典型的 IoC 容器，具有依赖查找和依赖注入的功能。它还具有 AOP 抽象、事务抽象、事件机制、SPI 扩展、强大的第三方整合、易测试性、更好的面向对象<br>12.Spring IoC 依赖查找都有哪些方式</li>
-</ol>
-<ul>
-<li>根据 Bean 名称查找</li>
-<li>实时查找</li>
-<li>延时查找</li>
-<li>根据 Bean 类型查找</li>
-<li>单个 Bean 对象</li>
-<li>集合 Bean 对象</li>
-<li>根据 Bean 名称 + 类型查找</li>
-<li>根据 Java 注解查找</li>
-<li>单个 Bean 对象</li>
-<li>集合 Bean 对象<br>13.Spring Ioc 依赖注入</li>
-<li>根据 Bean 名称注入</li>
-<li>根据 Bean 类型注入</li>
-<li>单个 Bean 对象</li>
-<li>集合 Bean 对象</li>
-<li>注入容器内建 Bean 对象</li>
-<li>注入非容器内建 Bean 对象</li>
-<li>注入类型</li>
-<li>实时注入</li>
-<li>延迟注入<br>14.Spring 容器依赖的三个来源</li>
-<li>自定义 Bean，可以通过 getBean 方法获取</li>
-<li>容器内建依赖的 Bean，如课程中的 useRepository 中的 BeanFactory，无法通过 getBean 方法获取，是通过 AutowireCapableFactory中的 resolveDependency 方法注册</li>
-<li>依赖，被组合的对象</li>
-<li>容器内建 Bean，如 Envrionment、BeanDefinitions 和 Singleton Objects 可以通过 getBean 获取</li>
-<li>内建（Built-in），是由 Spring IoC 容器内部生成的 Bean 或组件<br>15.Spring IoC 配置元信息</li>
-<li>Bean 定义配置</li>
-<li>基于 XML 文件</li>
-<li>基于 Properties 文件</li>
-<li>基于 Java 注解</li>
-<li>基于 Java API</li>
-<li>基于 Groovy</li>
-<li>IoC 容器配置</li>
-<li>基于 XML 文件</li>
-<li>基于 Java 注解</li>
-<li>基于 Java API</li>
-<li>外部化属性配置</li>
-<li>基于 Java 注解<br>16.BeanFactory 和 ApplicationContext 有什么区别</li>
-<li>ApplicationContext 是 BeanFactory的子接口</li>
-<li>BeanFactory 是一个底层的 IoC 容器，提供了 IoC 容器的基本实现。而 ApplicationContext 是 BeanFactory 的超集，提供了丰富的企业级特性</li>
-<li>ApplicationContext 委托 DefaultListableBeanFacory 实现 Bean 的依赖查找和依赖注入<br>17.AbstractApplicationContext#prepareBeanFactory 中指明 beanFactory.registerResolvableDependency(BeanFactory.class, beanFactory)，说明当 byType 是 BeanFactory.class的时候，获取到的是 ApplicationContext 中的 DefaultListableBeanFactory 对象<br>18.什么是 Spring IoC 容器？<br>19.BeanFactory 和 Factory 有什么区别？<br> 1.BeanFactory 是 IoC 底层容器<br> 2.FactoryBean 是创建 Bean 的一种方式，帮助实现复杂的初始化逻辑<br> Spring Bean 的两种实现方式</li>
-<li>普通 Bean</li>
-<li>工厂 Bean (FactoryBean)<br> pojo 继承 FactoryBean，并实现其方法，当容器通过 getBean() 获取Bean 时，返回的是实现的 getObject() 方法返回的对象，该对象通过 getObjectType() 方法决定哪个对象被容器调用，当对象类型相同时再通过 isSingleton() 方法判断是不是同一个对象<br>20.Spring IoC 容器启动时做了哪些准备？<br> 1.IoC 配置元信息读取和解析<br> 2.IoC 容器生命周期<br> 3.Spring 事件发布<br> 4.国际化等</li>
-</ul>
-]]></content>
-      <categories>
-        <category>后端</category>
-      </categories>
-      <tags>
-        <tag>Spring</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>环形链表 - 1</title>
     <url>/MiracleDx/2019/08/19/Linked%20List/141.%E7%8E%AF%E5%BD%A2%E9%93%BE%E8%A1%A8/</url>
     <content><![CDATA[<h1 id="141-环形链表"><a href="#141-环形链表" class="headerlink" title="141.环形链表"></a>141.环形链表</h1><p><strong>难度：简单</strong></p>
@@ -2880,37 +2880,6 @@
       </tags>
   </entry>
   <entry>
-    <title>合并两个有序链表</title>
-    <url>/MiracleDx/2019/07/02/Linked%20List/21.%E5%90%88%E5%B9%B6%E4%B8%A4%E4%B8%AA%E6%9C%89%E5%BA%8F%E9%93%BE%E8%A1%A8/</url>
-    <content><![CDATA[<h1 id="21-合并两个有序链表"><a href="#21-合并两个有序链表" class="headerlink" title="21.合并两个有序链表"></a>21.合并两个有序链表</h1><p><strong>难度：简单</strong></p>
-<h3 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">将两个升序链表合并为一个新的 升序 链表并返回。新链表是通过拼接给定的两个链表的所有节点组成的。 </span><br></pre></td></tr></table></figure>
-<p>示例：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入：1-&gt;2-&gt;4, 1-&gt;3-&gt;4</span><br><span class="line">输出：1-&gt;1-&gt;2-&gt;3-&gt;4-&gt;4</span><br></pre></td></tr></table></figure>
-<h3 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h3><h4 id="方法一：-迭代"><a href="#方法一：-迭代" class="headerlink" title="方法一： 迭代"></a>方法一： 迭代</h4><h5 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h5><ol>
-<li>定义 prev 做为新链表头，定义 res 做为结果链表</li>
-<li>判断 l1 和 l2 的值，将 prev.next 的指针指向数值小的值</li>
-<li>跳出循环后，说明 l1 或者 l2 中有一个链表为空，则将 prev.next 指向剩下不为空的链表</li>
-</ol>
-<h5 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> ListNode <span class="title function_">mergeTwoLists</span><span class="params">(ListNode l1, ListNode l2)</span> &#123;</span><br><span class="line">        <span class="type">ListNode</span> <span class="variable">prev</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ListNode</span>(-<span class="number">1</span>);</span><br><span class="line">        <span class="type">ListNode</span> <span class="variable">res</span> <span class="operator">=</span> prev;</span><br><span class="line">        <span class="keyword">while</span> (l1 != <span class="literal">null</span> &amp;&amp; l2 != <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (l1.val &lt;= l2.val) &#123;</span><br><span class="line">                prev.next = l1;</span><br><span class="line">                l1 = l1.next;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                prev.next = l2;</span><br><span class="line">                l2 = l2.next;</span><br><span class="line">            &#125;</span><br><span class="line">            prev = prev.next;</span><br><span class="line">        &#125;</span><br><span class="line">        prev.next = l1 == <span class="literal">null</span> ? l2 : l1;</span><br><span class="line">        <span class="keyword">return</span> res.next;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="复杂度分析"><a href="#复杂度分析" class="headerlink" title="复杂度分析"></a>复杂度分析</h5><ol>
-<li>时间复杂度：O(m + n)，m 和 n 分别为 l1 和 l2 的长度</li>
-<li>空间复杂度：O(1)</li>
-</ol>
-<h4 id="方法二：递归"><a href="#方法二：递归" class="headerlink" title="方法二：递归"></a>方法二：递归</h4><h5 id="思路-1"><a href="#思路-1" class="headerlink" title="思路"></a>思路</h5><p>​	将两个链表中较小节点的数进行 merge</p>
-<h5 id="代码-1"><a href="#代码-1" class="headerlink" title="代码"></a>代码</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> ListNode <span class="title function_">mergeTwoLists</span><span class="params">(ListNode l1, ListNode l2)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (l1 == <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> l2;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (l2 == <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> l1;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (l1.val &lt;= l2.val) &#123;</span><br><span class="line">            l1.next = mergeTwoLists(l1.next, l2);</span><br><span class="line">            <span class="keyword">return</span> l1;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            l2.next = mergeTwoLists(l1, l2.next);</span><br><span class="line">            <span class="keyword">return</span> l2;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-<h5 id="复杂度分析-1"><a href="#复杂度分析-1" class="headerlink" title="复杂度分析"></a>复杂度分析</h5><ol>
-<li>时间复杂度：O(m + n)，m 和 n 分别为 l1 和 l2 的长度</li>
-<li>空间复杂度：O(m + n)</li>
-</ol>
-]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>链表</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>反转链表</title>
     <url>/MiracleDx/2019/08/31/Linked%20List/206.%E5%8F%8D%E8%BD%AC%E9%93%BE%E8%A1%A8/</url>
     <content><![CDATA[<h1 id="206-反转链表"><a href="#206-反转链表" class="headerlink" title="206.反转链表"></a>206.反转链表</h1><p><strong>难度：简单</strong></p>
@@ -2977,6 +2946,37 @@
 <h5 id="复杂度分析-1"><a href="#复杂度分析-1" class="headerlink" title="复杂度分析"></a>复杂度分析</h5><ol>
 <li>时间复杂度：O(n)</li>
 <li>空间复杂度：O(1)</li>
+</ol>
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>链表</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>合并两个有序链表</title>
+    <url>/MiracleDx/2019/07/02/Linked%20List/21.%E5%90%88%E5%B9%B6%E4%B8%A4%E4%B8%AA%E6%9C%89%E5%BA%8F%E9%93%BE%E8%A1%A8/</url>
+    <content><![CDATA[<h1 id="21-合并两个有序链表"><a href="#21-合并两个有序链表" class="headerlink" title="21.合并两个有序链表"></a>21.合并两个有序链表</h1><p><strong>难度：简单</strong></p>
+<h3 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">将两个升序链表合并为一个新的 升序 链表并返回。新链表是通过拼接给定的两个链表的所有节点组成的。 </span><br></pre></td></tr></table></figure>
+<p>示例：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入：1-&gt;2-&gt;4, 1-&gt;3-&gt;4</span><br><span class="line">输出：1-&gt;1-&gt;2-&gt;3-&gt;4-&gt;4</span><br></pre></td></tr></table></figure>
+<h3 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h3><h4 id="方法一：-迭代"><a href="#方法一：-迭代" class="headerlink" title="方法一： 迭代"></a>方法一： 迭代</h4><h5 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h5><ol>
+<li>定义 prev 做为新链表头，定义 res 做为结果链表</li>
+<li>判断 l1 和 l2 的值，将 prev.next 的指针指向数值小的值</li>
+<li>跳出循环后，说明 l1 或者 l2 中有一个链表为空，则将 prev.next 指向剩下不为空的链表</li>
+</ol>
+<h5 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> ListNode <span class="title function_">mergeTwoLists</span><span class="params">(ListNode l1, ListNode l2)</span> &#123;</span><br><span class="line">        <span class="type">ListNode</span> <span class="variable">prev</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ListNode</span>(-<span class="number">1</span>);</span><br><span class="line">        <span class="type">ListNode</span> <span class="variable">res</span> <span class="operator">=</span> prev;</span><br><span class="line">        <span class="keyword">while</span> (l1 != <span class="literal">null</span> &amp;&amp; l2 != <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (l1.val &lt;= l2.val) &#123;</span><br><span class="line">                prev.next = l1;</span><br><span class="line">                l1 = l1.next;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                prev.next = l2;</span><br><span class="line">                l2 = l2.next;</span><br><span class="line">            &#125;</span><br><span class="line">            prev = prev.next;</span><br><span class="line">        &#125;</span><br><span class="line">        prev.next = l1 == <span class="literal">null</span> ? l2 : l1;</span><br><span class="line">        <span class="keyword">return</span> res.next;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="复杂度分析"><a href="#复杂度分析" class="headerlink" title="复杂度分析"></a>复杂度分析</h5><ol>
+<li>时间复杂度：O(m + n)，m 和 n 分别为 l1 和 l2 的长度</li>
+<li>空间复杂度：O(1)</li>
+</ol>
+<h4 id="方法二：递归"><a href="#方法二：递归" class="headerlink" title="方法二：递归"></a>方法二：递归</h4><h5 id="思路-1"><a href="#思路-1" class="headerlink" title="思路"></a>思路</h5><p>​	将两个链表中较小节点的数进行 merge</p>
+<h5 id="代码-1"><a href="#代码-1" class="headerlink" title="代码"></a>代码</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> ListNode <span class="title function_">mergeTwoLists</span><span class="params">(ListNode l1, ListNode l2)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (l1 == <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> l2;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (l2 == <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> l1;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (l1.val &lt;= l2.val) &#123;</span><br><span class="line">            l1.next = mergeTwoLists(l1.next, l2);</span><br><span class="line">            <span class="keyword">return</span> l1;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            l2.next = mergeTwoLists(l1, l2.next);</span><br><span class="line">            <span class="keyword">return</span> l2;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h5 id="复杂度分析-1"><a href="#复杂度分析-1" class="headerlink" title="复杂度分析"></a>复杂度分析</h5><ol>
+<li>时间复杂度：O(m + n)，m 和 n 分别为 l1 和 l2 的长度</li>
+<li>空间复杂度：O(m + n)</li>
 </ol>
 ]]></content>
       <categories>
@@ -3230,36 +3230,6 @@
       </tags>
   </entry>
   <entry>
-    <title>整数数组加一</title>
-    <url>/MiracleDx/2019/04/12/Array/66.%E5%8A%A0%E4%B8%80/</url>
-    <content><![CDATA[<h1 id="Leetcode"><a href="#Leetcode" class="headerlink" title="Leetcode"></a>Leetcode</h1><p><strong>难度：简单</strong></p>
-<h3 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">给定一个由整数组成的非空数组所表示的非负整数，在该数的基础上加一。</span><br><span class="line">最高位数字存放在数组的首位， 数组中每个元素只存储单个数字。</span><br><span class="line">你可以假设除了整数 0 之外，这个整数不会以零开头。</span><br></pre></td></tr></table></figure>
-<p>示例1：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入: [1,2,3]</span><br><span class="line">输出: [1,2,4]</span><br><span class="line">解释: 输入数组表示数字 123。</span><br></pre></td></tr></table></figure>
-<p>示例2：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入: [4,3,2,1]</span><br><span class="line">输出: [4,3,2,2]</span><br><span class="line">解释: 输入数组表示数字 4321。</span><br></pre></td></tr></table></figure>
-<h3 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h3><h4 id="方法："><a href="#方法：" class="headerlink" title="方法："></a>方法：</h4><h5 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h5><ol>
-<li>逆序遍历数组，数值 + 1 只有两种情况<ol>
-<li>大于 10 需要进 1 处理前一位的数值</li>
-<li>小于 10 ，可以直接返回</li>
-</ol>
-</li>
-<li>当数组数值全部为 9 时，需要对数组进行扩容</li>
-</ol>
-<h5 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span>[] plusOne(<span class="type">int</span>[] digits) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> digits.length - <span class="number">1</span>; i &gt;= <span class="number">0</span>; i--) &#123;</span><br><span class="line">            digits[i]++;</span><br><span class="line">            digits[i] %= <span class="number">10</span>;</span><br><span class="line">            <span class="keyword">if</span> (digits[i] != <span class="number">0</span>) &#123;</span><br><span class="line">                <span class="keyword">return</span> digits;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        digits = <span class="keyword">new</span> <span class="title class_">int</span>[digits.length + <span class="number">1</span>];</span><br><span class="line">        digits[<span class="number">0</span>] = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">return</span> digits;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="复杂度分析"><a href="#复杂度分析" class="headerlink" title="复杂度分析"></a>复杂度分析</h5><ol>
-<li>时间复杂度：O(n)</li>
-<li>空间复杂度：O(1)</li>
-</ol>
-]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>数组</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>爬楼梯</title>
     <url>/MiracleDx/2019/04/21/Array/70.%E7%88%AC%E6%A5%BC%E6%A2%AF/</url>
     <content><![CDATA[<h1 id="70-爬楼梯"><a href="#70-爬楼梯" class="headerlink" title="70.爬楼梯"></a>70.爬楼梯</h1><p><strong>难度：简单</strong></p>
@@ -3337,6 +3307,36 @@
 <p>终极版：n– - 1 的实际效果 等于 –n</p>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">merge</span><span class="params">(<span class="type">int</span>[] nums1, <span class="type">int</span> m, <span class="type">int</span>[] nums2, <span class="type">int</span> n)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">l</span> <span class="operator">=</span> m-- + --n;</span><br><span class="line">        <span class="keyword">while</span> (n &gt;= <span class="number">0</span>) &#123;</span><br><span class="line">            nums1[l--] = (m &gt;= <span class="number">0</span>  &amp;&amp; nums1[m] &gt;= nums2[n]) ? nums1[m--] : nums2[n--];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h5 id="复杂度分析-1"><a href="#复杂度分析-1" class="headerlink" title="复杂度分析"></a>复杂度分析</h5><ol>
+<li>时间复杂度：O(n)</li>
+<li>空间复杂度：O(1)</li>
+</ol>
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>数组</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>整数数组加一</title>
+    <url>/MiracleDx/2019/04/12/Array/66.%E5%8A%A0%E4%B8%80/</url>
+    <content><![CDATA[<h1 id="Leetcode"><a href="#Leetcode" class="headerlink" title="Leetcode"></a>Leetcode</h1><p><strong>难度：简单</strong></p>
+<h3 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">给定一个由整数组成的非空数组所表示的非负整数，在该数的基础上加一。</span><br><span class="line">最高位数字存放在数组的首位， 数组中每个元素只存储单个数字。</span><br><span class="line">你可以假设除了整数 0 之外，这个整数不会以零开头。</span><br></pre></td></tr></table></figure>
+<p>示例1：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入: [1,2,3]</span><br><span class="line">输出: [1,2,4]</span><br><span class="line">解释: 输入数组表示数字 123。</span><br></pre></td></tr></table></figure>
+<p>示例2：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入: [4,3,2,1]</span><br><span class="line">输出: [4,3,2,2]</span><br><span class="line">解释: 输入数组表示数字 4321。</span><br></pre></td></tr></table></figure>
+<h3 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h3><h4 id="方法："><a href="#方法：" class="headerlink" title="方法："></a>方法：</h4><h5 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h5><ol>
+<li>逆序遍历数组，数值 + 1 只有两种情况<ol>
+<li>大于 10 需要进 1 处理前一位的数值</li>
+<li>小于 10 ，可以直接返回</li>
+</ol>
+</li>
+<li>当数组数值全部为 9 时，需要对数组进行扩容</li>
+</ol>
+<h5 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span>[] plusOne(<span class="type">int</span>[] digits) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> digits.length - <span class="number">1</span>; i &gt;= <span class="number">0</span>; i--) &#123;</span><br><span class="line">            digits[i]++;</span><br><span class="line">            digits[i] %= <span class="number">10</span>;</span><br><span class="line">            <span class="keyword">if</span> (digits[i] != <span class="number">0</span>) &#123;</span><br><span class="line">                <span class="keyword">return</span> digits;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        digits = <span class="keyword">new</span> <span class="title class_">int</span>[digits.length + <span class="number">1</span>];</span><br><span class="line">        digits[<span class="number">0</span>] = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">return</span> digits;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="复杂度分析"><a href="#复杂度分析" class="headerlink" title="复杂度分析"></a>复杂度分析</h5><ol>
 <li>时间复杂度：O(n)</li>
 <li>空间复杂度：O(1)</li>
 </ol>
