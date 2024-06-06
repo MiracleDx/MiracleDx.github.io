@@ -1197,6 +1197,22 @@
       </tags>
   </entry>
   <entry>
+    <title>Maven</title>
+    <url>/MiracleDx/2020/05/18/Maven/</url>
+    <content><![CDATA[<h1 id="scope-provided-和-optional-true-的区别"><a href="#scope-provided-和-optional-true-的区别" class="headerlink" title="scope provided 和 optional &#x3D; true 的区别"></a>scope provided 和 optional &#x3D; true 的区别</h1><h3 id="相同点"><a href="#相同点" class="headerlink" title="相同点"></a>相同点</h3><p>两者都不会将依赖直接打入包中</p>
+<h3 id="不同点"><a href="#不同点" class="headerlink" title="不同点"></a>不同点</h3><ul>
+<li>provided 表示某个依赖必须，该依赖通常是由系统或者容器提供</li>
+<li>optional 表示某个依赖可选，该依赖是否使用都不会影响服务运行</li>
+</ul>
+]]></content>
+      <categories>
+        <category>后端</category>
+      </categories>
+      <tags>
+        <tag>Maven</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Kafka基础</title>
     <url>/MiracleDx/2022/07/08/Kafka%20%E5%9F%BA%E7%A1%80/</url>
     <content><![CDATA[<h1 id="Kafka"><a href="#Kafka" class="headerlink" title="Kafka"></a>Kafka</h1><h2 id="是什么"><a href="#是什么" class="headerlink" title="是什么"></a>是什么</h2><p>是一款开源的消息引擎系统，可以利用该系统在不同系统之间传递语义准确的消息，实现松耦合的异步式数据传递。<br>也是一个分布式流处理平台（Distributed Streaming Platform）<br>在设计之初提供了三个特性：</p>
@@ -1831,22 +1847,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Maven</title>
-    <url>/MiracleDx/2020/05/18/Maven/</url>
-    <content><![CDATA[<h1 id="scope-provided-和-optional-true-的区别"><a href="#scope-provided-和-optional-true-的区别" class="headerlink" title="scope provided 和 optional &#x3D; true 的区别"></a>scope provided 和 optional &#x3D; true 的区别</h1><h3 id="相同点"><a href="#相同点" class="headerlink" title="相同点"></a>相同点</h3><p>两者都不会将依赖直接打入包中</p>
-<h3 id="不同点"><a href="#不同点" class="headerlink" title="不同点"></a>不同点</h3><ul>
-<li>provided 表示某个依赖必须，该依赖通常是由系统或者容器提供</li>
-<li>optional 表示某个依赖可选，该依赖是否使用都不会影响服务运行</li>
-</ul>
-]]></content>
-      <categories>
-        <category>后端</category>
-      </categories>
-      <tags>
-        <tag>Maven</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Nacos</title>
     <url>/MiracleDx/2020/06/28/Nacos/</url>
     <content><![CDATA[<h1 id="Nacos"><a href="#Nacos" class="headerlink" title="Nacos"></a>Nacos</h1><h2 id="Config"><a href="#Config" class="headerlink" title="Config"></a>Config</h2><h3 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h3><p>与配置中心相关的配置应放在 bootstrap.properties 或 bootstrap.yml 中</p>
@@ -2392,6 +2392,83 @@
       </tags>
   </entry>
   <entry>
+    <title>两数之和</title>
+    <url>/MiracleDx/2019/03/12/Array/1.%E4%B8%A4%E6%95%B0%E4%B9%8B%E5%92%8C/</url>
+    <content><![CDATA[<h1 id="1-两数之和"><a href="#1-两数之和" class="headerlink" title="1.两数之和"></a>1.两数之和</h1><p>**难度：简单 **</p>
+<h3 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">给定一个整数数组 nums 和一个目标值 target，请你在该数组中找出和为目标值的那 两个 整数，并返回他们的数组下标。</span><br><span class="line">你可以假设每种输入只会对应一个答案。但是，数组中同一个元素不能使用两遍。</span><br></pre></td></tr></table></figure>
+<p>示例：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">给定 nums = [2, 7, 11, 15], target = 9</span><br><span class="line">因为 nums[0] + nums[1] = 2 + 7 = 9</span><br><span class="line">所以返回 [0, 1]</span><br></pre></td></tr></table></figure>
+<h3 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h3><h4 id="方法一：-暴力破解-双重循环"><a href="#方法一：-暴力破解-双重循环" class="headerlink" title="方法一： 暴力破解-双重循环"></a>方法一： 暴力破解-双重循环</h4><h5 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h5><pre><code>通过双重循环取得满足 nums[i] + nums[j] = target 的下标
+</code></pre>
+<h5 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span>[] twoSum(<span class="type">int</span>[] nums, <span class="type">int</span> target) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; nums.length - <span class="number">1</span>; i++) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> i + <span class="number">1</span>; j &lt; nums.length; j++) &#123;</span><br><span class="line">                <span class="keyword">if</span> (nums[i] + nums[j] == target) &#123;</span><br><span class="line">                    <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;i, j&#125;;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;&#125;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="复杂度分析"><a href="#复杂度分析" class="headerlink" title="复杂度分析"></a>复杂度分析</h5><ol>
+<li>时间复杂度：O(n^2)</li>
+<li>空间复杂度：O(1)</li>
+</ol>
+<h4 id="方法二：哈希表-双重循环"><a href="#方法二：哈希表-双重循环" class="headerlink" title="方法二：哈希表-双重循环"></a>方法二：哈希表-双重循环</h4><h5 id="思路-1"><a href="#思路-1" class="headerlink" title="思路"></a>思路</h5><ol>
+<li>先循环一次将所有数值存入哈希表中，key 为值，value 为所在数组下标</li>
+<li>再循环一次，查看符合条件的数值是否存在哈希表中，存在即可返回</li>
+</ol>
+<h5 id="代码-1"><a href="#代码-1" class="headerlink" title="代码"></a>代码</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span>[] twoSum(<span class="type">int</span>[] nums, <span class="type">int</span> target) &#123;</span><br><span class="line">        Map&lt;Integer, Integer&gt; map = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; nums.length; i++) &#123;</span><br><span class="line">            map.put(nums[i], i);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; nums.length; i++) &#123;</span><br><span class="line">            <span class="type">int</span> <span class="variable">result</span> <span class="operator">=</span> target - nums[i];</span><br><span class="line">            <span class="keyword">if</span> (map.get(result) != <span class="literal">null</span> &amp;&amp; map.get(result) != i) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;i, map.get(result)&#125;;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;&#125;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="复杂度分析-1"><a href="#复杂度分析-1" class="headerlink" title="复杂度分析"></a>复杂度分析</h5><ol>
+<li>时间复杂度：O(n)</li>
+<li>空间复杂度：O(1)</li>
+</ol>
+<h4 id="方法二：哈希表-单循环"><a href="#方法二：哈希表-单循环" class="headerlink" title="方法二：哈希表-单循环"></a>方法二：哈希表-单循环</h4><h5 id="思路-2"><a href="#思路-2" class="headerlink" title="思路"></a>思路</h5><ol>
+<li>循环的同时将数值存入哈希表中，key 为值，value 为所在数组下标</li>
+<li>同时判断符合条件的数值是否存在哈希表中，存在即可返回</li>
+<li>由于先符合的数值的下标存储在哈希表中，所以返回时先返回哈希表中存储的数值</li>
+</ol>
+<h5 id="代码-2"><a href="#代码-2" class="headerlink" title="代码"></a>代码</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span>[] twoSum(<span class="type">int</span>[] nums, <span class="type">int</span> target) &#123;</span><br><span class="line">        Map&lt;Integer, Integer&gt; map = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; nums.length; i++) &#123;</span><br><span class="line">            <span class="type">int</span> <span class="variable">result</span> <span class="operator">=</span> target - nums[i];</span><br><span class="line">            <span class="keyword">if</span> (map.get(result) != <span class="literal">null</span>) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;map.get(result), i&#125;;</span><br><span class="line">            &#125;</span><br><span class="line">            map.put(nums[i], i);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;&#125;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="复杂度分析-2"><a href="#复杂度分析-2" class="headerlink" title="复杂度分析"></a>复杂度分析</h5><ol>
+<li>时间复杂度：O(n)</li>
+<li>空间复杂度：O(1)</li>
+</ol>
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>数组</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>盛水最多的容器</title>
+    <url>/MiracleDx/2019/03/19/Array/11.%E7%9B%9B%E6%B0%B4%E6%9C%80%E5%A4%9A%E7%9A%84%E5%AE%B9%E5%99%A8/</url>
+    <content><![CDATA[<h1 id="11-盛水最多的容器"><a href="#11-盛水最多的容器" class="headerlink" title="11.盛水最多的容器"></a>11.盛水最多的容器</h1><p><strong>难度：中等</strong></p>
+<h3 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h3><p>给你 n 个非负整数 a1，a2，…，an，每个数代表坐标中的一个点 (i, ai) 。在坐标内画 n 条垂直线，垂直线 i 的两个端点分别为 (i, ai) 和 (i, 0)。找出其中的两条线，使得它们与 x 轴共同构成的容器可以容纳最多的水。<br>    说明：你不能倾斜容器，且 n 的值至少为 2。<br><img src="https://aliyun-lc-upload.oss-cn-hangzhou.aliyuncs.com/aliyun-lc-upload/uploads/2018/07/25/question_11.jpg" alt="img"></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">图中垂直线代表输入数组 [1,8,6,2,5,4,8,3,7]。在此情况下，容器能够容纳水（表示为蓝色部分）的最大值为 49。</span><br></pre></td></tr></table></figure>
+<p>示例：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入：[1,8,6,2,5,4,8,3,7]</span><br><span class="line">输出：49</span><br></pre></td></tr></table></figure>
+<h3 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h3><h4 id="方法一：-暴力破解法"><a href="#方法一：-暴力破解法" class="headerlink" title="方法一： 暴力破解法"></a>方法一： 暴力破解法</h4><h5 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h5><ol>
+<li>容纳最多的水实际为求容器的最大面积，且该面积取决于宽不变的情况下，最短的高的长度。即<strong>面积&#x3D;数组索引值的差（宽） * 最小数组索引值（左右高度的最小值）</strong></li>
+<li>通过双重循环，及变量max，求得最大面积</li>
+</ol>
+<h5 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">maxArea</span><span class="params">(<span class="type">int</span>[] height)</span> &#123;</span><br><span class="line">       <span class="type">int</span> <span class="variable">max</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">       <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; height.length - <span class="number">1</span>; i++) &#123;</span><br><span class="line">           <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> i + <span class="number">1</span>; j &lt; height.length; j++) &#123;</span><br><span class="line">               max = Math.max((j - i) * Math.min(height[j], height[i]), max);</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">return</span> max;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="复杂度分析"><a href="#复杂度分析" class="headerlink" title="复杂度分析"></a>复杂度分析</h5><ol>
+<li>时间复杂度：O(n^2)，双重循环需要遍历两遍height数组</li>
+<li>空间复杂度：O(1)，没有使用额外的内存空间</li>
+</ol>
+<h4 id="方法二：双指针"><a href="#方法二：双指针" class="headerlink" title="方法二：双指针"></a>方法二：双指针</h4><h5 id="思路-1"><a href="#思路-1" class="headerlink" title="思路"></a>思路</h5><ol>
+<li>通过双指针分别从起始位置，和结束位置向中间步进</li>
+<li>由于宽度不变的情况下，取决于高的长度，即每次移动最小高度的指针</li>
+</ol>
+<h5 id="代码-1"><a href="#代码-1" class="headerlink" title="代码"></a>代码</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">maxArea</span><span class="params">(<span class="type">int</span>[] height)</span> &#123;</span><br><span class="line">       <span class="type">int</span> <span class="variable">max</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">       <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>, j = height.length -<span class="number">1</span>; i &lt; j;) &#123;</span><br><span class="line">           <span class="type">int</span> <span class="variable">area</span> <span class="operator">=</span> (j - i) * Math.min(height[i], height[j]);</span><br><span class="line">           max = Math.max(area, max);</span><br><span class="line">           <span class="keyword">if</span> (height[i] &lt; height[j]) &#123;</span><br><span class="line">               i++;</span><br><span class="line">           &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">               j--;</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">return</span> max;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>简化后</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">maxArea</span><span class="params">(<span class="type">int</span>[] height)</span> &#123;</span><br><span class="line">       <span class="type">int</span> <span class="variable">max</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">       <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>, j = height.length -<span class="number">1</span>; i &lt; j;) &#123;</span><br><span class="line">           <span class="type">int</span> <span class="variable">minHeight</span> <span class="operator">=</span>  height[i] &lt; height[j] ? height[i++] : height[j--];</span><br><span class="line">           <span class="comment">// 由于上一行的 ++ 和 -- 操作导致宽度减少 需要在这里补回</span></span><br><span class="line">           max = Math.max((j - i + <span class="number">1</span>) * minHeight, max);</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">return</span> max;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="复杂度分析-1"><a href="#复杂度分析-1" class="headerlink" title="复杂度分析"></a>复杂度分析</h5><ol>
+<li>时间复杂度：O(n)，只需要遍历一次height数组</li>
+<li>空间复杂度：O(1)，没有使用额外的内存空间</li>
+</ol>
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>数组</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>领域驱动设计</title>
     <url>/MiracleDx/2024/01/17/%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1/</url>
     <content><![CDATA[<h1 id="领域驱动设计-Domain-Drive-Design"><a href="#领域驱动设计-Domain-Drive-Design" class="headerlink" title="领域驱动设计 Domain Drive Design"></a>领域驱动设计 Domain Drive Design</h1><h1 id="一、什么是领域驱动设计"><a href="#一、什么是领域驱动设计" class="headerlink" title="一、什么是领域驱动设计"></a>一、什么是领域驱动设计</h1><p>DDD 是一种<strong>开展业务建模和软件设计的方法论</strong>。DDD 基于领域建模而非数据建模，它使业务逻辑高度内聚，与基础设施、框架解耦，清晰的领域边界解决微服务的拆分问题。<br>是一种设计思想，而非应用架构。<br>面向接口、以业务为核心驱动，自顶向下的进行业务领域划分的架构设计模式。</p>
@@ -2802,6 +2879,260 @@
       </tags>
   </entry>
   <entry>
+    <title>三数之和</title>
+    <url>/MiracleDx/2019/03/27/Array/15.%E4%B8%89%E6%95%B0%E4%B9%8B%E5%92%8C/</url>
+    <content><![CDATA[<h1 id="15-三数之和"><a href="#15-三数之和" class="headerlink" title="15.三数之和"></a>15.三数之和</h1><p><strong>难度：中等</strong></p>
+<h3 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">给你一个包含 n 个整数的数组 nums，判断 nums 中是否存在三个元素 a，b，c ，使得 a + b + c = 0 ？请你找出所有满足条件且不重复的三元组。</span><br><span class="line">注意：答案中不可以包含重复的三元组。</span><br></pre></td></tr></table></figure>
+<p>示例：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">给定数组 nums = [-1, 0, 1, 2, -1, -4]，</span><br><span class="line">满足要求的三元组集合为：</span><br><span class="line">[</span><br><span class="line">  [-1, 0, 1],</span><br><span class="line">  [-1, -1, 2]</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<p><strong>注意：</strong>答案中不可以包含重复的三元组。</p>
+<h3 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h3><h4 id="方法一：-暴力破解法-三重循环"><a href="#方法一：-暴力破解法-三重循环" class="headerlink" title="方法一： 暴力破解法-三重循环"></a>方法一： 暴力破解法-三重循环</h4><h5 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h5><p>​	通过三重循环，取出所有符合条件的答案</p>
+<h5 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">```</span><br><span class="line">##### 复杂度分析</span><br><span class="line"><span class="number">1.</span> 时间复杂度：O(n^<span class="number">3</span>)</span><br><span class="line"><span class="number">2.</span> 空间复杂度：O(<span class="number">1</span>)</span><br><span class="line">#### 方法二：双指针遍历</span><br><span class="line">##### 思路</span><br><span class="line"> 	<span class="number">1.</span> 先将数组进行排序</span><br><span class="line"> 	<span class="number">2.</span> 将最小数固定指针，分别使用快慢指针从数组起始位置 + <span class="number">1</span>和终点位置向中进行遍历</span><br><span class="line"> 	<span class="number">3.</span> 寻找满足 nums[k] + nums[i] + nums[j] = <span class="number">0</span> 的组合</span><br><span class="line">##### 代码</span><br><span class="line">```java</span><br></pre></td></tr></table></figure>
+<p>简化后</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
+<h5 id="复杂度分析"><a href="#复杂度分析" class="headerlink" title="复杂度分析"></a>复杂度分析</h5><ol>
+<li>时间复杂度：</li>
+<li>空间复杂度：</li>
+</ol>
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>数组</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>旋转数组</title>
+    <url>/MiracleDx/2019/05/08/Array/189.%E6%97%8B%E8%BD%AC%E6%95%B0%E7%BB%84/</url>
+    <content><![CDATA[<h1 id="189-旋转数组"><a href="#189-旋转数组" class="headerlink" title="189.旋转数组"></a>189.旋转数组</h1><p><strong>难度：中等</strong></p>
+<h3 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">给定一个数组，将数组中的元素向右移动 k 个位置，其中 k 是非负数。</span><br></pre></td></tr></table></figure>
+<p>示例1：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入: [1,2,3,4,5,6,7] 和 k = 3</span><br><span class="line">输出: [5,6,7,1,2,3,4]</span><br><span class="line">解释:</span><br><span class="line">向右旋转 1 步: [7,1,2,3,4,5,6]</span><br><span class="line">向右旋转 2 步: [6,7,1,2,3,4,5]</span><br><span class="line">向右旋转 3 步: [5,6,7,1,2,3,4]</span><br></pre></td></tr></table></figure>
+<p>示例 2:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入: [-1,-100,3,99] 和 k = 2</span><br><span class="line">输出: [3,99,-1,-100]</span><br><span class="line">解释: </span><br><span class="line">向右旋转 1 步: [99,-1,-100,3]</span><br><span class="line">向右旋转 2 步: [3,99,-1,-100]</span><br></pre></td></tr></table></figure>
+<p>说明:</p>
+<ol>
+<li><p>尽可能想出更多的解决方案，至少有三种不同的方法可以解决这个问题。</p>
+</li>
+<li><p>要求使用空间复杂度为 O(1) 的 <strong>原地</strong> 算法。</p>
+</li>
+</ol>
+<h3 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h3><h4 id="方法一：-暴力破解法"><a href="#方法一：-暴力破解法" class="headerlink" title="方法一： 暴力破解法"></a>方法一： 暴力破解法</h4><h5 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h5><p>​	依次和最后一个位置的元素交换位置</p>
+<h5 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">rotate</span><span class="params">(<span class="type">int</span>[] nums, <span class="type">int</span> k)</span> &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; k; i++) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">0</span>; j &lt; nums.length; j++) &#123;</span><br><span class="line">                <span class="type">int</span> <span class="variable">temp</span> <span class="operator">=</span> nums[j];</span><br><span class="line">                nums[j] = nums[nums.length - <span class="number">1</span>];</span><br><span class="line">                nums[nums.length - <span class="number">1</span>] = temp;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>进阶</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">rotate</span><span class="params">(<span class="type">int</span>[] nums, <span class="type">int</span> k)</span> &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; k; i++) &#123;</span><br><span class="line">            <span class="type">int</span> <span class="variable">swap</span> <span class="operator">=</span> nums[nums.length - <span class="number">1</span>];</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">0</span>; j &lt; nums.length; j++) &#123;</span><br><span class="line">                <span class="type">int</span> <span class="variable">temp</span> <span class="operator">=</span> nums[j];</span><br><span class="line">                nums[j] = swap;</span><br><span class="line">                swap = temp;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="复杂度分析"><a href="#复杂度分析" class="headerlink" title="复杂度分析"></a>复杂度分析</h5><ol>
+<li>时间复杂度：O(n * k)</li>
+<li>空间复杂度：O(1)</li>
+</ol>
+<h4 id="方法二：k次反转"><a href="#方法二：k次反转" class="headerlink" title="方法二：k次反转"></a>方法二：k次反转</h4><h5 id="思路-1"><a href="#思路-1" class="headerlink" title="思路"></a>思路</h5><pre><code>1. 三次旋转
+ 2. 先将整个数组旋转
+ 3. 将前k个元素旋转
+ 4. 将剩余元素旋转
+</code></pre>
+<h5 id="代码-1"><a href="#代码-1" class="headerlink" title="代码"></a>代码</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">rotate</span><span class="params">(<span class="type">int</span>[] nums, <span class="type">int</span> k)</span> &#123;</span><br><span class="line">        k %= nums.length;</span><br><span class="line">        reverse(nums, <span class="number">0</span>, nums.length - <span class="number">1</span>);</span><br><span class="line">        reverse(nums, <span class="number">0</span>, k - <span class="number">1</span>);</span><br><span class="line">        reverse(nums, k, nums.length - <span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">reverse</span><span class="params">(<span class="type">int</span>[] nums, <span class="type">int</span> start, <span class="type">int</span> end)</span> &#123;</span><br><span class="line">        <span class="keyword">while</span> (start &lt; end) &#123;</span><br><span class="line">            <span class="type">int</span> <span class="variable">temp</span> <span class="operator">=</span> nums[start];</span><br><span class="line">            nums[start] = nums[end];</span><br><span class="line">            nums[end] = temp;</span><br><span class="line">            start++;</span><br><span class="line">            end--;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="复杂度分析-1"><a href="#复杂度分析-1" class="headerlink" title="复杂度分析"></a>复杂度分析</h5><ol>
+<li>时间复杂度：O(n)</li>
+<li>空间复杂度：O(1)</li>
+</ol>
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>数组</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>删除排序数组中的重复项</title>
+    <url>/MiracleDx/2019/04/05/Array/26.%E5%88%A0%E9%99%A4%E6%8E%92%E5%BA%8F%E6%95%B0%E7%BB%84%E4%B8%AD%E7%9A%84%E9%87%8D%E5%A4%8D%E9%A1%B9/</url>
+    <content><![CDATA[<h1 id="26-删除排序数组中的重复项"><a href="#26-删除排序数组中的重复项" class="headerlink" title="26.删除排序数组中的重复项"></a>26.删除排序数组中的重复项</h1><p><strong>难度：简单</strong></p>
+<h3 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">给定一个排序数组，你需要在 原地 删除重复出现的元素，使得每个元素只出现一次，返回移除后数组的新长度。</span><br><span class="line">不要使用额外的数组空间，你必须在 原地 修改输入数组 并在使用 O(1) 额外空间的条件下完成。</span><br></pre></td></tr></table></figure>
+<p>示例1：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">给定数组 nums = [1,1,2], </span><br><span class="line">函数应该返回新的长度 2, 并且原数组 nums 的前两个元素被修改为 1, 2。 </span><br><span class="line">你不需要考虑数组中超出新长度后面的元素。</span><br></pre></td></tr></table></figure>
+<p>示例2：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">给定 nums = [0,0,1,1,1,2,2,3,3,4],</span><br><span class="line">函数应该返回新的长度 5, 并且原数组 nums 的前五个元素被修改为 0, 1, 2, 3, 4。</span><br><span class="line">你不需要考虑数组中超出新长度后面的元素。</span><br></pre></td></tr></table></figure>
+<p>说明:<br>为什么返回数值是整数，但输出的答案是数组呢?<br>请注意，输入数组是以「引用」方式传递的，这意味着在函数里修改输入数组对于调用者是可见的。<br>你可以想象内部操作如下:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">// nums 是以“引用”方式传递的。也就是说，不对实参做任何拷贝</span><br><span class="line">int len = removeDuplicates(nums);</span><br><span class="line">// 在函数里修改输入数组对于调用者是可见的。</span><br><span class="line">// 根据你的函数返回的长度, 它会打印出数组中该长度范围内的所有元素。</span><br><span class="line">for (int i = 0; i &lt; len; i++) &#123;</span><br><span class="line">    print(nums[i]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h3><h4 id="方法："><a href="#方法：" class="headerlink" title="方法："></a>方法：</h4><h5 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h5><ol>
+<li>定义 i 和 j 的快慢指针， i 为慢指针， j 为快指针</li>
+<li>当 nums[i] 和 nums[j] 相等时，慢指针不动，快指针继续前进</li>
+<li>当 nums[i] 和 nums[j] 不相等时，更新慢指针的下一个值</li>
+</ol>
+<h5 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">removeDuplicates</span><span class="params">(<span class="type">int</span>[] nums)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">1</span>; j &lt; nums.length; j++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (nums[i] != nums[j]) &#123;</span><br><span class="line">                nums[++i] = nums[j];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> i+<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="复杂度分析"><a href="#复杂度分析" class="headerlink" title="复杂度分析"></a>复杂度分析</h5><ol>
+<li>时间复杂度：O(n)</li>
+<li>空间复杂度：O(1)</li>
+</ol>
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>数组</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>移动零</title>
+    <url>/MiracleDx/2019/06/11/Array/283.%E7%A7%BB%E5%8A%A8%E9%9B%B6/</url>
+    <content><![CDATA[<h1 id="283-移动零"><a href="#283-移动零" class="headerlink" title="283.移动零"></a>283.移动零</h1><p><strong>难度：简单</strong></p>
+<h3 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">给定一个数组 nums，编写一个函数将所有 0 移动到数组的末尾，同时保持非零元素的相对顺序。</span><br></pre></td></tr></table></figure>
+<p>示例：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入: [0,1,0,3,12]</span><br><span class="line">输出: [1,3,12,0,0]</span><br></pre></td></tr></table></figure>
+<p><strong>说明</strong>:</p>
+<ol>
+<li>必须在原数组上操作，不能拷贝额外的数组。</li>
+<li>尽量减少操作次数。</li>
+</ol>
+<h3 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h3><h4 id="方法一：-双迭代法"><a href="#方法一：-双迭代法" class="headerlink" title="方法一： 双迭代法"></a>方法一： 双迭代法</h4><h5 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h5><ol>
+<li>先通过一次循环确定非零元素，并将非零元素全部赋值到前部</li>
+<li>再通过一次循环，将剩余的元素置零</li>
+</ol>
+<h5 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">moveZeroes</span><span class="params">(<span class="type">int</span>[] nums)</span> &#123;</span><br><span class="line">       <span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">       <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; nums.length; i++) &#123;</span><br><span class="line">           <span class="keyword">if</span> (nums[i] != <span class="number">0</span>) &#123;</span><br><span class="line">               nums[j++] = nums[i];</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> j; i &lt; nums.length; i++) &#123;</span><br><span class="line">           nums[i] = <span class="number">0</span>;</span><br><span class="line">       &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="复杂度分析"><a href="#复杂度分析" class="headerlink" title="复杂度分析"></a>复杂度分析</h5><ol>
+<li>时间复杂度：O(n)</li>
+<li>空间复杂度：O(1)</li>
+</ol>
+<h4 id="方法二：双指针-快慢指针"><a href="#方法二：双指针-快慢指针" class="headerlink" title="方法二：双指针-快慢指针"></a>方法二：双指针-快慢指针</h4><h5 id="思路-1"><a href="#思路-1" class="headerlink" title="思路"></a>思路</h5><ol>
+<li>由于只需要保证考虑非零元素的顺序，所以可以定义一个慢指针记录非零元素的位置</li>
+<li>当快指针经过非零元素的时候，将值赋值给慢指针，同时将快指针所处的位置置0</li>
+<li>慢指针在快指针经过非0元素时，进1</li>
+<li>由于存在快慢指针存在同一下标的情况，所以当快慢指针不相等时，才操作数组</li>
+</ol>
+<h5 id="代码-1"><a href="#代码-1" class="headerlink" title="代码"></a>代码</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">moveZeroes</span><span class="params">(<span class="type">int</span>[] nums)</span> &#123;</span><br><span class="line">       <span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">       <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; nums.length; i++) &#123;</span><br><span class="line">           <span class="keyword">if</span> (nums[i] != <span class="number">0</span>) &#123;</span><br><span class="line">               <span class="keyword">if</span> (i != j) &#123;</span><br><span class="line">                   nums[j] = nums[i];</span><br><span class="line">                   nums[i] = <span class="number">0</span>;</span><br><span class="line">               &#125;</span><br><span class="line">               j++;</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="复杂度分析-1"><a href="#复杂度分析-1" class="headerlink" title="复杂度分析"></a>复杂度分析</h5><ol>
+<li>时间复杂度：O(n)</li>
+<li>空间复杂度：O(1)</li>
+</ol>
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>数组</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>整数数组加一</title>
+    <url>/MiracleDx/2019/04/12/Array/66.%E5%8A%A0%E4%B8%80/</url>
+    <content><![CDATA[<h1 id="Leetcode"><a href="#Leetcode" class="headerlink" title="Leetcode"></a>Leetcode</h1><p><strong>难度：简单</strong></p>
+<h3 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">给定一个由整数组成的非空数组所表示的非负整数，在该数的基础上加一。</span><br><span class="line">最高位数字存放在数组的首位， 数组中每个元素只存储单个数字。</span><br><span class="line">你可以假设除了整数 0 之外，这个整数不会以零开头。</span><br></pre></td></tr></table></figure>
+<p>示例1：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入: [1,2,3]</span><br><span class="line">输出: [1,2,4]</span><br><span class="line">解释: 输入数组表示数字 123。</span><br></pre></td></tr></table></figure>
+<p>示例2：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入: [4,3,2,1]</span><br><span class="line">输出: [4,3,2,2]</span><br><span class="line">解释: 输入数组表示数字 4321。</span><br></pre></td></tr></table></figure>
+<h3 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h3><h4 id="方法："><a href="#方法：" class="headerlink" title="方法："></a>方法：</h4><h5 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h5><ol>
+<li>逆序遍历数组，数值 + 1 只有两种情况<ol>
+<li>大于 10 需要进 1 处理前一位的数值</li>
+<li>小于 10 ，可以直接返回</li>
+</ol>
+</li>
+<li>当数组数值全部为 9 时，需要对数组进行扩容</li>
+</ol>
+<h5 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span>[] plusOne(<span class="type">int</span>[] digits) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> digits.length - <span class="number">1</span>; i &gt;= <span class="number">0</span>; i--) &#123;</span><br><span class="line">            digits[i]++;</span><br><span class="line">            digits[i] %= <span class="number">10</span>;</span><br><span class="line">            <span class="keyword">if</span> (digits[i] != <span class="number">0</span>) &#123;</span><br><span class="line">                <span class="keyword">return</span> digits;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        digits = <span class="keyword">new</span> <span class="title class_">int</span>[digits.length + <span class="number">1</span>];</span><br><span class="line">        digits[<span class="number">0</span>] = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">return</span> digits;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="复杂度分析"><a href="#复杂度分析" class="headerlink" title="复杂度分析"></a>复杂度分析</h5><ol>
+<li>时间复杂度：O(n)</li>
+<li>空间复杂度：O(1)</li>
+</ol>
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>数组</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>爬楼梯</title>
+    <url>/MiracleDx/2019/04/21/Array/70.%E7%88%AC%E6%A5%BC%E6%A2%AF/</url>
+    <content><![CDATA[<h1 id="70-爬楼梯"><a href="#70-爬楼梯" class="headerlink" title="70.爬楼梯"></a>70.爬楼梯</h1><p><strong>难度：简单</strong></p>
+<h3 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">假设你正在爬楼梯。需要 n 阶你才能到达楼顶。</span><br><span class="line">每次你可以爬 1 或 2 个台阶。你有多少种不同的方法可以爬到楼顶呢？</span><br><span class="line">注意：给定 n 是一个正整数。</span><br></pre></td></tr></table></figure>
+<p>示例1：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入： 2</span><br><span class="line">输出： 2</span><br><span class="line">解释： 有两种方法可以爬到楼顶。</span><br><span class="line">1.  1 阶 + 1 阶</span><br><span class="line">2.  2 阶</span><br></pre></td></tr></table></figure>
+<p>示例2：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入： 3</span><br><span class="line">输出： 3</span><br><span class="line">解释： 有三种方法可以爬到楼顶。</span><br><span class="line">1.  1 阶 + 1 阶 + 1 阶</span><br><span class="line">2.  1 阶 + 2 阶</span><br><span class="line">3.  2 阶 + 1 阶</span><br></pre></td></tr></table></figure>
+<h3 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h3><h4 id="方法一：-递归"><a href="#方法一：-递归" class="headerlink" title="方法一： 递归"></a>方法一： 递归</h4><h5 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h5><ol>
+<li>每次可以爬一阶或者两阶，说明不论有多少楼梯，最后爬的一定是一阶或者二阶</li>
+<li>那么爬第三阶楼梯的时候，只能是爬一阶或者爬两阶</li>
+<li>爬一阶的时候，之前已经爬过了两阶；爬二阶之前已经爬过了一阶，即：爬三阶 &#x3D; 爬二阶的方法 + 爬一阶的方法</li>
+<li>那么爬四阶楼梯的时候，爬四阶 &#x3D; 爬三阶的方法 + 爬二阶的方法</li>
+<li>依次类推，可以得到递推公式 f(n) &#x3D; f(n - 1) + f(n - 2)</li>
+<li>根据递推公式可知，该题目实际为求<strong>斐波那契数列</strong></li>
+</ol>
+<h5 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">climbStairs</span><span class="params">(<span class="type">int</span> n)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (n == <span class="number">1</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (n == <span class="number">2</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">2</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> climbStairs(n - <span class="number">1</span>) + climbStairs(n - <span class="number">2</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="复杂度分析"><a href="#复杂度分析" class="headerlink" title="复杂度分析"></a>复杂度分析</h5><ol>
+<li>时间复杂度：O(2^n)，由于每次递归都会导致之前计算过的方法被重新计算</li>
+<li>空间复杂度：O(1)</li>
+</ol>
+<h4 id="方法二：递归加强版（求最小重复子问题）"><a href="#方法二：递归加强版（求最小重复子问题）" class="headerlink" title="方法二：递归加强版（求最小重复子问题）"></a>方法二：递归加强版（求最小重复子问题）</h4><h5 id="思路-1"><a href="#思路-1" class="headerlink" title="思路"></a>思路</h5><p>​	由于递归会导致重复计算，所以可以使用一个容器存储已经计算过的方法</p>
+<h5 id="代码-1"><a href="#代码-1" class="headerlink" title="代码"></a>代码</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">climbStairs</span><span class="params">(<span class="type">int</span> n)</span> &#123;</span><br><span class="line">        <span class="type">int</span>[] record = <span class="keyword">new</span> <span class="title class_">int</span>[n + <span class="number">1</span>];</span><br><span class="line">        <span class="keyword">return</span> climb(record, n);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="type">int</span> <span class="title function_">climb</span><span class="params">(<span class="type">int</span>[] record, <span class="type">int</span> n)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (record[n] &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> record[n];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (n == <span class="number">1</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (n == <span class="number">2</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">2</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        record[n] = climb(record, n - <span class="number">1</span>) + climb(record, n - <span class="number">2</span>);</span><br><span class="line">        <span class="keyword">return</span> record[n];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="复杂度分析-1"><a href="#复杂度分析-1" class="headerlink" title="复杂度分析"></a>复杂度分析</h5><ol>
+<li>时间复杂度：O(n)</li>
+<li>空间复杂度：O(1)，只用了常数个变量作为辅助空间</li>
+</ol>
+<h4 id="方法三：动态规划"><a href="#方法三：动态规划" class="headerlink" title="方法三：动态规划"></a>方法三：动态规划</h4><h5 id="思路-2"><a href="#思路-2" class="headerlink" title="思路"></a>思路</h5><p>​	由以上分析可知，该题目的动态转移方程为：dp[i] &#x3D; dp[i - 1] + dp[i - 2]</p>
+<h5 id="代码-2"><a href="#代码-2" class="headerlink" title="代码"></a>代码</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">climbStairs</span><span class="params">(<span class="type">int</span> n)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (n == <span class="number">1</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="type">int</span>[] dp = <span class="keyword">new</span> <span class="title class_">int</span>[n + <span class="number">1</span>];</span><br><span class="line">        dp[<span class="number">1</span>] = <span class="number">1</span>;</span><br><span class="line">        dp[<span class="number">2</span>] = <span class="number">2</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">3</span>; i &lt;= n; i++) &#123;</span><br><span class="line">            dp[i] = dp[i - <span class="number">1</span>] + dp[i - <span class="number">2</span>];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dp[n];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="复杂度分析-2"><a href="#复杂度分析-2" class="headerlink" title="复杂度分析"></a>复杂度分析</h5><ol>
+<li>时间复杂度：O(n)</li>
+<li>空间复杂度：O(1)，只用了常数个变量作为辅助空间</li>
+</ol>
+<h4 id="方法四：迭代"><a href="#方法四：迭代" class="headerlink" title="方法四：迭代"></a>方法四：迭代</h4><h5 id="思路-3"><a href="#思路-3" class="headerlink" title="思路"></a>思路</h5><p>​	使用迭代的方式，滚动赋值给前一阶和前两阶的数值</p>
+<h5 id="代码-3"><a href="#代码-3" class="headerlink" title="代码"></a>代码</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">climbStairs</span><span class="params">(<span class="type">int</span> n)</span> &#123;</span><br><span class="line">       <span class="keyword">if</span> (n == <span class="number">1</span> || n == <span class="number">2</span>) &#123;</span><br><span class="line">           <span class="keyword">return</span> n;</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="type">int</span> <span class="variable">l1</span> <span class="operator">=</span> <span class="number">1</span>;</span><br><span class="line">       <span class="type">int</span> <span class="variable">l2</span> <span class="operator">=</span> <span class="number">2</span>;</span><br><span class="line">       <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">3</span>; i &lt;= n; i++) &#123;</span><br><span class="line">           <span class="type">int</span> <span class="variable">result</span> <span class="operator">=</span> l1 + l2;</span><br><span class="line">           l1 = l2;</span><br><span class="line">           l2 = result;</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">return</span> l2;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="复杂度分析-3"><a href="#复杂度分析-3" class="headerlink" title="复杂度分析"></a>复杂度分析</h5><ol>
+<li>时间复杂度：O(n)</li>
+<li>空间复杂度：O(1)</li>
+</ol>
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>数组</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>合并两个有序数组</title>
+    <url>/MiracleDx/2019/04/29/Array/88.%E5%90%88%E5%B9%B6%E4%B8%A4%E4%B8%AA%E6%9C%89%E5%BA%8F%E6%95%B0%E7%BB%84/</url>
+    <content><![CDATA[<h1 id="88-合并两个有序数组"><a href="#88-合并两个有序数组" class="headerlink" title="88.合并两个有序数组"></a>88.合并两个有序数组</h1><p><strong>难度：简单</strong></p>
+<h3 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">给你两个有序整数数组 nums1 和 nums2，请你将 nums2 合并到 nums1 中，使 nums1 成为一个有序数组。</span><br><span class="line">说明:</span><br><span class="line">初始化 nums1 和 nums2 的元素数量分别为 m 和 n 。</span><br><span class="line">你可以假设 nums1 有足够的空间（空间大小大于或等于 m + n）来保存 nums2 中的元素。</span><br></pre></td></tr></table></figure>
+<p>示例：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入:</span><br><span class="line">nums1 = [1,2,3,0,0,0], m = 3</span><br><span class="line">nums2 = [2,5,6],       n = 3</span><br><span class="line">输出: [1,2,2,3,5,6]</span><br></pre></td></tr></table></figure>
+<h3 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h3><h4 id="方法一：-利用库函数"><a href="#方法一：-利用库函数" class="headerlink" title="方法一： 利用库函数"></a>方法一： 利用库函数</h4><h5 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h5><ol>
+<li>先将两个数组合并</li>
+<li>利用库函数进行排序</li>
+</ol>
+<h5 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">merge</span><span class="params">(<span class="type">int</span>[] nums1, <span class="type">int</span> m, <span class="type">int</span>[] nums2, <span class="type">int</span> n)</span> &#123;</span><br><span class="line">		System.arraycopy(nums2, <span class="number">0</span>, nums1, m, n);</span><br><span class="line">    	Arrays.sort(nums1);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="复杂度分析"><a href="#复杂度分析" class="headerlink" title="复杂度分析"></a>复杂度分析</h5><ol>
+<li>时间复杂度：O(n)</li>
+<li>空间复杂度：O(1)</li>
+</ol>
+<h4 id="方法二：双指针"><a href="#方法二：双指针" class="headerlink" title="方法二：双指针"></a>方法二：双指针</h4><h5 id="思路-1"><a href="#思路-1" class="headerlink" title="思路"></a>思路</h5><ol>
+<li>两个指针 i 和 j 分别逆序遍历 nums1 和 nums2 数组，从大到小依次逆序插入到 nums1 中</li>
+<li>l 用于记录 nums1 插入数值的位置</li>
+<li>当 nums2 遍历完成时，说明已经将 nums2 的元素全部插入到 nums1 中</li>
+<li>插入哪个 nums 数组的数据就将对应 nums 数组的指针相应 -1， 同时 l 也相应 -1</li>
+</ol>
+<h5 id="代码-1"><a href="#代码-1" class="headerlink" title="代码"></a>代码</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">merge</span><span class="params">(<span class="type">int</span>[] nums1, <span class="type">int</span> m, <span class="type">int</span>[] nums2, <span class="type">int</span> n)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> m - <span class="number">1</span>;</span><br><span class="line">        <span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> n - <span class="number">1</span>;</span><br><span class="line">        <span class="type">int</span> <span class="variable">l</span> <span class="operator">=</span> m + n - <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span> (j &gt;= <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (i &gt;= <span class="number">0</span> &amp;&amp; nums1[i] &gt;= nums2[j]) &#123;</span><br><span class="line">                nums1[l] = nums1[i];</span><br><span class="line">                i--;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                nums1[l] = nums2[j];</span><br><span class="line">                j--;</span><br><span class="line">            &#125;</span><br><span class="line">            l--;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>简化后</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">merge</span><span class="params">(<span class="type">int</span>[] nums1, <span class="type">int</span> m, <span class="type">int</span>[] nums2, <span class="type">int</span> n)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> m - <span class="number">1</span>;</span><br><span class="line">        <span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> n - <span class="number">1</span>;</span><br><span class="line">        <span class="type">int</span> <span class="variable">l</span> <span class="operator">=</span> m + n - <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span> (j &gt;= <span class="number">0</span>) &#123;</span><br><span class="line">            nums1[l--] = i &gt;= <span class="number">0</span>  &amp;&amp; nums1[i] &gt;= nums2[j] ? nums1[i--] : nums2[j--];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>进一步简化：将 i 和 j 的值 由 m 和 n 代替</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">merge</span><span class="params">(<span class="type">int</span>[] nums1, <span class="type">int</span> m, <span class="type">int</span>[] nums2, <span class="type">int</span> n)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">l</span> <span class="operator">=</span> m-- + n-- - <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span> (n &gt;= <span class="number">0</span>) &#123;</span><br><span class="line">            nums1[l--] = (m &gt;= <span class="number">0</span>  &amp;&amp; nums1[m] &gt;= nums2[n]) ? nums1[m--] : nums2[n--];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>终极版：n– - 1 的实际效果 等于 –n</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">merge</span><span class="params">(<span class="type">int</span>[] nums1, <span class="type">int</span> m, <span class="type">int</span>[] nums2, <span class="type">int</span> n)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">l</span> <span class="operator">=</span> m-- + --n;</span><br><span class="line">        <span class="keyword">while</span> (n &gt;= <span class="number">0</span>) &#123;</span><br><span class="line">            nums1[l--] = (m &gt;= <span class="number">0</span>  &amp;&amp; nums1[m] &gt;= nums2[n]) ? nums1[m--] : nums2[n--];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="复杂度分析-1"><a href="#复杂度分析-1" class="headerlink" title="复杂度分析"></a>复杂度分析</h5><ol>
+<li>时间复杂度：O(n)</li>
+<li>空间复杂度：O(1)</li>
+</ol>
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>数组</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>环形链表 - 1</title>
     <url>/MiracleDx/2019/08/19/Linked%20List/141.%E7%8E%AF%E5%BD%A2%E9%93%BE%E8%A1%A8/</url>
     <content><![CDATA[<h1 id="141-环形链表"><a href="#141-环形链表" class="headerlink" title="141.环形链表"></a>141.环形链表</h1><p><strong>难度：简单</strong></p>
@@ -3015,337 +3346,6 @@
       </categories>
       <tags>
         <tag>链表</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>两数之和</title>
-    <url>/MiracleDx/2019/03/12/Array/1.%E4%B8%A4%E6%95%B0%E4%B9%8B%E5%92%8C/</url>
-    <content><![CDATA[<h1 id="1-两数之和"><a href="#1-两数之和" class="headerlink" title="1.两数之和"></a>1.两数之和</h1><p>**难度：简单 **</p>
-<h3 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">给定一个整数数组 nums 和一个目标值 target，请你在该数组中找出和为目标值的那 两个 整数，并返回他们的数组下标。</span><br><span class="line">你可以假设每种输入只会对应一个答案。但是，数组中同一个元素不能使用两遍。</span><br></pre></td></tr></table></figure>
-<p>示例：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">给定 nums = [2, 7, 11, 15], target = 9</span><br><span class="line">因为 nums[0] + nums[1] = 2 + 7 = 9</span><br><span class="line">所以返回 [0, 1]</span><br></pre></td></tr></table></figure>
-<h3 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h3><h4 id="方法一：-暴力破解-双重循环"><a href="#方法一：-暴力破解-双重循环" class="headerlink" title="方法一： 暴力破解-双重循环"></a>方法一： 暴力破解-双重循环</h4><h5 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h5><pre><code>通过双重循环取得满足 nums[i] + nums[j] = target 的下标
-</code></pre>
-<h5 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span>[] twoSum(<span class="type">int</span>[] nums, <span class="type">int</span> target) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; nums.length - <span class="number">1</span>; i++) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> i + <span class="number">1</span>; j &lt; nums.length; j++) &#123;</span><br><span class="line">                <span class="keyword">if</span> (nums[i] + nums[j] == target) &#123;</span><br><span class="line">                    <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;i, j&#125;;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;&#125;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="复杂度分析"><a href="#复杂度分析" class="headerlink" title="复杂度分析"></a>复杂度分析</h5><ol>
-<li>时间复杂度：O(n^2)</li>
-<li>空间复杂度：O(1)</li>
-</ol>
-<h4 id="方法二：哈希表-双重循环"><a href="#方法二：哈希表-双重循环" class="headerlink" title="方法二：哈希表-双重循环"></a>方法二：哈希表-双重循环</h4><h5 id="思路-1"><a href="#思路-1" class="headerlink" title="思路"></a>思路</h5><ol>
-<li>先循环一次将所有数值存入哈希表中，key 为值，value 为所在数组下标</li>
-<li>再循环一次，查看符合条件的数值是否存在哈希表中，存在即可返回</li>
-</ol>
-<h5 id="代码-1"><a href="#代码-1" class="headerlink" title="代码"></a>代码</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span>[] twoSum(<span class="type">int</span>[] nums, <span class="type">int</span> target) &#123;</span><br><span class="line">        Map&lt;Integer, Integer&gt; map = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; nums.length; i++) &#123;</span><br><span class="line">            map.put(nums[i], i);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; nums.length; i++) &#123;</span><br><span class="line">            <span class="type">int</span> <span class="variable">result</span> <span class="operator">=</span> target - nums[i];</span><br><span class="line">            <span class="keyword">if</span> (map.get(result) != <span class="literal">null</span> &amp;&amp; map.get(result) != i) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;i, map.get(result)&#125;;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;&#125;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="复杂度分析-1"><a href="#复杂度分析-1" class="headerlink" title="复杂度分析"></a>复杂度分析</h5><ol>
-<li>时间复杂度：O(n)</li>
-<li>空间复杂度：O(1)</li>
-</ol>
-<h4 id="方法二：哈希表-单循环"><a href="#方法二：哈希表-单循环" class="headerlink" title="方法二：哈希表-单循环"></a>方法二：哈希表-单循环</h4><h5 id="思路-2"><a href="#思路-2" class="headerlink" title="思路"></a>思路</h5><ol>
-<li>循环的同时将数值存入哈希表中，key 为值，value 为所在数组下标</li>
-<li>同时判断符合条件的数值是否存在哈希表中，存在即可返回</li>
-<li>由于先符合的数值的下标存储在哈希表中，所以返回时先返回哈希表中存储的数值</li>
-</ol>
-<h5 id="代码-2"><a href="#代码-2" class="headerlink" title="代码"></a>代码</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span>[] twoSum(<span class="type">int</span>[] nums, <span class="type">int</span> target) &#123;</span><br><span class="line">        Map&lt;Integer, Integer&gt; map = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; nums.length; i++) &#123;</span><br><span class="line">            <span class="type">int</span> <span class="variable">result</span> <span class="operator">=</span> target - nums[i];</span><br><span class="line">            <span class="keyword">if</span> (map.get(result) != <span class="literal">null</span>) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;map.get(result), i&#125;;</span><br><span class="line">            &#125;</span><br><span class="line">            map.put(nums[i], i);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;&#125;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="复杂度分析-2"><a href="#复杂度分析-2" class="headerlink" title="复杂度分析"></a>复杂度分析</h5><ol>
-<li>时间复杂度：O(n)</li>
-<li>空间复杂度：O(1)</li>
-</ol>
-]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>数组</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>三数之和</title>
-    <url>/MiracleDx/2019/03/27/Array/15.%E4%B8%89%E6%95%B0%E4%B9%8B%E5%92%8C/</url>
-    <content><![CDATA[<h1 id="15-三数之和"><a href="#15-三数之和" class="headerlink" title="15.三数之和"></a>15.三数之和</h1><p><strong>难度：中等</strong></p>
-<h3 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">给你一个包含 n 个整数的数组 nums，判断 nums 中是否存在三个元素 a，b，c ，使得 a + b + c = 0 ？请你找出所有满足条件且不重复的三元组。</span><br><span class="line">注意：答案中不可以包含重复的三元组。</span><br></pre></td></tr></table></figure>
-<p>示例：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">给定数组 nums = [-1, 0, 1, 2, -1, -4]，</span><br><span class="line">满足要求的三元组集合为：</span><br><span class="line">[</span><br><span class="line">  [-1, 0, 1],</span><br><span class="line">  [-1, -1, 2]</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
-<p><strong>注意：</strong>答案中不可以包含重复的三元组。</p>
-<h3 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h3><h4 id="方法一：-暴力破解法-三重循环"><a href="#方法一：-暴力破解法-三重循环" class="headerlink" title="方法一： 暴力破解法-三重循环"></a>方法一： 暴力破解法-三重循环</h4><h5 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h5><p>​	通过三重循环，取出所有符合条件的答案</p>
-<h5 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">```</span><br><span class="line">##### 复杂度分析</span><br><span class="line"><span class="number">1.</span> 时间复杂度：O(n^<span class="number">3</span>)</span><br><span class="line"><span class="number">2.</span> 空间复杂度：O(<span class="number">1</span>)</span><br><span class="line">#### 方法二：双指针遍历</span><br><span class="line">##### 思路</span><br><span class="line"> 	<span class="number">1.</span> 先将数组进行排序</span><br><span class="line"> 	<span class="number">2.</span> 将最小数固定指针，分别使用快慢指针从数组起始位置 + <span class="number">1</span>和终点位置向中进行遍历</span><br><span class="line"> 	<span class="number">3.</span> 寻找满足 nums[k] + nums[i] + nums[j] = <span class="number">0</span> 的组合</span><br><span class="line">##### 代码</span><br><span class="line">```java</span><br></pre></td></tr></table></figure>
-<p>简化后</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
-<h5 id="复杂度分析"><a href="#复杂度分析" class="headerlink" title="复杂度分析"></a>复杂度分析</h5><ol>
-<li>时间复杂度：</li>
-<li>空间复杂度：</li>
-</ol>
-]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>数组</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>盛水最多的容器</title>
-    <url>/MiracleDx/2019/03/19/Array/11.%E7%9B%9B%E6%B0%B4%E6%9C%80%E5%A4%9A%E7%9A%84%E5%AE%B9%E5%99%A8/</url>
-    <content><![CDATA[<h1 id="11-盛水最多的容器"><a href="#11-盛水最多的容器" class="headerlink" title="11.盛水最多的容器"></a>11.盛水最多的容器</h1><p><strong>难度：中等</strong></p>
-<h3 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h3><p>给你 n 个非负整数 a1，a2，…，an，每个数代表坐标中的一个点 (i, ai) 。在坐标内画 n 条垂直线，垂直线 i 的两个端点分别为 (i, ai) 和 (i, 0)。找出其中的两条线，使得它们与 x 轴共同构成的容器可以容纳最多的水。<br>    说明：你不能倾斜容器，且 n 的值至少为 2。<br><img src="https://aliyun-lc-upload.oss-cn-hangzhou.aliyuncs.com/aliyun-lc-upload/uploads/2018/07/25/question_11.jpg" alt="img"></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">图中垂直线代表输入数组 [1,8,6,2,5,4,8,3,7]。在此情况下，容器能够容纳水（表示为蓝色部分）的最大值为 49。</span><br></pre></td></tr></table></figure>
-<p>示例：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入：[1,8,6,2,5,4,8,3,7]</span><br><span class="line">输出：49</span><br></pre></td></tr></table></figure>
-<h3 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h3><h4 id="方法一：-暴力破解法"><a href="#方法一：-暴力破解法" class="headerlink" title="方法一： 暴力破解法"></a>方法一： 暴力破解法</h4><h5 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h5><ol>
-<li>容纳最多的水实际为求容器的最大面积，且该面积取决于宽不变的情况下，最短的高的长度。即<strong>面积&#x3D;数组索引值的差（宽） * 最小数组索引值（左右高度的最小值）</strong></li>
-<li>通过双重循环，及变量max，求得最大面积</li>
-</ol>
-<h5 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">maxArea</span><span class="params">(<span class="type">int</span>[] height)</span> &#123;</span><br><span class="line">       <span class="type">int</span> <span class="variable">max</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">       <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; height.length - <span class="number">1</span>; i++) &#123;</span><br><span class="line">           <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> i + <span class="number">1</span>; j &lt; height.length; j++) &#123;</span><br><span class="line">               max = Math.max((j - i) * Math.min(height[j], height[i]), max);</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">return</span> max;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="复杂度分析"><a href="#复杂度分析" class="headerlink" title="复杂度分析"></a>复杂度分析</h5><ol>
-<li>时间复杂度：O(n^2)，双重循环需要遍历两遍height数组</li>
-<li>空间复杂度：O(1)，没有使用额外的内存空间</li>
-</ol>
-<h4 id="方法二：双指针"><a href="#方法二：双指针" class="headerlink" title="方法二：双指针"></a>方法二：双指针</h4><h5 id="思路-1"><a href="#思路-1" class="headerlink" title="思路"></a>思路</h5><ol>
-<li>通过双指针分别从起始位置，和结束位置向中间步进</li>
-<li>由于宽度不变的情况下，取决于高的长度，即每次移动最小高度的指针</li>
-</ol>
-<h5 id="代码-1"><a href="#代码-1" class="headerlink" title="代码"></a>代码</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">maxArea</span><span class="params">(<span class="type">int</span>[] height)</span> &#123;</span><br><span class="line">       <span class="type">int</span> <span class="variable">max</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">       <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>, j = height.length -<span class="number">1</span>; i &lt; j;) &#123;</span><br><span class="line">           <span class="type">int</span> <span class="variable">area</span> <span class="operator">=</span> (j - i) * Math.min(height[i], height[j]);</span><br><span class="line">           max = Math.max(area, max);</span><br><span class="line">           <span class="keyword">if</span> (height[i] &lt; height[j]) &#123;</span><br><span class="line">               i++;</span><br><span class="line">           &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">               j--;</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">return</span> max;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>简化后</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">maxArea</span><span class="params">(<span class="type">int</span>[] height)</span> &#123;</span><br><span class="line">       <span class="type">int</span> <span class="variable">max</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">       <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>, j = height.length -<span class="number">1</span>; i &lt; j;) &#123;</span><br><span class="line">           <span class="type">int</span> <span class="variable">minHeight</span> <span class="operator">=</span>  height[i] &lt; height[j] ? height[i++] : height[j--];</span><br><span class="line">           <span class="comment">// 由于上一行的 ++ 和 -- 操作导致宽度减少 需要在这里补回</span></span><br><span class="line">           max = Math.max((j - i + <span class="number">1</span>) * minHeight, max);</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">return</span> max;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="复杂度分析-1"><a href="#复杂度分析-1" class="headerlink" title="复杂度分析"></a>复杂度分析</h5><ol>
-<li>时间复杂度：O(n)，只需要遍历一次height数组</li>
-<li>空间复杂度：O(1)，没有使用额外的内存空间</li>
-</ol>
-]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>数组</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>旋转数组</title>
-    <url>/MiracleDx/2019/05/08/Array/189.%E6%97%8B%E8%BD%AC%E6%95%B0%E7%BB%84/</url>
-    <content><![CDATA[<h1 id="189-旋转数组"><a href="#189-旋转数组" class="headerlink" title="189.旋转数组"></a>189.旋转数组</h1><p><strong>难度：中等</strong></p>
-<h3 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">给定一个数组，将数组中的元素向右移动 k 个位置，其中 k 是非负数。</span><br></pre></td></tr></table></figure>
-<p>示例1：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入: [1,2,3,4,5,6,7] 和 k = 3</span><br><span class="line">输出: [5,6,7,1,2,3,4]</span><br><span class="line">解释:</span><br><span class="line">向右旋转 1 步: [7,1,2,3,4,5,6]</span><br><span class="line">向右旋转 2 步: [6,7,1,2,3,4,5]</span><br><span class="line">向右旋转 3 步: [5,6,7,1,2,3,4]</span><br></pre></td></tr></table></figure>
-<p>示例 2:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入: [-1,-100,3,99] 和 k = 2</span><br><span class="line">输出: [3,99,-1,-100]</span><br><span class="line">解释: </span><br><span class="line">向右旋转 1 步: [99,-1,-100,3]</span><br><span class="line">向右旋转 2 步: [3,99,-1,-100]</span><br></pre></td></tr></table></figure>
-<p>说明:</p>
-<ol>
-<li><p>尽可能想出更多的解决方案，至少有三种不同的方法可以解决这个问题。</p>
-</li>
-<li><p>要求使用空间复杂度为 O(1) 的 <strong>原地</strong> 算法。</p>
-</li>
-</ol>
-<h3 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h3><h4 id="方法一：-暴力破解法"><a href="#方法一：-暴力破解法" class="headerlink" title="方法一： 暴力破解法"></a>方法一： 暴力破解法</h4><h5 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h5><p>​	依次和最后一个位置的元素交换位置</p>
-<h5 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">rotate</span><span class="params">(<span class="type">int</span>[] nums, <span class="type">int</span> k)</span> &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; k; i++) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">0</span>; j &lt; nums.length; j++) &#123;</span><br><span class="line">                <span class="type">int</span> <span class="variable">temp</span> <span class="operator">=</span> nums[j];</span><br><span class="line">                nums[j] = nums[nums.length - <span class="number">1</span>];</span><br><span class="line">                nums[nums.length - <span class="number">1</span>] = temp;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>进阶</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">rotate</span><span class="params">(<span class="type">int</span>[] nums, <span class="type">int</span> k)</span> &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; k; i++) &#123;</span><br><span class="line">            <span class="type">int</span> <span class="variable">swap</span> <span class="operator">=</span> nums[nums.length - <span class="number">1</span>];</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">0</span>; j &lt; nums.length; j++) &#123;</span><br><span class="line">                <span class="type">int</span> <span class="variable">temp</span> <span class="operator">=</span> nums[j];</span><br><span class="line">                nums[j] = swap;</span><br><span class="line">                swap = temp;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="复杂度分析"><a href="#复杂度分析" class="headerlink" title="复杂度分析"></a>复杂度分析</h5><ol>
-<li>时间复杂度：O(n * k)</li>
-<li>空间复杂度：O(1)</li>
-</ol>
-<h4 id="方法二：k次反转"><a href="#方法二：k次反转" class="headerlink" title="方法二：k次反转"></a>方法二：k次反转</h4><h5 id="思路-1"><a href="#思路-1" class="headerlink" title="思路"></a>思路</h5><pre><code>1. 三次旋转
- 2. 先将整个数组旋转
- 3. 将前k个元素旋转
- 4. 将剩余元素旋转
-</code></pre>
-<h5 id="代码-1"><a href="#代码-1" class="headerlink" title="代码"></a>代码</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">rotate</span><span class="params">(<span class="type">int</span>[] nums, <span class="type">int</span> k)</span> &#123;</span><br><span class="line">        k %= nums.length;</span><br><span class="line">        reverse(nums, <span class="number">0</span>, nums.length - <span class="number">1</span>);</span><br><span class="line">        reverse(nums, <span class="number">0</span>, k - <span class="number">1</span>);</span><br><span class="line">        reverse(nums, k, nums.length - <span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">reverse</span><span class="params">(<span class="type">int</span>[] nums, <span class="type">int</span> start, <span class="type">int</span> end)</span> &#123;</span><br><span class="line">        <span class="keyword">while</span> (start &lt; end) &#123;</span><br><span class="line">            <span class="type">int</span> <span class="variable">temp</span> <span class="operator">=</span> nums[start];</span><br><span class="line">            nums[start] = nums[end];</span><br><span class="line">            nums[end] = temp;</span><br><span class="line">            start++;</span><br><span class="line">            end--;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="复杂度分析-1"><a href="#复杂度分析-1" class="headerlink" title="复杂度分析"></a>复杂度分析</h5><ol>
-<li>时间复杂度：O(n)</li>
-<li>空间复杂度：O(1)</li>
-</ol>
-]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>数组</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>删除排序数组中的重复项</title>
-    <url>/MiracleDx/2019/04/05/Array/26.%E5%88%A0%E9%99%A4%E6%8E%92%E5%BA%8F%E6%95%B0%E7%BB%84%E4%B8%AD%E7%9A%84%E9%87%8D%E5%A4%8D%E9%A1%B9/</url>
-    <content><![CDATA[<h1 id="26-删除排序数组中的重复项"><a href="#26-删除排序数组中的重复项" class="headerlink" title="26.删除排序数组中的重复项"></a>26.删除排序数组中的重复项</h1><p><strong>难度：简单</strong></p>
-<h3 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">给定一个排序数组，你需要在 原地 删除重复出现的元素，使得每个元素只出现一次，返回移除后数组的新长度。</span><br><span class="line">不要使用额外的数组空间，你必须在 原地 修改输入数组 并在使用 O(1) 额外空间的条件下完成。</span><br></pre></td></tr></table></figure>
-<p>示例1：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">给定数组 nums = [1,1,2], </span><br><span class="line">函数应该返回新的长度 2, 并且原数组 nums 的前两个元素被修改为 1, 2。 </span><br><span class="line">你不需要考虑数组中超出新长度后面的元素。</span><br></pre></td></tr></table></figure>
-<p>示例2：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">给定 nums = [0,0,1,1,1,2,2,3,3,4],</span><br><span class="line">函数应该返回新的长度 5, 并且原数组 nums 的前五个元素被修改为 0, 1, 2, 3, 4。</span><br><span class="line">你不需要考虑数组中超出新长度后面的元素。</span><br></pre></td></tr></table></figure>
-<p>说明:<br>为什么返回数值是整数，但输出的答案是数组呢?<br>请注意，输入数组是以「引用」方式传递的，这意味着在函数里修改输入数组对于调用者是可见的。<br>你可以想象内部操作如下:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">// nums 是以“引用”方式传递的。也就是说，不对实参做任何拷贝</span><br><span class="line">int len = removeDuplicates(nums);</span><br><span class="line">// 在函数里修改输入数组对于调用者是可见的。</span><br><span class="line">// 根据你的函数返回的长度, 它会打印出数组中该长度范围内的所有元素。</span><br><span class="line">for (int i = 0; i &lt; len; i++) &#123;</span><br><span class="line">    print(nums[i]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h3><h4 id="方法："><a href="#方法：" class="headerlink" title="方法："></a>方法：</h4><h5 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h5><ol>
-<li>定义 i 和 j 的快慢指针， i 为慢指针， j 为快指针</li>
-<li>当 nums[i] 和 nums[j] 相等时，慢指针不动，快指针继续前进</li>
-<li>当 nums[i] 和 nums[j] 不相等时，更新慢指针的下一个值</li>
-</ol>
-<h5 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">removeDuplicates</span><span class="params">(<span class="type">int</span>[] nums)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">1</span>; j &lt; nums.length; j++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (nums[i] != nums[j]) &#123;</span><br><span class="line">                nums[++i] = nums[j];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> i+<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="复杂度分析"><a href="#复杂度分析" class="headerlink" title="复杂度分析"></a>复杂度分析</h5><ol>
-<li>时间复杂度：O(n)</li>
-<li>空间复杂度：O(1)</li>
-</ol>
-]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>数组</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>整数数组加一</title>
-    <url>/MiracleDx/2019/04/12/Array/66.%E5%8A%A0%E4%B8%80/</url>
-    <content><![CDATA[<h1 id="Leetcode"><a href="#Leetcode" class="headerlink" title="Leetcode"></a>Leetcode</h1><p><strong>难度：简单</strong></p>
-<h3 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">给定一个由整数组成的非空数组所表示的非负整数，在该数的基础上加一。</span><br><span class="line">最高位数字存放在数组的首位， 数组中每个元素只存储单个数字。</span><br><span class="line">你可以假设除了整数 0 之外，这个整数不会以零开头。</span><br></pre></td></tr></table></figure>
-<p>示例1：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入: [1,2,3]</span><br><span class="line">输出: [1,2,4]</span><br><span class="line">解释: 输入数组表示数字 123。</span><br></pre></td></tr></table></figure>
-<p>示例2：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入: [4,3,2,1]</span><br><span class="line">输出: [4,3,2,2]</span><br><span class="line">解释: 输入数组表示数字 4321。</span><br></pre></td></tr></table></figure>
-<h3 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h3><h4 id="方法："><a href="#方法：" class="headerlink" title="方法："></a>方法：</h4><h5 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h5><ol>
-<li>逆序遍历数组，数值 + 1 只有两种情况<ol>
-<li>大于 10 需要进 1 处理前一位的数值</li>
-<li>小于 10 ，可以直接返回</li>
-</ol>
-</li>
-<li>当数组数值全部为 9 时，需要对数组进行扩容</li>
-</ol>
-<h5 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span>[] plusOne(<span class="type">int</span>[] digits) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> digits.length - <span class="number">1</span>; i &gt;= <span class="number">0</span>; i--) &#123;</span><br><span class="line">            digits[i]++;</span><br><span class="line">            digits[i] %= <span class="number">10</span>;</span><br><span class="line">            <span class="keyword">if</span> (digits[i] != <span class="number">0</span>) &#123;</span><br><span class="line">                <span class="keyword">return</span> digits;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        digits = <span class="keyword">new</span> <span class="title class_">int</span>[digits.length + <span class="number">1</span>];</span><br><span class="line">        digits[<span class="number">0</span>] = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">return</span> digits;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="复杂度分析"><a href="#复杂度分析" class="headerlink" title="复杂度分析"></a>复杂度分析</h5><ol>
-<li>时间复杂度：O(n)</li>
-<li>空间复杂度：O(1)</li>
-</ol>
-]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>数组</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>移动零</title>
-    <url>/MiracleDx/2019/06/11/Array/283.%E7%A7%BB%E5%8A%A8%E9%9B%B6/</url>
-    <content><![CDATA[<h1 id="283-移动零"><a href="#283-移动零" class="headerlink" title="283.移动零"></a>283.移动零</h1><p><strong>难度：简单</strong></p>
-<h3 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">给定一个数组 nums，编写一个函数将所有 0 移动到数组的末尾，同时保持非零元素的相对顺序。</span><br></pre></td></tr></table></figure>
-<p>示例：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入: [0,1,0,3,12]</span><br><span class="line">输出: [1,3,12,0,0]</span><br></pre></td></tr></table></figure>
-<p><strong>说明</strong>:</p>
-<ol>
-<li>必须在原数组上操作，不能拷贝额外的数组。</li>
-<li>尽量减少操作次数。</li>
-</ol>
-<h3 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h3><h4 id="方法一：-双迭代法"><a href="#方法一：-双迭代法" class="headerlink" title="方法一： 双迭代法"></a>方法一： 双迭代法</h4><h5 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h5><ol>
-<li>先通过一次循环确定非零元素，并将非零元素全部赋值到前部</li>
-<li>再通过一次循环，将剩余的元素置零</li>
-</ol>
-<h5 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">moveZeroes</span><span class="params">(<span class="type">int</span>[] nums)</span> &#123;</span><br><span class="line">       <span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">       <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; nums.length; i++) &#123;</span><br><span class="line">           <span class="keyword">if</span> (nums[i] != <span class="number">0</span>) &#123;</span><br><span class="line">               nums[j++] = nums[i];</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> j; i &lt; nums.length; i++) &#123;</span><br><span class="line">           nums[i] = <span class="number">0</span>;</span><br><span class="line">       &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="复杂度分析"><a href="#复杂度分析" class="headerlink" title="复杂度分析"></a>复杂度分析</h5><ol>
-<li>时间复杂度：O(n)</li>
-<li>空间复杂度：O(1)</li>
-</ol>
-<h4 id="方法二：双指针-快慢指针"><a href="#方法二：双指针-快慢指针" class="headerlink" title="方法二：双指针-快慢指针"></a>方法二：双指针-快慢指针</h4><h5 id="思路-1"><a href="#思路-1" class="headerlink" title="思路"></a>思路</h5><ol>
-<li>由于只需要保证考虑非零元素的顺序，所以可以定义一个慢指针记录非零元素的位置</li>
-<li>当快指针经过非零元素的时候，将值赋值给慢指针，同时将快指针所处的位置置0</li>
-<li>慢指针在快指针经过非0元素时，进1</li>
-<li>由于存在快慢指针存在同一下标的情况，所以当快慢指针不相等时，才操作数组</li>
-</ol>
-<h5 id="代码-1"><a href="#代码-1" class="headerlink" title="代码"></a>代码</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">moveZeroes</span><span class="params">(<span class="type">int</span>[] nums)</span> &#123;</span><br><span class="line">       <span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">       <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; nums.length; i++) &#123;</span><br><span class="line">           <span class="keyword">if</span> (nums[i] != <span class="number">0</span>) &#123;</span><br><span class="line">               <span class="keyword">if</span> (i != j) &#123;</span><br><span class="line">                   nums[j] = nums[i];</span><br><span class="line">                   nums[i] = <span class="number">0</span>;</span><br><span class="line">               &#125;</span><br><span class="line">               j++;</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="复杂度分析-1"><a href="#复杂度分析-1" class="headerlink" title="复杂度分析"></a>复杂度分析</h5><ol>
-<li>时间复杂度：O(n)</li>
-<li>空间复杂度：O(1)</li>
-</ol>
-]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>数组</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>爬楼梯</title>
-    <url>/MiracleDx/2019/04/21/Array/70.%E7%88%AC%E6%A5%BC%E6%A2%AF/</url>
-    <content><![CDATA[<h1 id="70-爬楼梯"><a href="#70-爬楼梯" class="headerlink" title="70.爬楼梯"></a>70.爬楼梯</h1><p><strong>难度：简单</strong></p>
-<h3 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">假设你正在爬楼梯。需要 n 阶你才能到达楼顶。</span><br><span class="line">每次你可以爬 1 或 2 个台阶。你有多少种不同的方法可以爬到楼顶呢？</span><br><span class="line">注意：给定 n 是一个正整数。</span><br></pre></td></tr></table></figure>
-<p>示例1：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入： 2</span><br><span class="line">输出： 2</span><br><span class="line">解释： 有两种方法可以爬到楼顶。</span><br><span class="line">1.  1 阶 + 1 阶</span><br><span class="line">2.  2 阶</span><br></pre></td></tr></table></figure>
-<p>示例2：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入： 3</span><br><span class="line">输出： 3</span><br><span class="line">解释： 有三种方法可以爬到楼顶。</span><br><span class="line">1.  1 阶 + 1 阶 + 1 阶</span><br><span class="line">2.  1 阶 + 2 阶</span><br><span class="line">3.  2 阶 + 1 阶</span><br></pre></td></tr></table></figure>
-<h3 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h3><h4 id="方法一：-递归"><a href="#方法一：-递归" class="headerlink" title="方法一： 递归"></a>方法一： 递归</h4><h5 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h5><ol>
-<li>每次可以爬一阶或者两阶，说明不论有多少楼梯，最后爬的一定是一阶或者二阶</li>
-<li>那么爬第三阶楼梯的时候，只能是爬一阶或者爬两阶</li>
-<li>爬一阶的时候，之前已经爬过了两阶；爬二阶之前已经爬过了一阶，即：爬三阶 &#x3D; 爬二阶的方法 + 爬一阶的方法</li>
-<li>那么爬四阶楼梯的时候，爬四阶 &#x3D; 爬三阶的方法 + 爬二阶的方法</li>
-<li>依次类推，可以得到递推公式 f(n) &#x3D; f(n - 1) + f(n - 2)</li>
-<li>根据递推公式可知，该题目实际为求<strong>斐波那契数列</strong></li>
-</ol>
-<h5 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">climbStairs</span><span class="params">(<span class="type">int</span> n)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (n == <span class="number">1</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (n == <span class="number">2</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">2</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> climbStairs(n - <span class="number">1</span>) + climbStairs(n - <span class="number">2</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="复杂度分析"><a href="#复杂度分析" class="headerlink" title="复杂度分析"></a>复杂度分析</h5><ol>
-<li>时间复杂度：O(2^n)，由于每次递归都会导致之前计算过的方法被重新计算</li>
-<li>空间复杂度：O(1)</li>
-</ol>
-<h4 id="方法二：递归加强版（求最小重复子问题）"><a href="#方法二：递归加强版（求最小重复子问题）" class="headerlink" title="方法二：递归加强版（求最小重复子问题）"></a>方法二：递归加强版（求最小重复子问题）</h4><h5 id="思路-1"><a href="#思路-1" class="headerlink" title="思路"></a>思路</h5><p>​	由于递归会导致重复计算，所以可以使用一个容器存储已经计算过的方法</p>
-<h5 id="代码-1"><a href="#代码-1" class="headerlink" title="代码"></a>代码</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">climbStairs</span><span class="params">(<span class="type">int</span> n)</span> &#123;</span><br><span class="line">        <span class="type">int</span>[] record = <span class="keyword">new</span> <span class="title class_">int</span>[n + <span class="number">1</span>];</span><br><span class="line">        <span class="keyword">return</span> climb(record, n);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="type">int</span> <span class="title function_">climb</span><span class="params">(<span class="type">int</span>[] record, <span class="type">int</span> n)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (record[n] &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> record[n];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (n == <span class="number">1</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (n == <span class="number">2</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">2</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        record[n] = climb(record, n - <span class="number">1</span>) + climb(record, n - <span class="number">2</span>);</span><br><span class="line">        <span class="keyword">return</span> record[n];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="复杂度分析-1"><a href="#复杂度分析-1" class="headerlink" title="复杂度分析"></a>复杂度分析</h5><ol>
-<li>时间复杂度：O(n)</li>
-<li>空间复杂度：O(1)，只用了常数个变量作为辅助空间</li>
-</ol>
-<h4 id="方法三：动态规划"><a href="#方法三：动态规划" class="headerlink" title="方法三：动态规划"></a>方法三：动态规划</h4><h5 id="思路-2"><a href="#思路-2" class="headerlink" title="思路"></a>思路</h5><p>​	由以上分析可知，该题目的动态转移方程为：dp[i] &#x3D; dp[i - 1] + dp[i - 2]</p>
-<h5 id="代码-2"><a href="#代码-2" class="headerlink" title="代码"></a>代码</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">climbStairs</span><span class="params">(<span class="type">int</span> n)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (n == <span class="number">1</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="type">int</span>[] dp = <span class="keyword">new</span> <span class="title class_">int</span>[n + <span class="number">1</span>];</span><br><span class="line">        dp[<span class="number">1</span>] = <span class="number">1</span>;</span><br><span class="line">        dp[<span class="number">2</span>] = <span class="number">2</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">3</span>; i &lt;= n; i++) &#123;</span><br><span class="line">            dp[i] = dp[i - <span class="number">1</span>] + dp[i - <span class="number">2</span>];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dp[n];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="复杂度分析-2"><a href="#复杂度分析-2" class="headerlink" title="复杂度分析"></a>复杂度分析</h5><ol>
-<li>时间复杂度：O(n)</li>
-<li>空间复杂度：O(1)，只用了常数个变量作为辅助空间</li>
-</ol>
-<h4 id="方法四：迭代"><a href="#方法四：迭代" class="headerlink" title="方法四：迭代"></a>方法四：迭代</h4><h5 id="思路-3"><a href="#思路-3" class="headerlink" title="思路"></a>思路</h5><p>​	使用迭代的方式，滚动赋值给前一阶和前两阶的数值</p>
-<h5 id="代码-3"><a href="#代码-3" class="headerlink" title="代码"></a>代码</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">climbStairs</span><span class="params">(<span class="type">int</span> n)</span> &#123;</span><br><span class="line">       <span class="keyword">if</span> (n == <span class="number">1</span> || n == <span class="number">2</span>) &#123;</span><br><span class="line">           <span class="keyword">return</span> n;</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="type">int</span> <span class="variable">l1</span> <span class="operator">=</span> <span class="number">1</span>;</span><br><span class="line">       <span class="type">int</span> <span class="variable">l2</span> <span class="operator">=</span> <span class="number">2</span>;</span><br><span class="line">       <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">3</span>; i &lt;= n; i++) &#123;</span><br><span class="line">           <span class="type">int</span> <span class="variable">result</span> <span class="operator">=</span> l1 + l2;</span><br><span class="line">           l1 = l2;</span><br><span class="line">           l2 = result;</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">return</span> l2;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="复杂度分析-3"><a href="#复杂度分析-3" class="headerlink" title="复杂度分析"></a>复杂度分析</h5><ol>
-<li>时间复杂度：O(n)</li>
-<li>空间复杂度：O(1)</li>
-</ol>
-]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>数组</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>合并两个有序数组</title>
-    <url>/MiracleDx/2019/04/29/Array/88.%E5%90%88%E5%B9%B6%E4%B8%A4%E4%B8%AA%E6%9C%89%E5%BA%8F%E6%95%B0%E7%BB%84/</url>
-    <content><![CDATA[<h1 id="88-合并两个有序数组"><a href="#88-合并两个有序数组" class="headerlink" title="88.合并两个有序数组"></a>88.合并两个有序数组</h1><p><strong>难度：简单</strong></p>
-<h3 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">给你两个有序整数数组 nums1 和 nums2，请你将 nums2 合并到 nums1 中，使 nums1 成为一个有序数组。</span><br><span class="line">说明:</span><br><span class="line">初始化 nums1 和 nums2 的元素数量分别为 m 和 n 。</span><br><span class="line">你可以假设 nums1 有足够的空间（空间大小大于或等于 m + n）来保存 nums2 中的元素。</span><br></pre></td></tr></table></figure>
-<p>示例：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入:</span><br><span class="line">nums1 = [1,2,3,0,0,0], m = 3</span><br><span class="line">nums2 = [2,5,6],       n = 3</span><br><span class="line">输出: [1,2,2,3,5,6]</span><br></pre></td></tr></table></figure>
-<h3 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h3><h4 id="方法一：-利用库函数"><a href="#方法一：-利用库函数" class="headerlink" title="方法一： 利用库函数"></a>方法一： 利用库函数</h4><h5 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h5><ol>
-<li>先将两个数组合并</li>
-<li>利用库函数进行排序</li>
-</ol>
-<h5 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">merge</span><span class="params">(<span class="type">int</span>[] nums1, <span class="type">int</span> m, <span class="type">int</span>[] nums2, <span class="type">int</span> n)</span> &#123;</span><br><span class="line">		System.arraycopy(nums2, <span class="number">0</span>, nums1, m, n);</span><br><span class="line">    	Arrays.sort(nums1);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="复杂度分析"><a href="#复杂度分析" class="headerlink" title="复杂度分析"></a>复杂度分析</h5><ol>
-<li>时间复杂度：O(n)</li>
-<li>空间复杂度：O(1)</li>
-</ol>
-<h4 id="方法二：双指针"><a href="#方法二：双指针" class="headerlink" title="方法二：双指针"></a>方法二：双指针</h4><h5 id="思路-1"><a href="#思路-1" class="headerlink" title="思路"></a>思路</h5><ol>
-<li>两个指针 i 和 j 分别逆序遍历 nums1 和 nums2 数组，从大到小依次逆序插入到 nums1 中</li>
-<li>l 用于记录 nums1 插入数值的位置</li>
-<li>当 nums2 遍历完成时，说明已经将 nums2 的元素全部插入到 nums1 中</li>
-<li>插入哪个 nums 数组的数据就将对应 nums 数组的指针相应 -1， 同时 l 也相应 -1</li>
-</ol>
-<h5 id="代码-1"><a href="#代码-1" class="headerlink" title="代码"></a>代码</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">merge</span><span class="params">(<span class="type">int</span>[] nums1, <span class="type">int</span> m, <span class="type">int</span>[] nums2, <span class="type">int</span> n)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> m - <span class="number">1</span>;</span><br><span class="line">        <span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> n - <span class="number">1</span>;</span><br><span class="line">        <span class="type">int</span> <span class="variable">l</span> <span class="operator">=</span> m + n - <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span> (j &gt;= <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (i &gt;= <span class="number">0</span> &amp;&amp; nums1[i] &gt;= nums2[j]) &#123;</span><br><span class="line">                nums1[l] = nums1[i];</span><br><span class="line">                i--;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                nums1[l] = nums2[j];</span><br><span class="line">                j--;</span><br><span class="line">            &#125;</span><br><span class="line">            l--;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>简化后</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">merge</span><span class="params">(<span class="type">int</span>[] nums1, <span class="type">int</span> m, <span class="type">int</span>[] nums2, <span class="type">int</span> n)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> m - <span class="number">1</span>;</span><br><span class="line">        <span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> n - <span class="number">1</span>;</span><br><span class="line">        <span class="type">int</span> <span class="variable">l</span> <span class="operator">=</span> m + n - <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span> (j &gt;= <span class="number">0</span>) &#123;</span><br><span class="line">            nums1[l--] = i &gt;= <span class="number">0</span>  &amp;&amp; nums1[i] &gt;= nums2[j] ? nums1[i--] : nums2[j--];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>进一步简化：将 i 和 j 的值 由 m 和 n 代替</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">merge</span><span class="params">(<span class="type">int</span>[] nums1, <span class="type">int</span> m, <span class="type">int</span>[] nums2, <span class="type">int</span> n)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">l</span> <span class="operator">=</span> m-- + n-- - <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span> (n &gt;= <span class="number">0</span>) &#123;</span><br><span class="line">            nums1[l--] = (m &gt;= <span class="number">0</span>  &amp;&amp; nums1[m] &gt;= nums2[n]) ? nums1[m--] : nums2[n--];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>终极版：n– - 1 的实际效果 等于 –n</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">merge</span><span class="params">(<span class="type">int</span>[] nums1, <span class="type">int</span> m, <span class="type">int</span>[] nums2, <span class="type">int</span> n)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">l</span> <span class="operator">=</span> m-- + --n;</span><br><span class="line">        <span class="keyword">while</span> (n &gt;= <span class="number">0</span>) &#123;</span><br><span class="line">            nums1[l--] = (m &gt;= <span class="number">0</span>  &amp;&amp; nums1[m] &gt;= nums2[n]) ? nums1[m--] : nums2[n--];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="复杂度分析-1"><a href="#复杂度分析-1" class="headerlink" title="复杂度分析"></a>复杂度分析</h5><ol>
-<li>时间复杂度：O(n)</li>
-<li>空间复杂度：O(1)</li>
-</ol>
-]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>数组</tag>
       </tags>
   </entry>
 </search>
